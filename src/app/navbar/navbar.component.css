@@ -1,0 +1,26 @@
+.navbar
+{
+    background-color:rgb(255, 255, 255);
+    font-size:larger;
+    width: 100%;
+    height: 65px;
+    position: fixed;
+    line-height: 65px;
+    text-align: center;
+}
+.navbar .bi-facebook:hover
+{
+    color: blue;
+}
+.navbar .bi-tiktok:hover
+{
+    color: rgb(0, 255, 255);
+}
+.navbar .bi-youtube:hover
+{
+    color: rgb(255, 0, 0);
+}
+.navbar .bi-whatsapp:hover
+{
+    color: rgb(43, 255, 0);
+}

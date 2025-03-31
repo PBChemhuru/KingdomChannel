@@ -1,0 +1,119 @@
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarToggler"
+      aria-controls="navbarToggler"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarToggler">
+      <a class="navbar-brand" href="#">Hidden brand</a>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Posts</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Videos</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Booklets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+      </ul>
+      <div>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="bi bi-facebook"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="bi bi-tiktok"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="bi bi-youtube"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"><i class="bi bi-whatsapp"></i></a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <button data-bs-target="#loginmodal" data-bs-toggle="modal">
+          Login
+        </button>
+        <button data-bs-target="#registermodal" data-bs-toggle="modal">Register</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div
+  class="modal"
+  tabindex="-1"
+  id="loginmodal"
+  aria-labelledby="loginmodal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title">Log In</h5></div>
+      <div class="modal-body">
+        <form  (ngSubmit)="login()">
+          <div class="mb-3">
+            <label for="username" class="form-label">User Name</label>
+            <input type="username" class="form-control" id="username" name="username" [(ngModel)]="username" placeholder="Username" required/>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password" placeholder="Password" required/>
+          </div>
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Log In</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> 
+</div>
+
+<div
+  class="modal"
+  tabindex="-1"
+  id="registermodal"
+  aria-labelledby="registermodal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title">Register</h5></div>
+      <div class="modal-body">
+        <form (ngSubmit)="registerUser()">
+          <div class="mb-3">
+            <label for="regusername" class="form-label">Username</label>
+            <input type="text" class="form-control" id="regusernamne" name="regusername" [(ngModel)]="regusername"/>
+          </div>
+          <div class="mb-3">
+            <label for="regemail" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="regemail" name="regemail" [(ngModel)]="regemail"/>
+          </div>
+          <div class="mb-3">
+            <label for="regpassword" class="form-label">Password</label>
+            <input type="password" class="form-control" id="regpassword" name="regpassword" [(ngModel)]="regpassword" />
+          </div>
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> 
+</div>
