@@ -4,9 +4,6 @@ export interface Post {
     postContent: string;
     likeCount: number;
     userId: number;
-   
-    // Timestamps
     createdAt: Date;
-    updatedAt: Date;
   }
   

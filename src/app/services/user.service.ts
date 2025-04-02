@@ -1,13 +1,14 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
-
+import { environment } from '../../environment/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'https://localhost:7209';
+    private apiUrl =environment.apiUrl;
+  
   constructor(private http: HttpClient,private authService:AuthService) { }
   
   
@@ -21,7 +22,13 @@ export class UserService {
       }),
     }).pipe
     (
-      catchError((error)=>{console.error('Register Error',error);
+      catchError((error:HttpErrorResponse)=>{
+        let errorMessage = 'An error occurred while registering user.';
+        if(error.status === 400)
+        {
+          errorMessage = 'Bad request'
+        }
+        console.error('Error Registering User',error)
         return throwError(()=> new Error('Registeration Failed'));
       }),
       tap((response)=>{console.log(response);

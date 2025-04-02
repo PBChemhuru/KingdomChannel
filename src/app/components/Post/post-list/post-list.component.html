@@ -1,6 +1,7 @@
 <div class="container-fluid">
-    <div  class="shadow-lg col-sm-4">
-         <app-post-card></app-post-card>
+    <div class="row mx-4 py-3 ">
+        <div  *ngFor="let post of posts.data" class="col-md-6 ">
+            <app-post-card [post]="post" class="m-3 p-3 "></app-post-card>
+       </div>
     </div>
-   
 </div>

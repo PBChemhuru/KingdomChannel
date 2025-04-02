@@ -5,6 +5,8 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator,MatPaginatorModule} from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
+import { Post } from '../../../model/Post';
+
 
 @Component({
   selector: 'app-post-list',
@@ -13,10 +15,11 @@ import { CommonModule } from '@angular/common';
   styleUrl: './post-list.component.css'
 })
 export class PostListComponent implements OnInit {
-  constructor(private postService:PostsService,private snackbar:MatSnackBar){}
-  posts = new MatTableDataSource<any>([])
+ 
+  posts:MatTableDataSource<Post> = new MatTableDataSource<Post>([])
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  constructor(private postService:PostsService,private snackbar:MatSnackBar){}
   ngOnInit(): void {
     this.getPosts();
   }
@@ -26,7 +29,7 @@ export class PostListComponent implements OnInit {
     this.postService.getPosts().subscribe({
       next:(data)=>{
         this.posts.data = data;
-        console.log(this.posts);
+        console.log(this.posts); 
         this.posts.paginator = this.paginator;
       },
       error:(error)=>

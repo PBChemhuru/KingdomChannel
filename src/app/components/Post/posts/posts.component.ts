@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PostListComponent } from "../post-list/post-list.component";
+import { NavbarComponent } from "../../../navbar/navbar.component";
 
 @Component({
   selector: 'app-posts',

@@ -14,20 +14,20 @@
     <div class="collapse navbar-collapse" id="navbarToggler">
       <a class="navbar-brand" href="#">Hidden brand</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        <li class="nav-item " >
+          <a class="nav-link " aria-current="page" routerLink="/" routerLinkActive="active ">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Posts</a>
+          <a class="nav-link" routerLink="/posts" routerLinkActive="active">Posts</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Videos</a>
+          <a class="nav-link" routerLink="/Videos" routerLinkActive="active">Videos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Booklets</a>
+          <a class="nav-link" routerLink="/Books" routerLinkActive="active">Booklets</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
+          <a class="nav-link" routerLink="/About" routerLinkActive="active">About</a>
         </li>
       </ul>
       <div>
@@ -99,7 +99,7 @@
         <form (ngSubmit)="registerUser()">
           <div class="mb-3">
             <label for="regusername" class="form-label">Username</label>
-            <input type="text" class="form-control" id="regusernamne" name="regusername" [(ngModel)]="regusername"/>
+            <input type="text" class="form-control" id="regusername" name="regusername" [(ngModel)]="regusername"/>
           </div>
           <div class="mb-3">
             <label for="regemail" class="form-label">Email Address</label>

@@ -1,2 +1,15 @@
-<p>post-card works!</p>
-{{post}}
+<mat-card class="bg-light shadow-sm">
+    <mat-card-header>
+        <mat-card-subtitle>{{post.createdAt | date:'MMM d, y'}}.</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="post.image">
+    <mat-card-content>
+        <h3>{{post.postTitle}}</h3>
+        <div class="postTeaser">
+            {{post.postContent}}
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button class="btn btn-primary" routerLink="/post/{{post.postId}}" routerLinkActive="active ">Read More</button>
+    </mat-card-actions>
+</mat-card>
