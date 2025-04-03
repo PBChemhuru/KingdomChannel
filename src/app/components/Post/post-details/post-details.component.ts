@@ -1,23 +1,24 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Post } from '../../../model/Post';
 import { PostsService } from '../../../services/posts.service';
 import { PostCommentsService } from '../../../services/post-comments.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Postcomments } from '../../../model/Postcoments';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSnackBar,MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
-
+import { CommentsSectionComponent } from "../../../comments-section/comments-section.component";
 @Component({
   selector: 'app-post-details',
-  imports: [MatPaginatorModule,MatSnackBarModule,CommonModule],
+  imports: [MatPaginatorModule, MatSnackBarModule, CommonModule, CommentsSectionComponent,RouterLink],
   templateUrl: './post-details.component.html',
   styleUrl: './post-details.component.css',
 })
 export class PostDetailsComponent implements OnInit {
   postId!: number;
   postDetails!: Post;
+  rposts: MatTableDataSource<Post> = new MatTableDataSource<Post>([]);
   postComments: MatTableDataSource<Postcomments> =
     new MatTableDataSource<Postcomments>([]);
 
@@ -27,13 +28,13 @@ export class PostDetailsComponent implements OnInit {
     private router: Router,
     private postService: PostsService,
     private postCommentService: PostCommentsService,
-    private snackbar:MatSnackBar
+    private snackbar: MatSnackBar
   ) {}
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.postId = +params['id'];
       this.getPostDetails(this.postId);
-      this.getPostComments(this.postId);
+      this.getRandomPost();
     });
   }
   getPostDetails(id: number): void {
@@ -43,17 +44,18 @@ export class PostDetailsComponent implements OnInit {
     });
   }
 
-  getPostComments(id: number): void {
-    this.postCommentService.getPostComments(id).subscribe({
+  getRandomPost() {
+    this.postService.getPosts().subscribe({
       next: (data) => {
-        this.postComments.data = data;
-        console.log(this.postComments);
-        this.postComments.paginator = this.paginator;
+        if (data.length > 0) {
+          this.rposts.data = data.sort(() => Math.random() - 0.5).slice(0, 4);
+        }
+        console.log(this.rposts);
       },
-      error: (error)=>
-      {
-        this.snackbar.open('Failed to load comments','Close',{duration:3000})
-      }
+      error: (error) => {
+        console.error(error)
+        this.snackbar.open('Failed to load Posts', 'Close', { duration: 3000 });
+      },
     });
   }
 }

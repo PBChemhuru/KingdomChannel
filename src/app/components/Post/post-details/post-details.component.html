@@ -1,1 +1,66 @@
-<p>post-details works!</p>
+<div class="container-fluid" style="padding: 20px">
+  <div class="container-fluid">
+    <div class="header">
+      <p>{{ postDetails.createdAt | date : "MMM d, y" }}</p>
+      <p></p>
+      <h1>{{ postDetails.postTitle }}</h1>
+    </div>
+    <div class="container-fluid">
+      <img
+        src="https://static.wixstatic.com/media/c22c23_e3b5cb121db549fdbb1590f51d378b8c~mv2.png/v1/fill/w_555,h_312,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/c22c23_e3b5cb121db549fdbb1590f51d378b8c~mv2.png"
+        alt=""
+        style="
+          width: 740px;
+          height: 416px;
+          object-fit: cover;
+          object-position: 50% 50%;
+          max-width: 100%;
+        "
+        data-pin-url="https://www.wix.com/demone2/personal-blog/post/do-not-leave-tokyo-before-eating-this-ramen"
+        data-pin-media="https://static.wixstatic.com/media/c22c23_e3b5cb121db549fdbb1590f51d378b8c~mv2.png/v1/fill/w_1920,h_1080,al_c,q_95/c22c23_e3b5cb121db549fdbb1590f51d378b8c~mv2.png"
+        draggable="false"
+        data-ssr-src-done="true"
+        fetchpriority="high"
+        data-load-done=""
+      />
+      <div>
+        <span>{{ postDetails.postContent }}</span>
+      </div>
+    </div>
+    <div class="container-fluid">
+      <button><i class="bi bi-facebook"></i></button>
+      <button><i class="bi bi-whatsapp"></i></button>
+      <button><i class="bi bi-link"></i></button>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div
+        class="col m-3"
+        *ngFor="let post of rposts.data"
+        style="
+          border-style: solid;
+          border: 12px;
+          border-color: black;
+          width: fit-content;
+        "
+      >
+        <div>
+          <a routerLink="/post/{{ post.postId }}" routerLinkActive="active ">
+            <img
+              src="IMG-20241119-WA0132.jpg"
+              class="img-fluid"
+              style="height: 150px; width: 150px"
+            />
+            <p routerLink="/post/{{ post.postId }}" routerLinkActive="active ">
+              {{ post.postTitle }}
+            </p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-comments-section></app-comments-section>
+</div>

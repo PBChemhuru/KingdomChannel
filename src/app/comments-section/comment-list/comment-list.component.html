@@ -1,0 +1,7 @@
+<div class="container-fluid">
+    <div>
+        <div  *ngFor="let postComment of postComments.data">
+            <app-comment-card [postComment]="postComment" class="m-3 p-3 "></app-comment-card>
+       </div>
+    </div>
+</div>
