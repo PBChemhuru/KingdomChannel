@@ -36,6 +36,7 @@ export class CommentListComponent {
       next: (data)=>
         {
           this.postComments.data =data;
+          console.log(this.postComments)
         },
         error: (error) =>
         {

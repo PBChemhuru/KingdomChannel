@@ -1,2 +1,5 @@
 <p>{{postComment.postComment}}</p>
-<p>{{postComment.createdAt| date:'MMM d, y'}}</p>
+<div class="container-fluid d-flex justify-content-between" >
+    <div>{{postComment.username}} </div>
+    <div>{{postComment.createdAt| date:'MMM d, y'}}</div>
+</div>

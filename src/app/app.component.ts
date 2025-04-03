@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router'; // To handle routing
-import { NavbarComponent } from "./navbar/navbar.component"; // Your navigation bar
-import { CommonModule } from '@angular/common'; // CommonModule needed
-import { RouterModule } from '@angular/router'; // RouterModule for routing
-import { routes } from './app.routes'; // Import routes from your routes file
+import { RouterOutlet } from '@angular/router'; 
+import { NavbarComponent } from "./navbar/navbar.component"; 
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { routes } from './app.routes'; 
 
 @Component({
   selector: 'app-root',
