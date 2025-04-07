@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CommentListComponent } from './comment-list.component';
+import { RegistermodalComponent } from './registermodal.component';
 
-describe('CommentListComponent', () => {
-  let component: CommentListComponent;
-  let fixture: ComponentFixture<CommentListComponent>;
+describe('RegistermodalComponent', () => {
+  let component: RegistermodalComponent;
+  let fixture: ComponentFixture<RegistermodalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CommentListComponent]
+      imports: [RegistermodalComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CommentListComponent);
+    fixture = TestBed.createComponent(RegistermodalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

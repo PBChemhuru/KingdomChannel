@@ -15,7 +15,6 @@ export class UserService {
   registerUser(regusername:string,regemail:string,regpassword:string): Observable<any>
   {
     const registerPayload ={ username:regusername,email:regemail.trim(),password:regpassword,role:'user'};
-    console.log("Email being sent:", `"${registerPayload.email}"`);
     return this.http.post(`${this.apiUrl}/createUser`,registerPayload,{
       headers:new HttpHeaders({
         'Content-Type':'application/json',

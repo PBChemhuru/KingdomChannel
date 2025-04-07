@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Edit Comment</h2>
+<mat-dialog-content>
+  <textarea [(ngModel)]="updatedCommentText" rows="4" placeholder="Edit your comment"></textarea>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="cancel()">Cancel</button>
+  <button mat-button (click)="saveComment()">Save</button>
+</mat-dialog-actions>

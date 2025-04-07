@@ -1,0 +1,32 @@
+<div
+  class="modal"
+  tabindex="-1"
+  id="registermodal"
+  aria-labelledby="registermodal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header"><h5 class="modal-title">Register</h5></div>
+      <div class="modal-body">
+        <form (ngSubmit)="registerUser()">
+          <div class="mb-3">
+            <label for="regusername" class="form-label">Username</label>
+            <input type="text" class="form-control" id="regusername" name="regusername" [(ngModel)]="regusername"/>
+          </div>
+          <div class="mb-3">
+            <label for="regemail" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="regemail" name="regemail" [(ngModel)]="regemail"/>
+          </div>
+          <div class="mb-3">
+            <label for="regpassword" class="form-label">Password</label>
+            <input type="password" class="form-control" id="regpassword" name="regpassword" [(ngModel)]="regpassword" />
+          </div>
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div> 
+</div>

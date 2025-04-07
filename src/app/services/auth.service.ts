@@ -29,7 +29,6 @@ export class AuthService {
         }),
         tap((response) => {
           console.log(response);
-          sessionStorage.setItem('user', JSON.stringify(response));
         })
       );
   }
@@ -56,5 +55,19 @@ export class AuthService {
           sessionStorage.removeItem('jwtToken');
         })
       );
+  }
+
+  getUserInfoFromToken(token:string):any {
+    try
+    {
+      const payloadBase64 =token.split('.')[1];
+      const decodedPayload = atob(payloadBase64);
+      return JSON.parse(decodedPayload);
+    }
+    catch (error)
+    {
+      console.error('Error decoding the token', error);
+      return throwError(() => new Error('Token Error'));
+    }
   }
 }
