@@ -8,7 +8,8 @@ import { PostCommentsService } from '../services/post-comments.service';
 import { Postcomments } from '../model/Postcoments';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CommentEditModalComponent } from './comment-edit-modal/comment-edit-modal.component';
-
+import { CommentDeleteModalComponent } from './comment-delete-modal/comment-delete-modal.component';
+import { CommentFlagModalComponent } from './comment-flag-modal/comment-flag-modal.component';
 
 @Component({
   selector: 'app-comments-section',
@@ -23,9 +24,8 @@ import { CommentEditModalComponent } from './comment-edit-modal/comment-edit-mod
 })
 export class CommentsSectionComponent implements OnInit {
   @Input() postId!: number;
-
-  postComments: MatTableDataSource<Postcomments> =
-    new MatTableDataSource<Postcomments>([]);
+  flagDescription!: string;
+  postComments: Postcomments[] = [];
   constructor(
     private postcommentService: PostCommentsService,
     private snackbar: MatSnackBar,
@@ -39,8 +39,7 @@ export class CommentsSectionComponent implements OnInit {
   getPostComments(id: number): void {
     this.postcommentService.getPostComments(id).subscribe({
       next: (data) => {
-        this.postComments.data = data;
-        console.log(this.postComments);
+        this.postComments = data;
       },
       error: (error) => {
         console.error(error);
@@ -55,15 +54,72 @@ export class CommentsSectionComponent implements OnInit {
     this.getPostComments(this.postId);
   }
 
-  onCommentEdited(editComment:Postcomments)
-  {
-    const dialogRef = this.dialog.open(CommentEditModalComponent,{data:editComment,});
-    dialogRef.afterClosed().subscribe((updatedComment) =>
-    {
-      if(updatedComment)
-      {
-        
+  onCommentEdited(editComment: Postcomments) {
+    const dialogRef = this.dialog.open(CommentEditModalComponent, {
+      data: editComment,
+    });
+    dialogRef.afterClosed().subscribe((updatedComment) => {
+      if (updatedComment) {
+        this.getPostComments(this.postId);
+        this.snackbar.open('Comment Update', 'Close', {
+          duration: 3000,
+          verticalPosition: 'top',
+        });
       }
-    })
+    });
+  }
+
+  onCommentDeleted(id: number): void {
+    const dialogRef = this.dialog.open(CommentDeleteModalComponent, {
+      data: { message: 'Are you  sure you want to delte this comment?' },
+    });
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.postcommentService.deletePostComment(id).subscribe({
+          next: () => {
+            this.snackbar.open('Comment deleted', 'Close', { duration: 3000 });
+            this.getPostComments(this.postId);
+          },
+          error: () => {
+            this.snackbar.open('Failed to delete comment', 'Close', {
+              duration: 3000,
+            });
+          },
+        });
+      }
+    });
+  }
+
+  onCommentFlagged(id: number): void {
+    const dialogRef = this.dialog.open(CommentFlagModalComponent);
+    dialogRef.afterClosed().subscribe({
+      next: (flaggingData) => {
+        this.flagDescription =
+          flaggingData.reason + ': ' + flaggingData.additionalComments;
+        this.postcommentService
+          .flagPostComment(id, this.flagDescription)
+          .subscribe({
+            next: () => {
+              this.snackbar.open(
+                'Comment Flagged.Our Team will look into it and respond appropriately',
+                'Close',
+                { duration: 3000 }
+              );
+              this.getPostComments(this.postId);
+            },
+            error: () => {
+              this.snackbar.open('Failed to Flag comment', 'Close', {
+                duration: 3000,
+              });
+            },
+          });
+      },
+      error: (error) => {
+        console.error(error);
+        this.snackbar.open('Failed to flag comment', 'Close', {
+          duration: 3000,
+        });
+      },
+    });
   }
 }

@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {MatCard, MatCardModule} from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-post-card',
@@ -9,6 +10,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './post-card.component.html',
   styleUrl: './post-card.component.css'
 })
-export class PostCardComponent {
+export class PostCardComponent{
 @Input() post! : any
+
 }

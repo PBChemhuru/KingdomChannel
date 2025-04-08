@@ -7,9 +7,9 @@
     </div>
     <div class="col-6">
         <div class="container-fluid">
-            <button class="btn btn-light me-2 btn-sm" ><i class="bi bi-flag-fill" style="color: red;"></i></button>
-            <button class="btn btn-primary me-2 btn-sm" (click)="editComment()"><i class="bi bi-pencil-square"></i></button>
-            <button class="btn btn-danger me-2 btn-sm" (click)="deleteComment()"><i class="bi bi-trash-fill"></i></button>
+            <button class="btn btn-light me-2 btn-sm" (click)="flagComment()"><i class="bi bi-flag-fill" style="color: red;"></i></button>
+            <button class="btn btn-primary me-2 btn-sm" (click)="editComment()" *ngIf="postComment.username === userinfo.nameid"><i class="bi bi-pencil-square"></i></button>
+            <button class="btn btn-danger me-2 btn-sm" (click)="deleteComment()" *ngIf="postComment.username === userinfo.nameid"><i class="bi bi-trash-fill"></i></button>
         </div>
     </div>
     

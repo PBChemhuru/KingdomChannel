@@ -40,7 +40,6 @@ export class PostDetailsComponent implements OnInit {
   getPostDetails(id: number): void {
     this.postService.getPost(id).subscribe((data) => {
       this.postDetails = data;
-      console.log(data);
     });
   }
 
@@ -50,7 +49,6 @@ export class PostDetailsComponent implements OnInit {
         if (data.length > 0) {
           this.rposts.data = data.sort(() => Math.random() - 0.5).slice(0, 4);
         }
-        console.log(this.rposts);
       },
       error: (error) => {
         console.error(error)

@@ -24,7 +24,6 @@ export class AddCommentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.postId);
     const token = sessionStorage.getItem('jwtToken');
     if (token) {
       this.userinfo = this.authService.getUserInfoFromToken(token);

@@ -3,6 +3,9 @@ import { environment } from '../../environment/environment';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Postcomments } from '../model/Postcoments';
+import { AuthService } from './auth.service';
+import { DecodedToken } from '../model/DecodedToken';
+
 
 
 @Injectable({
@@ -10,7 +13,8 @@ import { Postcomments } from '../model/Postcoments';
 })
 export class PostCommentsService {
   private apiUrl =environment.apiUrl;
-  constructor(private http:HttpClient) { }
+  userinfo!:DecodedToken
+  constructor(private http:HttpClient,private authservice:AuthService) { }
 
   private getAuthHeaders():HttpHeaders {
     const token = sessionStorage.getItem('jwtToken');
@@ -72,7 +76,7 @@ export class PostCommentsService {
 
   deletePostComment(postCommentId:number)
   {
-    return this.http.delete(`${this.apiUrl}/deletePostComment/${postCommentId}`).pipe(
+    return this.http.delete(`${this.apiUrl}/deletePostComment/${postCommentId}`,{headers:this.getAuthHeaders()}).pipe(
       catchError((error:HttpErrorResponse)=>{
         let errorMessage = 'An error occured while deleting comment,';
         if(error.status == 401)
@@ -83,5 +87,38 @@ export class PostCommentsService {
         return throwError(()=> new Error('Commment not delete'))
       })
     )
+  }
+
+  flagPostComment(postCommentId:number,flagDescription:string):Observable<any>
+  {
+    const token= sessionStorage.getItem('jwtToken');
+    if(token)
+    {
+      this.userinfo =this.authservice.getUserInfoFromToken(token)
+    }
+    else
+    {
+      console.log('No token found')
+    }
+    const payload =
+    {
+      postCommentId : postCommentId,
+      userId: this.userinfo.nameid,
+      flagResolutionStatus: 'false',
+      flagDescription: flagDescription,
+    }
+
+    return this.http.post(`${this.apiUrl}/flagPostComment`,payload,{headers:this.getAuthHeaders()}).pipe(
+      catchError((error:HttpErrorResponse)=>{
+        let errorMessage = 'An error occured while deleting comment,';
+        if(error.status == 401)
+        {
+          errorMessage = 'Unauthorized Request';
+        }
+        console.error('Error flagging comment',error)
+        return throwError(()=> new Error('Commment not flag'))
+      })
+    )
+
   }
 }
