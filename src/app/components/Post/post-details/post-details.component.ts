@@ -2,13 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Post } from '../../../model/Post';
 import { PostsService } from '../../../services/posts.service';
-import { PostCommentsService } from '../../../services/post-comments.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { Postcomments } from '../../../model/Postcoments';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { CommentsSectionComponent } from "../../../comments-section/comments-section.component";
+import { Comment } from '../../../model/Comment';
 @Component({
   selector: 'app-post-details',
   imports: [MatPaginatorModule, MatSnackBarModule, CommonModule, CommentsSectionComponent,RouterLink],
@@ -19,15 +18,15 @@ export class PostDetailsComponent implements OnInit {
   postId!: number;
   postDetails!: Post;
   rposts: MatTableDataSource<Post> = new MatTableDataSource<Post>([]);
-  postComments: MatTableDataSource<Postcomments> =
-    new MatTableDataSource<Postcomments>([]);
+  postComments: MatTableDataSource<Comment> =
+    new MatTableDataSource<Comment>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private postService: PostsService,
-    private postCommentService: PostCommentsService,
+
     private snackbar: MatSnackBar
   ) {}
   ngOnInit(): void {

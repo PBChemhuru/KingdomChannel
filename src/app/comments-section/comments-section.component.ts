@@ -5,11 +5,12 @@ import { CommentCardComponent } from './comment-card/comment-card.component';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { PostCommentsService } from '../services/post-comments.service';
-import { Postcomments } from '../model/Postcoments';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CommentEditModalComponent } from './comment-edit-modal/comment-edit-modal.component';
 import { CommentDeleteModalComponent } from './comment-delete-modal/comment-delete-modal.component';
 import { CommentFlagModalComponent } from './comment-flag-modal/comment-flag-modal.component';
+import { Comment } from '../model/Comment';
+import { CommentsService } from '../services/comment.service';
 
 @Component({
   selector: 'app-comments-section',
@@ -25,9 +26,9 @@ import { CommentFlagModalComponent } from './comment-flag-modal/comment-flag-mod
 export class CommentsSectionComponent implements OnInit {
   @Input() postId!: number;
   flagDescription!: string;
-  postComments: Postcomments[] = [];
+  comments: Comment[] = [];
   constructor(
-    private postcommentService: PostCommentsService,
+    private commentService: CommentsService,
     private snackbar: MatSnackBar,
     private dialog: MatDialog
   ) {}
@@ -37,9 +38,9 @@ export class CommentsSectionComponent implements OnInit {
   }
 
   getPostComments(id: number): void {
-    this.postcommentService.getPostComments(id).subscribe({
+    this.commentService.getCommentsByContentType('post',id).subscribe({
       next: (data) => {
-        this.postComments = data;
+        this.comments = data;
       },
       error: (error) => {
         console.error(error);
@@ -54,7 +55,7 @@ export class CommentsSectionComponent implements OnInit {
     this.getPostComments(this.postId);
   }
 
-  onCommentEdited(editComment: Postcomments) {
+  onCommentEdited(editComment: Comment) {
     const dialogRef = this.dialog.open(CommentEditModalComponent, {
       data: editComment,
     });
@@ -75,7 +76,7 @@ export class CommentsSectionComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((confirmed) => {
       if (confirmed) {
-        this.postcommentService.deletePostComment(id).subscribe({
+        this.commentService.deletePostComment(id).subscribe({
           next: () => {
             this.snackbar.open('Comment deleted', 'Close', { duration: 3000 });
             this.getPostComments(this.postId);
@@ -96,7 +97,7 @@ export class CommentsSectionComponent implements OnInit {
       next: (flaggingData) => {
         this.flagDescription =
           flaggingData.reason + ': ' + flaggingData.additionalComments;
-        this.postcommentService
+        this.commentService
           .flagPostComment(id, this.flagDescription)
           .subscribe({
             next: () => {

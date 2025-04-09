@@ -1,8 +1,8 @@
 <app-add-comment [postId]="postId" (commentPosted)="onCommentPosted()"></app-add-comment>
 <div class="container-fluid">
     <div>
-        <div  *ngFor="let postComment of postComments">
-            <app-comment-card [postComment]="postComment" class="m-3 p-3 " (commenEdited)="onCommentEdited($event)" (commentDeleted)="onCommentDeleted(postComment.postCommentId)" (commentFlagged)="onCommentFlagged(postComment.postCommentId)"></app-comment-card>
+        <div  *ngFor="let comment of comments">
+            <app-comment-card [comment]="comment" class="m-3 p-3 " (commenEdited)="onCommentEdited($event)" (commentDeleted)="onCommentDeleted(comment.commentId)" (commentFlagged)="onCommentFlagged(comment.commentId)"></app-comment-card>
        </div>
     </div>
 </div>

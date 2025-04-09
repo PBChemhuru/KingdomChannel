@@ -5,10 +5,11 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { Postcomments } from '../../model/Postcoments';
+import { Comment } from '../../model/Comment';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PostCommentsService } from '../../services/post-comments.service';
+import { CommentsService } from '../../services/comment.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
@@ -22,20 +23,20 @@ export class CommentEditModalComponent {
 
   constructor(
     public dialogRef: MatDialogRef<CommentEditModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Postcomments,
-    private postCommentService: PostCommentsService,
+    @Inject(MAT_DIALOG_DATA) public data: Comment,
+    private commentService: CommentsService,
     private snackbar :MatSnackBar,
   ) {
-    this.updatedCommentText = data.postComment;
+    this.updatedCommentText = data.comment;
   }
   save(): void {
-    this.postCommentService.updatePostComment(
-      this.data.postCommentId,
+    this.commentService.updatePostComment(
+      this.data.commentId,
       this.updatedCommentText).subscribe({
         next: ()=>{
-          const updatedComment:Postcomments = {
+          const updatedComment:Comment = {
             ...this.data,
-            postComment:this.updatedCommentText
+            comment:this.updatedCommentText
           };
           this.dialogRef.close(updatedComment);
         },

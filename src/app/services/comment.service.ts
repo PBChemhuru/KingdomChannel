@@ -10,8 +10,8 @@ import { DecodedToken } from '../model/DecodedToken';
 @Injectable({
   providedIn: 'root'
 })
-export class PostCommentsService {
-  private apiUrl =environment.apiUrl;
+export class CommentsService {
+  private apiUrl = `${environment.apiUrl}`;
   userinfo!:DecodedToken
   constructor(private http:HttpClient,private authservice:AuthService) { }
 
@@ -23,9 +23,9 @@ export class PostCommentsService {
     });
   }
 
-  getPostComments(postId:number):Observable<any>
+  getCommentsByContentType(contentType:'post'| 'booklet' | 'video',contentId:number):Observable<any>
   {
-    return this.http.get(`${this.apiUrl}/getPostComments/${postId}`,{headers:this.getAuthHeaders()})
+    return this.http.get(`${this.apiUrl}/${contentType}/${contentId}`,{headers:this.getAuthHeaders()})
   }
 
   createPostComment(comment:string,postId:number,userId:number):Observable<any>
