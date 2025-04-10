@@ -4,6 +4,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { catchError, Observable, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { DecodedToken } from '../model/DecodedToken';
+import { ContentType } from '../model/ContentType.enum';
 
 
 
@@ -23,42 +24,43 @@ export class CommentsService {
     });
   }
 
-  getCommentsByContentType(contentType:'post'| 'booklet' | 'video',contentId:number):Observable<any>
+  getCommentsByContentType(contentType: ContentType,contentId:number):Observable<any>
   {
     return this.http.get(`${this.apiUrl}/${contentType}/${contentId}`,{headers:this.getAuthHeaders()})
   }
 
-  createPostComment(comment:string,postId:number,userId:number):Observable<any>
+  createComment(comment:string,postId?:number,videoId?:number,bookletId?:number):Observable<any>
   {
     const payload =
     {
-      postComment:comment.trim(),
+      comment:comment.trim(),
       postId:postId,
-      userId:userId
+      videoId:videoId,
+      bookletId:bookletId,
     }
-    return this.http.post(`${this.apiUrl}/createPostComment`,payload,{headers:this.getAuthHeaders()}).pipe(
+    return this.http.post(`${this.apiUrl}/comments`,payload,{headers:this.getAuthHeaders()}).pipe(
       catchError((error:HttpErrorResponse)=>{
         let errorMessage = 'An error occured while posting comment,';
         if(error.status == 401)
         {
           errorMessage = 'Unauthorized Request';
         }
-        console.error('Error posting comment',error)
-        return throwError(()=> new Error('Commment not posted'))
+        console.error(errorMessage,error)
+        return throwError(()=> new Error(errorMessage))
       })
     )
   }
   
 
-  updatePostComment(postCommentId:number,postComment:string)
+  updatePostComment(commentId:number,comment:string)
   {
     const payload =
     {
-      postId:postCommentId,
-      postComment:postComment,
+      commentId:commentId,
+      comment:comment,
     }
 
-    return this.http.post(`${this.apiUrl}/editPostComment/${postCommentId}`,payload,{headers:this.getAuthHeaders()}).pipe
+    return this.http.put(`${this.apiUrl}/${commentId}`,payload,{headers:this.getAuthHeaders()}).pipe
     (
       catchError((error:HttpErrorResponse)=>
       {
@@ -73,9 +75,9 @@ export class CommentsService {
     )
   }
 
-  deletePostComment(postCommentId:number)
+  deleteComment(commentId:number)
   {
-    return this.http.delete(`${this.apiUrl}/deletePostComment/${postCommentId}`,{headers:this.getAuthHeaders()}).pipe(
+    return this.http.delete(`${this.apiUrl}/${commentId}`,{headers:this.getAuthHeaders()}).pipe(
       catchError((error:HttpErrorResponse)=>{
         let errorMessage = 'An error occured while deleting comment,';
         if(error.status == 401)
@@ -88,7 +90,7 @@ export class CommentsService {
     )
   }
 
-  flagPostComment(postCommentId:number,flagDescription:string):Observable<any>
+  flagComment(commentId:number,flagDescription:string):Observable<any>
   {
     const token= sessionStorage.getItem('jwtToken');
     if(token)
@@ -101,13 +103,13 @@ export class CommentsService {
     }
     const payload =
     {
-      postCommentId : postCommentId,
+      commentId : commentId,
       userId: this.userinfo.nameid,
       flagResolutionStatus: 'false',
       flagDescription: flagDescription,
     }
 
-    return this.http.post(`${this.apiUrl}/flagPostComment`,payload,{headers:this.getAuthHeaders()}).pipe(
+    return this.http.post(`${this.apiUrl}/flagComment`,payload,{headers:this.getAuthHeaders()}).pipe(
       catchError((error:HttpErrorResponse)=>{
         let errorMessage = 'An error occured while deleting comment,';
         if(error.status == 401)

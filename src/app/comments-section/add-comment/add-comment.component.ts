@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { PostCommentsService } from '../../services/post-comments.service';
 import { AuthService } from '../../services/auth.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { CommentsService } from '../../services/comment.service';
 @Component({
   selector: 'app-add-comment',
   imports: [MatInputModule, MatFormFieldModule, FormsModule,MatSnackBarModule],
@@ -12,13 +13,16 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   styleUrl: './add-comment.component.css',
 })
 export class AddCommentComponent implements OnInit {
-  @Input() postId!: any;
+  @Input() postId!: number;
+  @Input() bookletId!: number;
+  @Input() videoId!:number
   newComment: string = '';
   userId!: number;
   userinfo: any;
   @Output() commentPosted: EventEmitter<void> = new EventEmitter<void>()
   constructor(
     private postCommentService: PostCommentsService,
+    private commentsService:CommentsService,
     private authService: AuthService,
     private snackbar:MatSnackBar
   ) {}
@@ -32,7 +36,7 @@ export class AddCommentComponent implements OnInit {
     }
   }
   submitComment(): void {
-    this.postCommentService.createPostComment(this.newComment, this.postId,this.userinfo.nameid).subscribe({
+    this.commentsService.createComment(this.newComment, this.postId,this.videoId,this.bookletId).subscribe({
       next: (response)=>{
         this.snackbar.open('Comment Posted','Close',{duration:3000,verticalPosition:'top',});
         this.commentPosted.emit();

@@ -4,13 +4,14 @@ import { AddCommentComponent } from './add-comment/add-comment.component';
 import { CommentCardComponent } from './comment-card/comment-card.component';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
-import { PostCommentsService } from '../services/post-comments.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CommentEditModalComponent } from './comment-edit-modal/comment-edit-modal.component';
 import { CommentDeleteModalComponent } from './comment-delete-modal/comment-delete-modal.component';
 import { CommentFlagModalComponent } from './comment-flag-modal/comment-flag-modal.component';
 import { Comment } from '../model/Comment';
 import { CommentsService } from '../services/comment.service';
+import { AuthService } from '../services/auth.service';
+import { ContentType } from '../model/ContentType.enum';
 
 @Component({
   selector: 'app-comments-section',
@@ -25,20 +26,26 @@ import { CommentsService } from '../services/comment.service';
 })
 export class CommentsSectionComponent implements OnInit {
   @Input() postId!: number;
+  @Input() contentType!: ContentType;
   flagDescription!: string;
   comments: Comment[] = [];
+  isLoggedIn = false;
+
   constructor(
     private commentService: CommentsService,
+    private authservice: AuthService,
     private snackbar: MatSnackBar,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.getPostComments(this.postId);
+    this.getComments(this.postId);
+    const token = sessionStorage.getItem('jwtToken');
+    this.isLoggedIn = !!token;
   }
 
-  getPostComments(id: number): void {
-    this.commentService.getCommentsByContentType('post',id).subscribe({
+  getComments(id: number): void {
+    this.commentService.getCommentsByContentType(this.contentType, id).subscribe({
       next: (data) => {
         this.comments = data;
       },
@@ -52,7 +59,7 @@ export class CommentsSectionComponent implements OnInit {
   }
 
   onCommentPosted(): void {
-    this.getPostComments(this.postId);
+    this.getComments(this.postId);
   }
 
   onCommentEdited(editComment: Comment) {
@@ -61,7 +68,7 @@ export class CommentsSectionComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((updatedComment) => {
       if (updatedComment) {
-        this.getPostComments(this.postId);
+        this.getComments(this.postId);
         this.snackbar.open('Comment Update', 'Close', {
           duration: 3000,
           verticalPosition: 'top',
@@ -76,10 +83,10 @@ export class CommentsSectionComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((confirmed) => {
       if (confirmed) {
-        this.commentService.deletePostComment(id).subscribe({
+        this.commentService.deleteComment(id).subscribe({
           next: () => {
             this.snackbar.open('Comment deleted', 'Close', { duration: 3000 });
-            this.getPostComments(this.postId);
+            this.getComments(this.postId);
           },
           error: () => {
             this.snackbar.open('Failed to delete comment', 'Close', {
@@ -98,7 +105,7 @@ export class CommentsSectionComponent implements OnInit {
         this.flagDescription =
           flaggingData.reason + ': ' + flaggingData.additionalComments;
         this.commentService
-          .flagPostComment(id, this.flagDescription)
+          .flagComment(id, this.flagDescription)
           .subscribe({
             next: () => {
               this.snackbar.open(
@@ -106,7 +113,7 @@ export class CommentsSectionComponent implements OnInit {
                 'Close',
                 { duration: 3000 }
               );
-              this.getPostComments(this.postId);
+              this.getComments(this.postId);
             },
             error: () => {
               this.snackbar.open('Failed to Flag comment', 'Close', {

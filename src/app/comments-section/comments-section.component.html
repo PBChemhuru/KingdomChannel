@@ -1,4 +1,10 @@
-<app-add-comment [postId]="postId" (commentPosted)="onCommentPosted()"></app-add-comment>
+<app-add-comment *ngIf="isLoggedIn; else loginRegisterButtons"  [postId]="postId" (commentPosted)="onCommentPosted()"></app-add-comment>
+<ng-template #loginRegisterButtons >
+    <button data-bs-target="#loginmodal" data-bs-toggle="modal">
+      Login
+    </button>
+    <button data-bs-target="#registermodal" data-bs-toggle="modal">Register</button>
+  </ng-template>
 <div class="container-fluid">
     <div>
         <div  *ngFor="let comment of comments">

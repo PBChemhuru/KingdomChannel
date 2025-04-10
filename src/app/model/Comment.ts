@@ -5,6 +5,7 @@ export interface Comment {
     bookletId?: number;
     comment: string;
     userId: number;
+    username:string;
     createdAt: Date;
   }
   
