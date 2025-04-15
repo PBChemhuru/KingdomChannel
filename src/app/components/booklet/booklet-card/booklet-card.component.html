@@ -1,0 +1,13 @@
+<mat-card class="bg-light shadow-sm book-card">
+    
+    <img mat-card-image [src]="booklet.thumbnail " class="card-img-top book-img" alt="Book Cover">
+    <mat-card-content>
+        <h3>{{booklet.bookletTitle}}</h3>
+        <div class="bookletTeaser">
+            {{booklet.bookletDescription}}
+        </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <button class="btn btn-primary" routerLink="/booklets/{{booklet.bookletId}}" routerLinkActive="active ">Read More</button>
+    </mat-card-actions>
+</mat-card>

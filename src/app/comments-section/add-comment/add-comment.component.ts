@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
-import { PostCommentsService } from '../../services/post-comments.service';
 import { AuthService } from '../../services/auth.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommentsService } from '../../services/comment.service';
@@ -21,7 +20,6 @@ export class AddCommentComponent implements OnInit {
   userinfo: any;
   @Output() commentPosted: EventEmitter<void> = new EventEmitter<void>()
   constructor(
-    private postCommentService: PostCommentsService,
     private commentsService:CommentsService,
     private authService: AuthService,
     private snackbar:MatSnackBar

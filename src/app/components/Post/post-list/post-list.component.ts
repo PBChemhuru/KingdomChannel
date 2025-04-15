@@ -29,7 +29,6 @@ export class PostListComponent implements OnInit {
     this.postService.getPosts().subscribe({
       next:(data)=>{
         this.posts.data = data;
-        console.log(this.posts); 
         this.posts.paginator = this.paginator;
       },
       error:(error)=>

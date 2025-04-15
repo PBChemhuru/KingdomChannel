@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef,MatDialogActions,MatDialogContent } from '@angular/material/dialog';
-import { PostCommentsService } from '../../services/post-comments.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({

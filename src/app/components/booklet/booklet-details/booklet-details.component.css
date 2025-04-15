@@ -1,0 +1,31 @@
+.booklet-detail {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+  
+  .detail-card {
+    img {
+      max-height: 400px;
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+  
+    .description {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+  
+    .extra-info h5 {
+      margin: 1rem 0 0.25rem;
+      font-weight: 600;
+    }
+  
+    mat-card-actions {
+      margin-top: 1.5rem;
+  
+      button {
+        margin-right: 0.75rem;
+      }
+    }
+  }

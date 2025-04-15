@@ -1,0 +1,31 @@
+<div class="booklet-detail mat-typography bg-light">
+
+    <mat-card class="detail-card bg-light">
+      <mat-card-header>
+        <mat-card-title>{{ booklet.bookletTitle }}</mat-card-title>
+      </mat-card-header>
+  
+      <img mat-card-image [src]="booklet.thumbnail" alt="Booklet Cover" />
+  
+      <mat-card-content>
+        <p class="description">{{ booklet.bookletDescription }}</p>
+        
+        <mat-divider class="my-3"></mat-divider>
+  
+      </mat-card-content>
+  
+      <mat-card-actions align="end">
+        <button mat-stroked-button color="accent" (click)="downloadBooklet()">
+          <mat-icon>file_download</mat-icon>
+          Download
+        </button>
+  
+        <button mat-raised-button color="primary" [routerLink]="['/reader', booklet.bookletId]">
+          <mat-icon>menu_book</mat-icon>
+          Read Here
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <app-comments-section [postId]="bookletId" [contentType]="ContentType.Booklet"></app-comments-section>
+  </div>
+  

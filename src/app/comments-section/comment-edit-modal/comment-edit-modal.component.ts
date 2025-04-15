@@ -8,7 +8,6 @@ import {
 import { Comment } from '../../model/Comment';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PostCommentsService } from '../../services/post-comments.service';
 import { CommentsService } from '../../services/comment.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 

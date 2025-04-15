@@ -1,0 +1,23 @@
+.book-card {
+    transition: transform 0.2s ease;
+  }
+
+  .book-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .book-img {
+    height: 250px;
+    object-fit: cover;
+  }
+
+  .bookletTeaser
+{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
