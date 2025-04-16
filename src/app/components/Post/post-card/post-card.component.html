@@ -1,10 +1,7 @@
 <mat-card class="bg-light shadow-sm">
-    <mat-card-header>
-        <mat-card-subtitle>{{post.createdAt | date:'MMM d, y'}}.</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image [src]="post.image">
+    <img mat-card-image [src]="post.thumbnail" style="height: 450px;">
     <mat-card-content>
-        <h3>{{post.postTitle}}</h3>
+        <h3>{{post.postTitle}}</h3> <mat-card-subtitle style="color: black;">{{post.createdAt | date:'MMM d, y'}}.</mat-card-subtitle>
         <div class="postTeaser">
             {{post.postContent}}
         </div>

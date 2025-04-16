@@ -1,1 +1,39 @@
-<p>video works!</p>
+<div class="container">
+  <div class="featured-video">
+    <div class="featured-video-wrapper">
+      <iframe
+        [src]="getSafeVideoUrl(featuredVideo.videoLink)"
+        frameborder="0"
+        allowfullscreen
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      ></iframe>
+    </div>
+    <div class="featured-video-caption">
+      <h3>{{ featuredVideo.videoTitle }}</h3>
+      <p>{{ featuredVideo.videoDescription }}</p>
+    </div>
+  </div>
+
+  <div class="video-section">
+    <h2>More Videos</h2>
+    <div class="video-grid">
+      <div
+        *ngFor="let video of videos.data"
+        class="video-card"
+        (click)="openVideo(video.videoLink)"
+      >
+        <img
+          class="video-thumbnail"
+          [src]="video.thumbnail"
+          [alt]="video.videoTitle"
+        />
+        <div class="video-meta">
+          <div class="video-title">{{ video.videoTitle }}</div>
+          <div class="video-date">
+            {{ video.createdAt | date : "mediumDate" }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

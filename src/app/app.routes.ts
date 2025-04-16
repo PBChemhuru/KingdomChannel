@@ -5,6 +5,7 @@ import { BookletComponent } from './components/booklet/booklet.component';
 import { VideoComponent } from './components/video/video.component';
 import { PostListComponent } from './components/Post/post-list/post-list.component';
 import { BookletDetailsComponent } from './components/booklet/booklet-details/booklet-details.component';
+import { AboutComponent } from './components/about/about.component';
 
 export const routes: Routes = [
     {path:'', pathMatch:'full',component: HomeComponent},
@@ -13,5 +14,5 @@ export const routes: Routes = [
     {path:'booklets',pathMatch:'full',component:BookletComponent},
     {path:'booklets/:id',pathMatch:'full',component:BookletDetailsComponent},
     {path:'videos',pathMatch:'full',component:VideoComponent},
-    {path:'videos/:id',pathMatch:'full',component:BookletComponent},
+    {path:'about',pathMatch:'full',component:AboutComponent},
 ];

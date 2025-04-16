@@ -10,7 +10,7 @@ import { CommentsSectionComponent } from '../../comments-section/comments-sectio
 
 @Component({
   selector: 'app-booklet',
-  imports: [MatSnackBarModule, MatPaginatorModule, BookletCardComponent,CommonModule,CommentsSectionComponent],
+  imports: [MatSnackBarModule, MatPaginatorModule, BookletCardComponent,CommonModule,],
   templateUrl: './booklet.component.html',
   styleUrl: './booklet.component.css'
 })

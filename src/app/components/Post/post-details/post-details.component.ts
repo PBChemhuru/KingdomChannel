@@ -28,7 +28,7 @@ import { ContentType } from '../../../model/ContentType.enum';
   styleUrl: './post-details.component.css',
 })
 export class PostDetailsComponent implements OnInit, OnChanges {
-  postId!: number;
+  id!: number;
   postDetails!: Post;
   ContentType = ContentType;
   rposts: MatTableDataSource<Post> = new MatTableDataSource<Post>([]);
@@ -46,16 +46,15 @@ export class PostDetailsComponent implements OnInit, OnChanges {
   ) {}
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.postId = +params['id'];
-      this.getPostDetails(this.postId);
+      this.id = +params['id'];
+      this.getPostDetails(this.id);
       this.getRandomPost();
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['postId'] && !changes['postId'].firstChange) {
-      console.log(this.postId);
-      this.getPostDetails(this.postId);
+      this.getPostDetails(this.id);
     }
   }
   getPostDetails(id: number): void {

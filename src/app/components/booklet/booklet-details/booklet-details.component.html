@@ -1,6 +1,6 @@
-<div class="booklet-detail mat-typography bg-light">
+<div class="booklet-detail mat-typography bg-light shadow-sm rounded">
 
-    <mat-card class="detail-card bg-light">
+    <mat-card class="detail-card bg-light shadow-none">
       <mat-card-header>
         <mat-card-title>{{ booklet.bookletTitle }}</mat-card-title>
       </mat-card-header>
@@ -26,6 +26,9 @@
         </button>
       </mat-card-actions>
     </mat-card>
-    <app-comments-section [postId]="bookletId" [contentType]="ContentType.Booklet"></app-comments-section>
+    <div class="container-fluid m-5">
+      <app-comments-section [id]="bookletId" [contentType]="ContentType.Booklet"></app-comments-section>
+    </div>
+   
   </div>
   

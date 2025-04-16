@@ -25,7 +25,7 @@ import { ContentType } from '../model/ContentType.enum';
   styleUrl: './comments-section.component.css',
 })
 export class CommentsSectionComponent implements OnInit {
-  @Input() postId!: number;
+  @Input() id!: number;
   @Input() contentType!: ContentType;
   flagDescription!: string;
   comments: Comment[] = [];
@@ -39,7 +39,7 @@ export class CommentsSectionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getComments(this.postId);
+    this.getComments(this.id);
     const token = sessionStorage.getItem('jwtToken');
     this.isLoggedIn = !!token;
   }
@@ -59,7 +59,7 @@ export class CommentsSectionComponent implements OnInit {
   }
 
   onCommentPosted(): void {
-    this.getComments(this.postId);
+    this.getComments(this.id);
   }
 
   onCommentEdited(editComment: Comment) {
@@ -68,7 +68,7 @@ export class CommentsSectionComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((updatedComment) => {
       if (updatedComment) {
-        this.getComments(this.postId);
+        this.getComments(this.id);
         this.snackbar.open('Comment Update', 'Close', {
           duration: 3000,
           verticalPosition: 'top',
@@ -86,7 +86,7 @@ export class CommentsSectionComponent implements OnInit {
         this.commentService.deleteComment(id).subscribe({
           next: () => {
             this.snackbar.open('Comment deleted', 'Close', { duration: 3000 });
-            this.getComments(this.postId);
+            this.getComments(this.id);
           },
           error: () => {
             this.snackbar.open('Failed to delete comment', 'Close', {
@@ -113,7 +113,7 @@ export class CommentsSectionComponent implements OnInit {
                 'Close',
                 { duration: 3000 }
               );
-              this.getComments(this.postId);
+              this.getComments(this.id);
             },
             error: () => {
               this.snackbar.open('Failed to Flag comment', 'Close', {
