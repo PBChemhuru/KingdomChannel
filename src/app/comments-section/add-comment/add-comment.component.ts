@@ -46,13 +46,7 @@ export class AddCommentComponent implements OnInit {
         this.postId = this.id;
         break;
     }
-    console.log(
-      this.id,
-      this.contentType,
-      this.postId,
-      this.bookletId,
-      this.videoId
-    );
+    
   }
   submitComment(): void {
     this.commentsService

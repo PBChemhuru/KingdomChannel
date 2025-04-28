@@ -1,1 +1,45 @@
-<p>manage-videos works!</p>
+<mat-table #table [dataSource]="videos" maSort class="mat-elevation-z8">
+    <!-- postId-->
+     <ng-container matColumnDef="videoId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>VideoId</th>
+        <td mat-cell *matCellDef="let video">{{video.videoId}}</td>
+     </ng-container>
+     <!--postTitle-->
+     <ng-container matColumnDef="videoTitle">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Video Title</th>
+        <td mat-cell *matCellDef="let video">{{video.videoTitle}}</td>
+     </ng-container >
+     <!--Videolink-->
+     <ng-container matColumnDef="videoLink">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Video Title</th>
+        <td mat-cell *matCellDef="let video">{{video.videoLink}}</td>
+     </ng-container >
+     <!--videodescription-->
+     <ng-container matColumnDef="videoDescription">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Video Title</th>
+        <td mat-cell *matCellDef="let video">{{video.videoDescription}}</td>
+     </ng-container >
+     <!--updatedAt-->
+     <ng-container matColumnDef ="updatedAt" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated At</th>
+        <td mat-cell *matCellDef="let video">{{video.updatedAt}}</td>
+     </ng-container>
+     <!--Action Column-->
+     <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+        <td mat-cell *matCellDef="let video">
+            <button mat-raised-button color="primary">
+                <a href="{{video.videoLink}}"><mat-icon>visibility</mat-icon></a>
+            </button>
+            <button mat-icon-button color="warn" (click)="openEditDialog(video)">
+                <mat-icon style="color: blue;">edit</mat-icon>
+              </button>
+            <button mat-icon-button color="warn" (click)="openDeleteDialog(video)">
+                <mat-icon style="color: red;">delete</mat-icon>
+              </button>
+        </td>
+     </ng-container>
+     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+     <tr mat-row *matRowDef="let row; columns:displayedColumns;"></tr>
+</mat-table>
+<mat-paginator [pageSizeOptions]="[10,25,50,100]" showFirstLastButtons></mat-paginator>

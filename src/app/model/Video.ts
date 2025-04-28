@@ -6,4 +6,6 @@ export interface Video {
     thumbnail: string;
     userId: number;
     createdAt: Date;
+    updatedAt:Date;
+
   }

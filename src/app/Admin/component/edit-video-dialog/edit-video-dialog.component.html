@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Edit Patient Information</h2>
+<mat-dialog-content>
+  <form (ngSubmit)="submitChanges()">
+    <mat-form-field class="full-width">
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+      <mat-label>Video Title</mat-label>
+      <input
+        matInput
+        [(ngModel)]="video.videoTitle"
+        name="videoTitle"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Video Description</mat-label>
+      <input matInput [(ngModel)]="video.videoDescription" name="videoDescription" required />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <mat-label>Video Link</mat-label>
+        <input matInput [(ngModel)]="video.videoLink" name="videoLink" required />
+      </mat-form-field> 
+
+    <mat-form-field class="full-width">
+      <mat-label>Thumbnail</mat-label>
+      <input
+        matInput
+        [(ngModel)]="video.thumbnail"
+        name="thumbnail"
+        required
+      />
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-button color="primary" type="submit">Save Changes</button>
+    </div>
+  </form>
+</mat-dialog-content>

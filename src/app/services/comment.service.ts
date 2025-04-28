@@ -38,6 +38,7 @@ export class CommentsService {
       videoId:videoId,
       bookletId:bookletId,
     }
+    console.log(this.getAuthHeaders());
     return this.http.post(`${this.apiUrl}/comments`,payload,{headers:this.getAuthHeaders()}).pipe(
       catchError((error:HttpErrorResponse)=>{
         let errorMessage = 'An error occured while posting comment,';

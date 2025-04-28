@@ -1,11 +1,101 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { Video } from '../../model/Video';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { VideosService } from '../../services/videos.service';
+import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteItemDialogComponent } from '../component/delete-item-dialog/delete-item-dialog.component';
+import { EditVideoDialogComponent } from '../component/edit-video-dialog/edit-video-dialog.component';
 
 @Component({
   selector: 'app-manage-videos',
-  imports: [],
+  imports: [ MatPaginatorModule,
+    MatSnackBarModule,
+    MatTableModule,
+    MatIconModule,],
   templateUrl: './manage-videos.component.html',
   styleUrl: './manage-videos.component.css'
 })
 export class ManageVideosComponent {
+  constructor(
+    private snackbar: MatSnackBar,
+    private videoService: VideosService,
+    private router: Router,
+    private dialog: MatDialog,
+  ) {}
 
+  videos: MatTableDataSource<Video> = new MatTableDataSource<Video>([]);
+  displayedColumns: string[] = [
+    'videoId',
+    'videoTitle',
+    'videoLink',
+    'videoDescription',
+    'updatedAt',
+    'actions',
+  ];
+  searchKey: string = '';
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  ngOnInit(): void {
+    this.getVideos();
+  }
+  ngAfterViewInit(): void {
+    this.videos.paginator = this.paginator;
+  }
+
+  getVideos() {
+    this.videoService.getVideos().subscribe({
+      next: (data) => {
+        this.videos.data = data;
+      },
+      error: (err) => {
+        console.log(err);
+        this.snackbar.open('Failed to load Videos', 'close', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+        });
+      },
+    });
+  }
+
+  viewVideoDetails(videoId: string): void {
+    this.router.navigate([`getvideo/${videoId}`]);
+  }
+
+  openDeleteDialog(item: any): void {
+    const dialogRef = this.dialog.open(DeleteItemDialogComponent, {
+      width: '500px',
+      data: item,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.deleteVideo(item.videoId);
+      }
+    });
+  }
+
+  deleteVideo(videoId: number): void {
+    this.videoService.deleteVideo(videoId).subscribe({
+      next: (response) => {
+        this.getVideos();
+        console.log('Video deleted successfully:', response);
+      },
+      error: (error) => {
+        console.error('errror while delete video',error);
+      },
+    });
+  }
+
+  openEditDialog(video: any): void {
+    const dialogRef = this.dialog.open(EditVideoDialogComponent, { data: video });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.viewVideoDetails(result.videoId);
+      }
+    });
+  }
 }

@@ -6,5 +6,7 @@ export interface Booklet {
     thumbnail: string;
     userId: number;
     createdAt: Date;
+    updatedAt:Date;
+
   }
   

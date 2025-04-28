@@ -4,6 +4,8 @@ export interface Post {
     postContent: string;
     likeCount: number;
     userId: number;
+    thumbnail: string;
     createdAt: Date;
+    updatedAt:Date;
   }
   

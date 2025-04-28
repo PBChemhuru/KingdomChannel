@@ -2,6 +2,7 @@
   import { Injectable } from '@angular/core';
   import { catchError, Observable, tap, throwError } from 'rxjs';
   import { environment } from '../../environment/environment';
+import { Post } from '../model/Post';
 
   @Injectable({
     providedIn: 'root'
@@ -25,6 +26,8 @@
 
   getPost(postId:number):Observable<any>
   {
+    console.log(this.getAuthHeaders());
+
     return this.http.get(`${this.apiUrl}/getPost/${postId}`,{headers:this.getAuthHeaders(),}).pipe(
       catchError((error:HttpErrorResponse)=>{
         let errorMessage = 'An error occurred while fetching post.';
@@ -36,5 +39,35 @@
         return throwError(()=>new Error('Failed to retrieve post'));
       })
     );
+  }
+
+  updatePost(post:Post):Observable<any>
+  {
+    return this.http.put(`${this.apiUrl}/updatePost/${post.postId}`,post,{headers:this.getAuthHeaders(),}).pipe(
+      catchError((error:HttpErrorResponse)=>{
+        let errorMessage = 'An error occurred while updating post.';
+        if(error.status === 404)
+        {
+          errorMessage='Post not Found'
+        }
+        console.error('Error updating post',error)
+        return throwError(()=>new Error('Failed to retrieve updating'));
+      })
+    )
+  }
+
+  deletePost(postId:number):Observable<any>
+  {
+    return this.http.delete(`${this.apiUrl}/deletePost/${postId}`,{headers:this.getAuthHeaders()}).pipe(
+      catchError((error:HttpErrorResponse)=>{
+        let errorMessage = 'An error occurred while deleting post.';
+        if(error.status === 404)
+        {
+          errorMessage='Post not Found'
+        }
+        console.error('Error deleting post',error)
+        return throwError(()=>new Error('Failed to retrieve deleting'));
+      })
+    )
   }
   }

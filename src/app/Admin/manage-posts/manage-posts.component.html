@@ -1,1 +1,40 @@
-<p>manage-posts works!</p>
+<mat-table #table [dataSource]="posts" maSort class="mat-elevation-z8">
+    <!-- postId-->
+     <ng-container matColumnDef="postId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>PostId</th>
+        <td mat-cell *matCellDef="let post">{{post.postId}}</td>
+     </ng-container>
+     <!--postTitle-->
+     <ng-container matColumnDef="postTitle">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Post Title</th>
+        <td mat-cell *matCellDef="let post">{{post.postTitle}}</td>
+     </ng-container >
+     <!--createdAt-->
+     <ng-container matColumnDef ="createdAt" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Created At</th>
+        <td mat-cell *matCellDef="let post">{{post.createdAt}}</td>
+     </ng-container>
+     <!--updatedAt-->
+     <ng-container matColumnDef ="updatedAt" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated At</th>
+        <td mat-cell *matCellDef="let post">{{post.updatedAt}}</td>
+     </ng-container>
+     <!--Action Column-->
+     <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+        <td mat-cell *matCellDef="let post">
+            <button mat-raised-button color="primary" (click)="viewPostDetails(post.postId)">
+                <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="openEditDialog(post)">
+                <mat-icon style="color: blue;">edit</mat-icon>
+              </button>
+            <button mat-icon-button color="warn" (click)="openDeleteDialog(post)">
+                <mat-icon style="color: red;">delete</mat-icon>
+              </button>
+        </td>
+     </ng-container>
+     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+     <tr mat-row *matRowDef="let row; columns:displayedColumns;"></tr>
+</mat-table>
+<mat-paginator [pageSizeOptions]="[10,25,50,100]" showFirstLastButtons></mat-paginator>
