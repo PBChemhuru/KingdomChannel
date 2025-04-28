@@ -12,6 +12,7 @@ import { Comment } from '../model/Comment';
 import { CommentsService } from '../services/comment.service';
 import { AuthService } from '../services/auth.service';
 import { ContentType } from '../model/ContentType.enum';
+import { FlaggedcommentsService } from '../services/flaggedcomments.service';
 
 @Component({
   selector: 'app-comments-section',
@@ -35,7 +36,8 @@ export class CommentsSectionComponent implements OnInit {
     private commentService: CommentsService,
     private authservice: AuthService,
     private snackbar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private flagged:FlaggedcommentsService,
   ) {}
 
   ngOnInit(): void {
@@ -104,7 +106,7 @@ export class CommentsSectionComponent implements OnInit {
       next: (flaggingData) => {
         this.flagDescription =
           flaggingData.reason + ': ' + flaggingData.additionalComments;
-        this.commentService
+        this.flagged
           .flagComment(id, this.flagDescription)
           .subscribe({
             next: () => {

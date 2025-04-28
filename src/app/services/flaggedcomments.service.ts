@@ -4,14 +4,13 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environment/environment';
 import { catchError, Observable, throwError } from 'rxjs';
-import { Booklet } from '../model/Booklet';
+import { environment } from '../../environment/environment';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BookletsService {
+export class FlaggedcommentsService {
   private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
@@ -24,32 +23,35 @@ export class BookletsService {
     });
   }
 
-  getBooklets(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/getBooklets`, {
+  getFlaggedComments(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/getFlaggedComments`, {
       headers: this.getAuthHeaders(),
     });
   }
-
-  getBooklet(bookletid: number): Observable<any> {
+  flagComment(commentId: number, flagDescription: string): Observable<any> {
+    const payload = {
+      commentId: commentId,
+      flagDescription: flagDescription,
+      flagResolutionStatus: 'false',
+    };
     return this.http
-      .get(`${this.apiUrl}/getBooklet/${bookletid}`, {
+      .post(`${this.apiUrl}/flagComment`, payload, {
         headers: this.getAuthHeaders(),
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          let errorMessage = 'An error occurred while fetching booklet.';
+          let errorMessage = 'An error occurred while flagging comment.';
           if (error.status === 404) {
-            errorMessage = 'booklet not Found';
+            errorMessage = 'Comment not Found';
           }
-          console.error('Error fetching booklet', error);
-          return throwError(() => new Error('Failed to retrieve booklet'));
+          console.error(error);
+          return throwError(() => new Error('Failed to flag comment'));
         })
       );
   }
-
-  updateBooklet(booklet: Booklet): Observable<any> {
+  updateBooklet(flagId: number): Observable<any> {
     return this.http
-      .put(`${this.apiUrl}/updateBooklet/${booklet.bookletId}`, booklet, {
+      .put(`${this.apiUrl}/updateBooklet/${flagId}`, {
         headers: this.getAuthHeaders(),
       })
       .pipe(
@@ -64,19 +66,19 @@ export class BookletsService {
       );
   }
 
-  deleteBooklet(bookletId: number): Observable<any> {
+  deleteBooklet(flaggedCommentId: number): Observable<any> {
     return this.http
-      .delete(`${this.apiUrl}/deleteBooklet/${bookletId}`, {
+      .delete(`${this.apiUrl}/deleteBooklet/${flaggedCommentId}`, {
         headers: this.getAuthHeaders(),
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          let errorMessage = 'An error occurred while deleting booklet.';
+          let errorMessage = 'An error occurred while deleting comment.';
           if (error.status === 404) {
-            errorMessage = 'Booklet not Found';
+            errorMessage = 'comment not Found';
           }
-          console.error('Error deleting booklet', error);
-          return throwError(() => new Error('Failed to retrieve deleting'));
+          console.error('Error deleting comment', error);
+          return throwError(() => new Error('Failed to retrieve comment'));
         })
       );
   }

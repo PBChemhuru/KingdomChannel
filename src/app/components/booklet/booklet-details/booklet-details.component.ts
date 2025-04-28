@@ -35,7 +35,6 @@ export class BookletDetailsComponent implements OnInit {
       {
         next:(data)=> {
           this.booklet= data;
-          console.log(this.booklet);         
         },
         error: (err)=>
         {

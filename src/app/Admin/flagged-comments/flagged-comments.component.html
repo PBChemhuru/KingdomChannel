@@ -1,1 +1,52 @@
-<p>flagged-comments works!</p>
+<mat-table #table [dataSource]="flaggedComments" maSort class="mat-elevation-z8">
+    <!-- flagId-->
+     <ng-container matColumnDef="flagId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Flag Id</th>
+        <td mat-cell *matCellDef="let flaggedComment">{{flaggedComment.flagId}}</td>
+     </ng-container>
+     <!-- flagDescription-->
+     <ng-container matColumnDef="flagDescription">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Flag Description</th>
+        <td mat-cell *matCellDef="let flaggedComment">{{flaggedComment.flagDescription}}</td>
+     </ng-container>
+     <!-- flagResolution-->
+     <ng-container matColumnDef="flagResolution">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Flag Resolution</th>
+        <td mat-cell *matCellDef="let flaggedComment">{{flaggedComment.flagResolution}}</td>
+     </ng-container>
+     <!-- flagResolutionStatus-->
+     <ng-container matColumnDef="flagResolutionStatus">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Flag Status</th>
+        <td mat-cell *matCellDef="let flaggedComment">{{flaggedComment.flagResolutionStatus}}</td>
+     </ng-container>
+     <!-- comment-->
+     <ng-container matColumnDef="comment">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Flagged Comment</th>
+        <td mat-cell *matCellDef="let flaggedComment">{{flaggedComment.comment}}</td>
+     </ng-container>
+     <!-- commentor-->
+     <ng-container matColumnDef="commenter">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>commenter</th>
+        <td mat-cell *matCellDef="let flaggedComment">{{flaggedComment.commenter}}</td>
+     </ng-container>
+     <!--createdAt-->
+     <ng-container matColumnDef ="createdAt" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Created At</th>
+        <td mat-cell *matCellDef="let flaggedComment">{{flaggedComment.createdAt}}</td>
+     </ng-container>
+     <!--updatedAt-->
+     <ng-container matColumnDef ="updatedAt" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated At</th>
+        <td mat-cell *matCellDef="let flaggedComment">{{flaggedComment.updatedAt}}</td>
+     </ng-container>
+     <!--Action Column-->
+     <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+        <td mat-cell *matCellDef="let flaggedComment">
+            
+        </td>
+     </ng-container>
+     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+     <tr mat-row *matRowDef="let row; columns:displayedColumns;"></tr>
+</mat-table>
+<mat-paginator [pageSizeOptions]="[10,25,50,100]" showFirstLastButtons></mat-paginator>

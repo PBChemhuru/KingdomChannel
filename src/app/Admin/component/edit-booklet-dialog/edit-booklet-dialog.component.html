@@ -1,1 +1,42 @@
-<p>edit-booklet-dialog works!</p>
+<h2 mat-dialog-title>Edit Booklet Information</h2>
+<mat-dialog-content>
+  <form (ngSubmit)="submitChanges()">
+    <mat-form-field class="full-width">
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+      <mat-label>Booklet Title</mat-label>
+      <input
+        matInput
+        [(ngModel)]="booklet.bookletTitle"
+        name="bookletTitle"
+        required
+      />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Booklet Description</mat-label>
+      <input matInput [(ngModel)]="booklet.bookletDescription" name="bookletDescription" required />
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+        <mat-label>Booklet Link</mat-label>
+        <input matInput [(ngModel)]="booklet.bookletLink" name="bookletLink" required />
+      </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Thumbnail</mat-label>
+      <input
+        matInput
+        [(ngModel)]="booklet.thumbnail"
+        name="thumbnail"
+        required
+      />
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-button color="primary" type="submit">Save Changes</button>
+    </div>
+  </form>
+</mat-dialog-content>
