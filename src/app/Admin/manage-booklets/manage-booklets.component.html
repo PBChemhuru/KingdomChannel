@@ -1,3 +1,8 @@
+<mat-toolbar color="primary">
+   <button (click)="openCreateBookletDialog()">
+      Post Booklet
+   </button>
+</mat-toolbar>
 <mat-table #table [dataSource]="booklets" maSort class="mat-elevation-z8">
     <!-- postId-->
      <ng-container matColumnDef="bookletId">

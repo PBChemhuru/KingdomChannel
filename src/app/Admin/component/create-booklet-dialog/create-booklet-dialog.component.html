@@ -1,0 +1,37 @@
+<div class="container-fluid p-5" >
+    <h1 mat-dialog-title>Post Booklet</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="fill">
+      <mat-label>Booklet Title</mat-label>
+      <input matInput formControlName="bookletTitle" />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Booklet Link</mat-label>
+        <input matInput formControlName="bookletLink" />
+      </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Booklet Synopsis</mat-label>
+      <input matInput formControlName="bookletDescription" />
+    </mat-form-field>
+    <input
+      id="thumbnail"
+      type="file"
+      (change)="onFileSelected($event)"
+      accept="image/*"
+    />
+    <div *ngIf="!selectedFile && form.get('image')?.touched">
+      Image is required
+    </div>
+
+    <!-- Image preview -->
+    <div *ngIf="previewUrl" class="image-preview">
+      <img [src]="previewUrl" alt="Preview" />
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions class="container-fluid m-2">
+  <button mat-button (click)="closeDialog()" class="m-2">Cancel</button >
+  <button mat-button color="primary" (click)="submitForm()" [disabled]="form.invalid">Save</button>
+</div>
+</div>

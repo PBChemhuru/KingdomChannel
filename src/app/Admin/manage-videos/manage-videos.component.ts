@@ -9,13 +9,15 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteItemDialogComponent } from '../component/delete-item-dialog/delete-item-dialog.component';
 import { EditVideoDialogComponent } from '../component/edit-video-dialog/edit-video-dialog.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { CreateVideoDialogComponent } from '../component/create-video-dialog/create-video-dialog.component';
 
 @Component({
   selector: 'app-manage-videos',
   imports: [ MatPaginatorModule,
     MatSnackBarModule,
     MatTableModule,
-    MatIconModule,],
+    MatIconModule,MatToolbarModule],
   templateUrl: './manage-videos.component.html',
   styleUrl: './manage-videos.component.css'
 })
@@ -97,5 +99,15 @@ export class ManageVideosComponent {
         this.viewVideoDetails(result.videoId);
       }
     });
+  }
+
+  openCreateVideoDialog():void{
+    const dialogRef = this.dialog.open(CreateVideoDialogComponent);
+    dialogRef.afterClosed().subscribe((result)=>{
+      if(result)
+      {
+        this.getVideos();
+      }
+    })
   }
 }

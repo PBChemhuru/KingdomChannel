@@ -1,3 +1,8 @@
+<mat-toolbar color="primary">
+   <button (click)="openCreatePostDialog()">
+      Create Post
+   </button>
+</mat-toolbar>
 <mat-table #table [dataSource]="posts" maSort class="mat-elevation-z8">
     <!-- postId-->
      <ng-container matColumnDef="postId">

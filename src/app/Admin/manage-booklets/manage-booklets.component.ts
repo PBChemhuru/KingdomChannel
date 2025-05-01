@@ -9,13 +9,15 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteItemDialogComponent } from '../component/delete-item-dialog/delete-item-dialog.component';
 import { EditBookletDialogComponent } from '../component/edit-booklet-dialog/edit-booklet-dialog.component';
+import { CreateBookletDialogComponent } from '../component/create-booklet-dialog/create-booklet-dialog.component';
+import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-manage-booklets',
   imports: [MatPaginatorModule,
     MatSnackBarModule,
     MatTableModule,
-    MatIconModule,],
+    MatIconModule,MatToolbarModule],
   templateUrl: './manage-booklets.component.html',
   styleUrl: './manage-booklets.component.css'
 })
@@ -98,4 +100,13 @@ export class ManageBookletsComponent {
       }
     });
   }
+
+  openCreateBookletDialog(): void {
+      const dialogRef = this.dialog.open(CreateBookletDialogComponent);
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.getBooklets();
+        }
+      });
+    }
 }

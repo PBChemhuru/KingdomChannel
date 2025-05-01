@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteItemDialogComponent } from '../component/delete-item-dialog/delete-item-dialog.component';
 import { EditPostDialogComponent } from '../component/edit-post-dialog/edit-post-dialog.component';
+import { MatToolbar } from '@angular/material/toolbar';
+import { CreatePostDialogComponent } from '../component/create-post-dialog/create-post-dialog.component';
 
 @Component({
   selector: 'app-manage-posts',
@@ -17,6 +19,7 @@ import { EditPostDialogComponent } from '../component/edit-post-dialog/edit-post
     MatSnackBarModule,
     MatTableModule,
     MatIconModule,
+    MatToolbar,
   ],
   templateUrl: './manage-posts.component.html',
   styleUrl: './manage-posts.component.css',
@@ -87,7 +90,7 @@ export class ManagePostsComponent implements OnInit {
         console.log('Post deleted successfully:', response);
       },
       error: (error) => {
-        console.error('errror while delete post',error);
+        console.error('errror while delete post', error);
       },
     });
   }
@@ -101,4 +104,12 @@ export class ManagePostsComponent implements OnInit {
     });
   }
 
+  openCreatePostDialog(): void {
+    const dialogRef = this.dialog.open(CreatePostDialogComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getPosts();
+      }
+    });
+  }
 }

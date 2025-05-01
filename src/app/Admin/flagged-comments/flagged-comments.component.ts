@@ -52,7 +52,7 @@ getFlaggedComments():void{
           horizontalPosition: 'center',
         });
     }
-  })
+  }) 
 }
 
 openResolutionDialog():void
