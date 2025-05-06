@@ -1,1 +1,47 @@
-<p>resolution-dialog works!</p>
+<div class="booklet-detail mat-typography bg-light shadow-sm rounded">
+  <mat-card class="detail-card bg-light shadow-none">
+    <mat-card-header>
+      <mat-card-title
+        >Flag Description {{ updatedIssue.flagDescription }}</mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <th scope="row">Comment</th>
+                <td>{{ updatedIssue.comment }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Comment by</th>
+                <td>{{ updatedIssue.commenter }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Flagged by</th>
+                <td>{{ updatedIssue.username }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Resolution</th>
+                <td>{{ updatedIssue.flagResolution }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Resolution Status</th>
+                <td>
+                <span class="badge bg-{{ updatedIssue.flagResolutionStatus? 'success' : 'secondary' }}">
+                    {{ updatedIssue.flagResolutionStatus ? "Resolved" : "Unresolved" }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      <mat-divider class="my-3"></mat-divider>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button class="btn btn-primary m-2" (click)="cancel()">Cancel</button>
+      <button class="btn btn-success  m-2"(click)="save('Comment Unflagged')">Remove Flag</button>
+      <button class="btn btn-danger  m-2" (click)="save('Comment Deleted')">Delete Comment</button>
+    </mat-card-actions>
+  </mat-card>
+  <div class="container-fluid m-5"></div>
+</div>

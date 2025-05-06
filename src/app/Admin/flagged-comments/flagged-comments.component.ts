@@ -43,6 +43,7 @@ getFlaggedComments():void{
     next: (data)=>{
       this.flaggedComments.data = data;
       console.log(this.flaggedComments);
+      
     },
     error:(err) =>{
       console.log(err);
@@ -55,9 +56,9 @@ getFlaggedComments():void{
   }) 
 }
 
-openResolutionDialog():void
+openResolutionDialog(FlaggedComment: any):void
 {
-  const dialogRef =this.dialog.open(ResolutionDialogComponent,{data: this.flaggedComments});
+  const dialogRef =this.dialog.open(ResolutionDialogComponent,{data: FlaggedComment});
   dialogRef.afterClosed().subscribe((result)=> {
     if(result)
     {

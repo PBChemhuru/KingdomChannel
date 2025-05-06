@@ -14,20 +14,34 @@
     <div class="collapse navbar-collapse" id="navbarToggler">
       <a class="navbar-brand" href="#">Hidden brand</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item " >
-          <a class="nav-link " aria-current="page" routerLink="/" routerLinkActive="active ">Home</a>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            aria-current="page"
+            routerLink="/"
+            routerLinkActive="active "
+            >Home</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/posts" routerLinkActive="active">Posts</a>
+          <a class="nav-link" routerLink="/posts" routerLinkActive="active"
+            >Posts</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/videos" routerLinkActive="active">Videos</a>
+          <a class="nav-link" routerLink="/videos" routerLinkActive="active"
+            >Videos</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/booklets" routerLinkActive="active">Booklets</a>
+          <a class="nav-link" routerLink="/booklets" routerLinkActive="active"
+            >Booklets</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/about" routerLinkActive="active">About</a>
+          <a class="nav-link" routerLink="/about" routerLinkActive="active"
+            >About</a
+          >
         </li>
       </ul>
       <div>
@@ -46,12 +60,22 @@
           </li>
         </ul>
       </div>
-      <div>
+      <div *ngIf="!authservice.isLoggedIn(); else loggedInBlock">
         <button data-bs-target="#loginmodal" data-bs-toggle="modal">
           Login
         </button>
-        <button data-bs-target="#registermodal" data-bs-toggle="modal">Register</button>
+        <button data-bs-target="#registermodal" data-bs-toggle="modal">
+          Register
+        </button>
       </div>
+
+      <!-- Show this if logged in -->
+      <ng-template #loggedInBlock>
+        <div>
+          Hi, {{ username }}
+          <button (click)="logout()">Logout</button>
+        </div>
+      </ng-template>
     </div>
   </div>
 </nav>

@@ -6,6 +6,7 @@ import {
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../environment/environment';
+import { FlaggedComment } from '../model/FlaggedComment';
 
 @Injectable({
   providedIn: 'root',
@@ -49,9 +50,9 @@ export class FlaggedcommentsService {
         })
       );
   }
-  updateBooklet(flagId: number): Observable<any> {
+  updateflag(flag:FlaggedComment): Observable<any> {
     return this.http
-      .put(`${this.apiUrl}/updateBooklet/${flagId}`, {
+      .put(`${this.apiUrl}/resolvepostCommentFlag/${flag.flagId}`,flag, {
         headers: this.getAuthHeaders(),
       })
       .pipe(
@@ -66,20 +67,5 @@ export class FlaggedcommentsService {
       );
   }
 
-  deleteBooklet(flaggedCommentId: number): Observable<any> {
-    return this.http
-      .delete(`${this.apiUrl}/deleteBooklet/${flaggedCommentId}`, {
-        headers: this.getAuthHeaders(),
-      })
-      .pipe(
-        catchError((error: HttpErrorResponse) => {
-          let errorMessage = 'An error occurred while deleting comment.';
-          if (error.status === 404) {
-            errorMessage = 'comment not Found';
-          }
-          console.error('Error deleting comment', error);
-          return throwError(() => new Error('Failed to retrieve comment'));
-        })
-      );
-  }
+  
 }

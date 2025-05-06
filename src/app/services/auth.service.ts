@@ -7,7 +7,7 @@ import { environment } from '../../environment/environment';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl =environment.apiUrl;
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string): Observable<any> {
@@ -40,7 +40,7 @@ export class AuthService {
     }
     const logoutPayload = { token: token };
     return this.http
-      .post(`${this.apiUrl}\Logout`, logoutPayload, {
+      .post(`${this.apiUrl}/Logout`, {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
@@ -57,17 +57,28 @@ export class AuthService {
       );
   }
 
-  getUserInfoFromToken(token:string):any {
-    try
-    {
-      const payloadBase64 =token.split('.')[1];
+  getUserInfoFromToken(token: string): any {
+    try {
+      const payloadBase64 = token.split('.')[1];
       const decodedPayload = atob(payloadBase64);
       return JSON.parse(decodedPayload);
-    }
-    catch (error)
-    {
+    } catch (error) {
       console.error('Error decoding the token', error);
       return throwError(() => new Error('Token Error'));
+    }
+  }
+  isLoggedIn(): boolean {
+    return !!sessionStorage.getItem('jwtToken');
+  }
+
+  getUsername(): string | null {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) return null;
+    try {
+      const user = this.getUserInfoFromToken(token);
+      return user?.unique_name || null;
+    } catch {
+      return null;
     }
   }
 }
