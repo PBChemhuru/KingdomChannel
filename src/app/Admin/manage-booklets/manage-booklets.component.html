@@ -1,9 +1,11 @@
+
 <mat-toolbar color="primary">
    <button (click)="openCreateBookletDialog()">
       Post Booklet
-   </button>
+   </button> 
+   <app-searchbar (filtersChange)="onFiltersChanged($event)"></app-searchbar>
 </mat-toolbar>
-<mat-table #table [dataSource]="booklets" maSort class="mat-elevation-z8">
+<mat-table #table [dataSource]="booklets" matSort class="mat-elevation-z8">
     <!-- postId-->
      <ng-container matColumnDef="bookletId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>BookletId</th>

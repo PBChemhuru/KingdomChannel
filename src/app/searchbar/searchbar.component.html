@@ -1,1 +1,17 @@
-<p>searchbar works!</p>
+<div class="filter-bar">
+    <mat-form-field>
+      <input matInput placeholder="Search..." [(ngModel)]="searchTerm" (keyup)="onSearch()" />
+    </mat-form-field>
+  
+    <mat-form-field>
+      <input matInput [matDatepicker]="start" placeholder="Start Date" [(ngModel)]="startDate" (dateChange)="onStartDateChange($event)" />
+      <mat-datepicker-toggle matSuffix [for]="start"></mat-datepicker-toggle>
+      <mat-datepicker #start></mat-datepicker>
+    </mat-form-field>
+  
+    <mat-form-field>
+      <input matInput [matDatepicker]="end" placeholder="End Date" [(ngModel)]="endDate" (dateChange)="onEndDateChange($event)" />
+      <mat-datepicker-toggle matSuffix [for]="end"></mat-datepicker-toggle>
+      <mat-datepicker #end></mat-datepicker>
+    </mat-form-field>
+  </div>

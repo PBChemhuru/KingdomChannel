@@ -1,4 +1,28 @@
-<mat-toolbar color="primary">Admin Dashboard</mat-toolbar>
+<mat-toolbar color="primary"
+  ><nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand text-light" href="#" >AdminDashBoard</a>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link text-light" routerLink="/" routerLinkActive="active"
+              >User Site</a
+            >
+          </li>
+        </ul>
+    </div>
+    <div>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item disabled>Hi, {{ username }}</button>
+        <button mat-menu-item (click)="logout()">Logout</button>
+      </mat-menu>
+      
+      <button mat-button [matMenuTriggerFor]="userMenu">
+        {{ username }}
+      </button>
+      <mat-icon>arrow_drop_down</mat-icon>
+    </div>
+  </nav></mat-toolbar
+>
 <mat-sidenav-container class="admin-container">
   <mat-sidenav mode="side" opened>
     <mat-nav-list>
@@ -9,7 +33,7 @@
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content>
+  <mat-sidenav-content class="me-2">
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

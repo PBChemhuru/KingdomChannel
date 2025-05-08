@@ -81,4 +81,15 @@ export class AuthService {
       return null;
     }
   }
+
+  getRole(): string | null {
+    const token = sessionStorage.getItem('jwtToken');
+    if (!token) return null;
+    try {
+      const user = this.getUserInfoFromToken(token);
+      return user?.role || null;
+    } catch {
+      return null;
+    }
+  }
 }

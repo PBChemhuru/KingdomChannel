@@ -1,9 +1,10 @@
 <mat-toolbar color="primary">
    <button (click)="openCreatePostDialog()">
       Create Post
-   </button>
+   </button><br>
+   <app-searchbar (filtersChange)="onFiltersChanged($event)"></app-searchbar>
 </mat-toolbar>
-<mat-table #table [dataSource]="posts" maSort class="mat-elevation-z8">
+<mat-table #table [dataSource]="posts" matSort class="mat-elevation-z8">
     <!-- postId-->
      <ng-container matColumnDef="postId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>PostId</th>

@@ -11,22 +11,29 @@ import { DeleteItemDialogComponent } from '../component/delete-item-dialog/delet
 import { EditBookletDialogComponent } from '../component/edit-booklet-dialog/edit-booklet-dialog.component';
 import { CreateBookletDialogComponent } from '../component/create-booklet-dialog/create-booklet-dialog.component';
 import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
+import { SearchbarComponent } from '../../searchbar/searchbar.component';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 @Component({
   selector: 'app-manage-booklets',
-  imports: [MatPaginatorModule,
+  imports: [
+    MatPaginatorModule,
     MatSnackBarModule,
     MatTableModule,
-    MatIconModule,MatToolbarModule],
+    MatIconModule,
+    MatToolbarModule,
+    SearchbarComponent,
+    MatSortModule
+  ],
   templateUrl: './manage-booklets.component.html',
-  styleUrl: './manage-booklets.component.css'
+  styleUrl: './manage-booklets.component.css',
 })
 export class ManageBookletsComponent {
   constructor(
     private snackbar: MatSnackBar,
     private bookletService: BookletsService,
     private router: Router,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) {}
 
   booklets: MatTableDataSource<Booklet> = new MatTableDataSource<Booklet>([]);
@@ -38,13 +45,28 @@ export class ManageBookletsComponent {
     'updatedAt',
     'actions',
   ];
-  searchKey: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
     this.getBooklets();
+    this.booklets.filterPredicate = (data: Booklet, filter: string) => {
+      const f = JSON.parse(filter);
+
+      const matchesSearch =
+        !f.search ||
+        data.bookletTitle.toLowerCase().includes(f.search) ||
+        data.bookletDescription.toLowerCase().includes(f.search);
+
+      const updatedAt = new Date(data.updatedAt);
+      const inStartRange = !f.startDate || updatedAt >= new Date(f.startDate);
+      const inEndRange = !f.endDate || updatedAt <= new Date(f.endDate);
+
+      return matchesSearch && inStartRange && inEndRange;
+    };
   }
   ngAfterViewInit(): void {
+    this.booklets.sort =this.sort;
     this.booklets.paginator = this.paginator;
   }
 
@@ -62,6 +84,24 @@ export class ManageBookletsComponent {
         });
       },
     });
+  }
+
+  onFiltersChanged(filters: {
+    search?: string;
+    startDate?: Date;
+    endDate?: Date;
+  }) {
+    const filterStr = JSON.stringify({
+      search: filters.search?.toLowerCase() ?? '',
+      startDate: filters.startDate,
+      endDate: filters.endDate,
+    });
+
+    this.booklets.filter = filterStr;
+
+    if (this.booklets.paginator) {
+      this.booklets.paginator.firstPage();
+    }
   }
 
   viewBookletDetails(bookletId: string): void {
@@ -87,13 +127,15 @@ export class ManageBookletsComponent {
         console.log('Booklet deleted successfully:', response);
       },
       error: (error) => {
-        console.error('errror while delete booklet',error);
+        console.error('errror while delete booklet', error);
       },
     });
   }
 
   openEditDialog(booklet: any): void {
-    const dialogRef = this.dialog.open(EditBookletDialogComponent, { data: booklet });
+    const dialogRef = this.dialog.open(EditBookletDialogComponent, {
+      data: booklet,
+    });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.viewBookletDetails(result.bookletId);
@@ -102,11 +144,11 @@ export class ManageBookletsComponent {
   }
 
   openCreateBookletDialog(): void {
-      const dialogRef = this.dialog.open(CreateBookletDialogComponent);
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
-          this.getBooklets();
-        }
-      });
-    }
+    const dialogRef = this.dialog.open(CreateBookletDialogComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.getBooklets();
+      }
+    });
+  }
 }

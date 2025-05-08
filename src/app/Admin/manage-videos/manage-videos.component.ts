@@ -11,13 +11,15 @@ import { DeleteItemDialogComponent } from '../component/delete-item-dialog/delet
 import { EditVideoDialogComponent } from '../component/edit-video-dialog/edit-video-dialog.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CreateVideoDialogComponent } from '../component/create-video-dialog/create-video-dialog.component';
+import { SearchbarComponent } from "../../searchbar/searchbar.component";
+import { MatSortModule,MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-manage-videos',
-  imports: [ MatPaginatorModule,
+  imports: [MatPaginatorModule,
     MatSnackBarModule,
     MatTableModule,
-    MatIconModule,MatToolbarModule],
+    MatIconModule, MatToolbarModule, SearchbarComponent,MatSortModule],
   templateUrl: './manage-videos.component.html',
   styleUrl: './manage-videos.component.css'
 })
@@ -40,11 +42,27 @@ export class ManageVideosComponent {
   ];
   searchKey: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!:MatSort;
 
   ngOnInit(): void {
     this.getVideos();
+    this.videos.filterPredicate = (data: Video, filter: string) => {
+          const f = JSON.parse(filter);
+    
+          const matchesSearch =
+            !f.search ||
+            data.videoTitle.toLowerCase().includes(f.search) ||
+            data.videoDescription.toLowerCase().includes(f.search);
+    
+          const updatedAt = new Date(data.updatedAt);
+          const inStartRange = !f.startDate || updatedAt >= new Date(f.startDate);
+          const inEndRange = !f.endDate || updatedAt <= new Date(f.endDate);
+    
+          return matchesSearch && inStartRange && inEndRange;
+        };
   }
   ngAfterViewInit(): void {
+    this.videos.sort = this.sort;
     this.videos.paginator = this.paginator;
   }
 
@@ -66,6 +84,24 @@ export class ManageVideosComponent {
 
   viewVideoDetails(videoId: string): void {
     this.router.navigate([`getvideo/${videoId}`]);
+  }
+
+  onFiltersChanged(filters: {
+    search?: string;
+    startDate?: Date;
+    endDate?: Date;
+  }) {
+    const filterStr = JSON.stringify({
+      search: filters.search?.toLowerCase() ?? '',
+      startDate: filters.startDate,
+      endDate: filters.endDate,
+    });
+
+    this.videos.filter = filterStr;
+
+    if (this.videos.paginator) {
+      this.videos.paginator.firstPage();
+    }
   }
 
   openDeleteDialog(item: any): void {

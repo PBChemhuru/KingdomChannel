@@ -1,6 +1,8 @@
 <mat-toolbar color="primary">
-  <button (click)="openCreateVideoDialog()">Post Video</button> </mat-toolbar
-><mat-table #table [dataSource]="videos" maSort class="mat-elevation-z8">
+  <button (click)="openCreateVideoDialog()">Post Video</button><br>
+  <app-searchbar (filtersChange)="onFiltersChanged($event)"></app-searchbar>
+   </mat-toolbar
+><mat-table #table [dataSource]="videos" matSort class="mat-elevation-z8">
   <!-- postId-->
   <ng-container matColumnDef="videoId">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>VideoId</th>

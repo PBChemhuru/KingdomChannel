@@ -11,6 +11,8 @@ import { DeleteItemDialogComponent } from '../component/delete-item-dialog/delet
 import { EditPostDialogComponent } from '../component/edit-post-dialog/edit-post-dialog.component';
 import { MatToolbar } from '@angular/material/toolbar';
 import { CreatePostDialogComponent } from '../component/create-post-dialog/create-post-dialog.component';
+import { SearchbarComponent } from '../../searchbar/searchbar.component';
+import { MatSortModule,MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-manage-posts',
@@ -20,6 +22,8 @@ import { CreatePostDialogComponent } from '../component/create-post-dialog/creat
     MatTableModule,
     MatIconModule,
     MatToolbar,
+    SearchbarComponent,
+    MatSortModule
   ],
   templateUrl: './manage-posts.component.html',
   styleUrl: './manage-posts.component.css',
@@ -42,12 +46,25 @@ export class ManagePostsComponent implements OnInit {
   ];
   searchKey: string = '';
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!:MatSort;
 
   ngOnInit(): void {
     this.getPosts();
-    console.log(this.posts);
+    this.posts.filterPredicate = (data: Post, filter: string) => {
+      const f = JSON.parse(filter);
+
+      const matchesSearch =
+        !f.search || data.postTitle.toLowerCase().includes(f.search);
+
+      const updatedAt = new Date(data.updatedAt);
+      const inStartRange = !f.startDate || updatedAt >= new Date(f.startDate);
+      const inEndRange = !f.endDate || updatedAt <= new Date(f.endDate);
+
+      return matchesSearch && inStartRange && inEndRange;
+    };
   }
   ngAfterViewInit(): void {
+    this.posts.sort = this.sort;
     this.posts.paginator = this.paginator;
   }
 
@@ -69,6 +86,24 @@ export class ManagePostsComponent implements OnInit {
 
   viewPostDetails(postId: string): void {
     this.router.navigate([`post/${postId}`]);
+  }
+
+  onFiltersChanged(filters: {
+    search?: string;
+    startDate?: Date;
+    endDate?: Date;
+  }) {
+    const filterStr = JSON.stringify({
+      search: filters.search?.toLowerCase() ?? '',
+      startDate: filters.startDate,
+      endDate: filters.endDate,
+    });
+
+    this.posts.filter = filterStr;
+
+    if (this.posts.paginator) {
+      this.posts.paginator.firstPage();
+    }
   }
 
   openDeleteDialog(item: any): void {
