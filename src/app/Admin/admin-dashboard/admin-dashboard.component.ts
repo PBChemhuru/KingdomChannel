@@ -27,12 +27,6 @@ ngOnInit(): void {
 }
 logout():void
   {
-    this.authservice.logout().subscribe({
-      next:()=>
-      {
-        location.reload();
-      },
-      error: (err) => console.error(err),
-    })
+    this.authservice.logout()
   }
 }

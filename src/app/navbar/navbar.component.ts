@@ -26,12 +26,6 @@ export class NavbarComponent implements OnInit {
 
   logout():void
   {
-    this.authservice.logout().subscribe({
-      next:()=>
-      {
-        location.reload();
-      },
-      error: (err) => console.error(err),
-    })
+    this.authservice.logout();
   }
 }

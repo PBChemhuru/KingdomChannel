@@ -1,14 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, throwError, tap, Observable } from 'rxjs';
+import { catchError, throwError, tap, Observable, switchMap } from 'rxjs';
 import { environment } from '../../environment/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = environment.apiUrl;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private router:Router) {}
 
   login(username: string, password: string): Observable<any> {
     const loginpayload = {
@@ -21,6 +22,7 @@ export class AuthService {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
+        withCredentials:true,
       })
       .pipe(
         catchError((error) => {
@@ -29,30 +31,6 @@ export class AuthService {
         }),
         tap((response) => {
           console.log(response);
-        })
-      );
-  }
-
-  logout(): Observable<any> {
-    const token = sessionStorage.getItem('jwtToken');
-    if (!token) {
-      return throwError(() => new Error('No token found'));
-    }
-    const logoutPayload = { token: token };
-    return this.http
-      .post(`${this.apiUrl}/Logout`, {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-      })
-      .pipe(
-        catchError((error) => {
-          console.error('Logout Error', error);
-          return throwError(() => new Error('Logout Failed'));
-        }),
-        tap((response) => {
-          console.log('Logout Successful:', response);
-          sessionStorage.removeItem('jwtToken');
         })
       );
   }
@@ -92,4 +70,25 @@ export class AuthService {
       return null;
     }
   }
+
+  refreshToken(): Observable<{ accessToken: string }> {
+    return this.http.post<{ accessToken: string }>(
+      `/refresh`,
+      {},
+      { withCredentials: true }
+    );
+  }
+  
+  logout(): void {
+  this.http.post(`${this.apiUrl}/Logout`, {}, { withCredentials: true }).subscribe({
+    next: () => {
+      sessionStorage.removeItem('jwtToken');
+      this.router.navigate(['/']);
+    },
+    error: () => {
+      sessionStorage.removeItem('jwtToken');
+      this.router.navigate(['/']);
+    }
+  });
+}
 }

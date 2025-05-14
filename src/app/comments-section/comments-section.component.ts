@@ -47,9 +47,11 @@ export class CommentsSectionComponent implements OnInit {
   }
 
   getComments(id: number): void {
+      
     this.commentService.getCommentsByContentType(this.contentType, id).subscribe({
       next: (data) => {
         this.comments = data;
+         console.log(data);
       },
       error: (error) => {
         console.error(error);

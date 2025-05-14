@@ -57,6 +57,7 @@ export class AddCommentComponent implements OnInit {
             duration: 3000,
             verticalPosition: 'top',
           });
+          console.log(response);
           this.commentPosted.emit();
           this.newComment = '';
         },

@@ -6,6 +6,8 @@ import { NavbarComponent } from "../../../navbar/navbar.component";
 import { Booklet } from '../../../model/Booklet';
 import { LikesService } from '../../../services/likes.service';
 import { Like } from '../../../model/Like';
+import { CommentsService } from '../../../services/comment.service';
+import { ContentType } from '../../../model/ContentType.enum';
 
 @Component({
   selector: 'app-booklet-card',
@@ -16,12 +18,27 @@ import { Like } from '../../../model/Like';
 export class BookletCardComponent implements OnInit {
 @Input() booklet!:Booklet;
 likecounter!:number;
-constructor(private likesServices:LikesService){}
+commentcounter!:number;
+constructor(private likesServices:LikesService, private commentservice:CommentsService){}
 ngOnInit(): void {
   
 this.getlikes(this.booklet.bookletId,"booklet");
+this.getcomments(this.booklet.bookletId);
 }
 
+getcomments(id:number)
+{
+
+this.commentservice.getCommentsByContentType(ContentType.Booklet,id).subscribe({
+  next: (data) => {
+    this.commentcounter =data.length;
+  },
+  error: (err) => {
+    console.log(err);
+  }
+})
+
+}
 getlikes(id:number,contentType:string)
 {
   this.likesServices.getLikes(id,contentType).subscribe({

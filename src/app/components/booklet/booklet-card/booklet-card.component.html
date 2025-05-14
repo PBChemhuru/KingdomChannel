@@ -10,7 +10,7 @@
     </mat-card-content>
     <mat-card-actions>
         <button (click)="like(booklet.bookletId,'booklet')"><i class="bi bi-hand-thumbs-up">{{likecounter}}</i></button>
-        <button><i class="bi bi-chat-text"></i></button>
+        <button><i class="bi bi-chat-text" routerLink="/booklets/{{booklet.bookletId}}" routerLinkActive="active ">{{commentcounter}}</i></button>
         <button class="btn btn-primary" routerLink="/booklets/{{booklet.bookletId}}" routerLinkActive="active ">Read More</button>
     </mat-card-actions>
 </mat-card>
