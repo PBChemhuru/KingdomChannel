@@ -31,7 +31,7 @@ export class LikesService {
 
     return this.http
       .get(`${this.apiUrl}/getLikes`, {
-        headers: this.getAuthHeaders(),
+       withCredentials: true, 
         params,
       })
       .pipe(

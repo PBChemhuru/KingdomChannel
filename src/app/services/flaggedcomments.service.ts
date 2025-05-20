@@ -26,7 +26,7 @@ export class FlaggedcommentsService {
 
   getFlaggedComments(): Observable<any> {
     return this.http.get(`${this.apiUrl}/getFlaggedComments`, {
-      headers: this.getAuthHeaders(),
+     withCredentials: true, 
     });
   }
   flagComment(commentId: number, flagDescription: string): Observable<any> {
@@ -37,7 +37,7 @@ export class FlaggedcommentsService {
     };
     return this.http
       .post(`${this.apiUrl}/flagComment`, payload, {
-        headers: this.getAuthHeaders(),
+       withCredentials: true, 
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {
@@ -53,7 +53,7 @@ export class FlaggedcommentsService {
   updateflag(flag:FlaggedComment): Observable<any> {
     return this.http
       .put(`${this.apiUrl}/resolvepostCommentFlag/${flag.flagId}`,flag, {
-        headers: this.getAuthHeaders(),
+       withCredentials: true, 
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {

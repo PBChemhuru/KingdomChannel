@@ -42,7 +42,7 @@ export class VideosService {
 
     updateVideo(video:Video):Observable<any>
       {
-        return this.http.put(`${this.apiUrl}/updateVideo/${video.videoId}`,video,{headers:this.getAuthHeaders(),}).pipe(
+        return this.http.put(`${this.apiUrl}/updateVideo/${video.videoId}`,video,{withCredentials: true, }).pipe(
           catchError((error:HttpErrorResponse)=>{
             let errorMessage = 'An error occurred while updating video.';
             if(error.status === 404)
