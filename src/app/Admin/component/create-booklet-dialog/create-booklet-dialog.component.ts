@@ -20,9 +20,9 @@ previewUrl: string | ArrayBuffer | null = null;
 constructor(private booksService:BookletsService,private snackbar:MatSnackBar,private fb:FormBuilder,private dialogRef:MatDialogRef<CreateBookletDialogComponent>)
 {
   this.form= this.fb.group({
-    bookletTitle:['',Validators.required,Validators.maxLength(200)],
-    bookletLink:['',Validators.required,Validators.maxLength(500)],
-    bookletDescription:['',Validators.required,Validators.maxLength(1200)],
+    bookletTitle:['',[Validators.required,Validators.maxLength(200)]],
+    bookletLink:['',[Validators.required,Validators.maxLength(500)]],
+    bookletDescription:['',[Validators.required,Validators.maxLength(1200)]],
     thumbnail:[null,Validators.required],
   });
 }
@@ -31,8 +31,24 @@ closeDialog(): void {
 }
 
 submitForm(): void {
-  if (this.form.valid) {
-    this.dialogRef.close(this.form.value);
+  if (this.form.valid && this.selectedFile) {
+    const formData = new FormData();
+    formData.append('bookletTitle',this.form.value.bookletTitle);
+    formData.append('bookletLink',this.form.value.bookletLink);
+    formData.append('bookletDescription',this.form.value.bookletDescription);
+    formData.append('thumbnail',this.selectedFile);
+    console.log(formData.values);
+    this.booksService.createBooklet(formData).subscribe({
+      next:() => {
+        this.snackbar.open('Booklet was created successfully!','close',{duration:300,horizontalPosition:'center',verticalPosition:'top'});
+        this.dialogRef.close(true);
+      },
+      error:(err) => {
+        console.error('Failed to create booklet:',err);
+        this.snackbar.open('Failed to create booklet','close',{horizontalPosition:'center',verticalPosition:'top'});
+
+      }
+    });
   }
 }
 

@@ -24,15 +24,19 @@
         <input matInput [(ngModel)]="booklet.bookletLink" name="bookletLink" required />
       </mat-form-field>
 
-    <mat-form-field class="full-width">
-      <mat-label>Thumbnail</mat-label>
       <input
-        matInput
-        [(ngModel)]="booklet.thumbnail"
-        name="thumbnail"
-        required
+        id="thumbnail"
+        type="file"
+        (change)="onFileSelected($event)"
+        accept="image/*"
       />
-    </mat-form-field>
+      <div *ngIf="!selectedFile">
+        Image is required
+      </div>
+
+      <div *ngIf="previewUrl" class="image-preview mt-2">
+        <img [src]="previewUrl" alt="Preview" style="max-height: 200px;" />
+      </div>
 
     <div mat-dialog-actions>
       <button mat-button (click)="onCancel()">Cancel</button>

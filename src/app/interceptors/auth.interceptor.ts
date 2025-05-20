@@ -22,7 +22,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:H
             sessionStorage.setItem('jwtToken',newToken);
 
             const retryReq = req.clone({
-              setHeaders:{Authorization:`Bearer ${token}`,},
+              setHeaders:{Authorization:`Bearer ${newToken}`,},
             });
             return next(retryReq);
           }),

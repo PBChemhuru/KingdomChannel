@@ -80,4 +80,20 @@ export class BookletsService {
         })
       );
   }
+
+  createBooklet(formData : FormData):Observable<any>
+  {
+   return this.http
+      .post(`${this.apiUrl}/createBooklet`,formData, {
+       withCredentials: true,
+       headers:this.getAuthHeaders(),
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          let errorMessage = 'An error occurred while adding booklet.';
+          console.error('Error adding booklet', error);
+          return throwError(() => new Error('Failed to adding'));
+        })
+      );
+  } 
 }
