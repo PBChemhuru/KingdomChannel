@@ -5,7 +5,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { Post } from '../../../model/Post';
 import { PostsService } from '../../../services/posts.service';
 
@@ -22,12 +22,21 @@ import { PostsService } from '../../../services/posts.service';
 })
 export class EditPostDialogComponent {
  post:Post;
+ form:FormGroup
+ selectedFile:File| null = null;
+ previewUrl:string | ArrayBuffer | null = null;
  isLoading = false;
  errorMessage: string | null = null
 
- constructor(public dialogRef: MatDialogRef<EditPostDialogComponent>,@Inject(MAT_DIALOG_DATA) public data:Post,private postservice:PostsService)
+ constructor(public dialogRef: MatDialogRef<EditPostDialogComponent>,@Inject(MAT_DIALOG_DATA) public data:Post,private postservice:PostsService,private fb:FormBuilder)
  {
   this.post={...data};
+  this.form = this.fb.group({
+    bookletTitle:['',[Validators.required,Validators.maxLength(200)]],
+    bookletLink:['',[Validators.required,Validators.maxLength(500)]],
+    bookletDescription:['',[Validators.required,Validators.maxLength(1200)]],
+    thumbnail:[null,Validators.required],
+  })
  }
 
  submitChanges()
@@ -50,4 +59,24 @@ export class EditPostDialogComponent {
  onCancel(): void {
   this.dialogRef.close();
 }
+
+ onFileSelected(event:Event):void{
+  const input = event.target as HTMLInputElement;
+  if(input.files && input.files.length>0)
+  {
+    this.selectedFile = input.files[0];
+    this.form.patchValue({thumbnail:this.selectedFile});
+    const reader = new FileReader();
+    reader.onload = () =>{
+      this.previewUrl = reader.result;
+    };
+    reader.readAsDataURL(this.selectedFile);
+    }
+    else
+    {
+      this.selectedFile = null;
+      this.previewUrl = null;
+      this.form.patchValue({image:null});
+    }
+  }
 }

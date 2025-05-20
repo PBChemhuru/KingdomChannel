@@ -70,4 +70,19 @@ import { Post } from '../model/Post';
       })
     )
   }
+
+  createPost(formData : FormData):Observable<any>
+  {
+   return this.http
+      .post(`${this.apiUrl}/createPost`,formData, {
+       withCredentials: true,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          let errorMessage = 'An error occurred while adding post.';
+          console.error('Error adding post', error);
+          return throwError(() => new Error('Failed to adding'));
+        })
+      );
+  } 
   }

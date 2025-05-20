@@ -19,15 +19,20 @@
       <input matInput [(ngModel)]="post.postContent" name="postContent" required />
     </mat-form-field>
 
-    <mat-form-field class="full-width">
-      <mat-label>Thumbnail</mat-label>
-      <input
-        matInput
-        [(ngModel)]="post.thumbnail"
-        name="thumbnail"
-        required
+    <input
+        id="thumbnail"
+        type="file"
+        (change)="onFileSelected($event)"
+        accept="image/*"
       />
-    </mat-form-field>
+      <div *ngIf="!selectedFile">
+        Image is required
+      </div>
+
+      <div *ngIf="previewUrl" class="image-preview mt-2">
+        <img [src]="previewUrl" alt="Preview" style="max-height: 200px;" />
+      </div>
+      
 
     <div mat-dialog-actions>
       <button mat-button (click)="onCancel()">Cancel</button>

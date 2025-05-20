@@ -69,4 +69,19 @@ export class VideosService {
           })
         )
       }
+
+      createVideo(formData : FormData):Observable<any>
+  {
+   return this.http
+      .post(`${this.apiUrl}/createVideo`,formData, {
+       withCredentials: true,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          let errorMessage = 'An error occurred while adding video.';
+          console.error('Error adding video', error);
+          return throwError(() => new Error('Failed to adding video'));
+        })
+      );
+  } 
 }

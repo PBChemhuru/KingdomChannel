@@ -47,9 +47,9 @@ export class BookletsService {
       );
   }
 
-  updateBooklet(booklet: Booklet): Observable<any> {
+  updateBooklet(formData : FormData,bookletid: number): Observable<any> {
     return this.http
-      .put(`${this.apiUrl}/updateBooklet/${booklet.bookletId}`, booklet, {
+      .put(`${this.apiUrl}/updateBooklet/${bookletid}`,formData , {
        withCredentials: true, 
       })
       .pipe(

@@ -1,46 +1,76 @@
 <h2 mat-dialog-title>Edit Booklet Information</h2>
 <mat-dialog-content>
-  <form (ngSubmit)="submitChanges()">
+  <form [formGroup]="form" (ngSubmit)="submitChanges()" novalidate>
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
     <mat-form-field class="full-width">
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
       <mat-label>Booklet Title</mat-label>
-      <input
-        matInput
-        [(ngModel)]="booklet.bookletTitle"
-        name="bookletTitle"
-        required
-      />
+      <input matInput formControlName="bookletTitle" required />
+      <mat-error *ngIf="form.get('bookletTitle')?.hasError('required')">
+        Title is required
+      </mat-error>
+      <mat-error *ngIf="form.get('bookletTitle')?.hasError('maxlength')">
+        Max 200 characters allowed
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="full-width">
       <mat-label>Booklet Description</mat-label>
-      <input matInput [(ngModel)]="booklet.bookletDescription" name="bookletDescription" required />
+      <textarea
+        matInput
+        formControlName="bookletDescription"
+        required
+        rows="3"
+      ></textarea>
+      <mat-error *ngIf="form.get('bookletDescription')?.hasError('required')">
+        Description is required
+      </mat-error>
+      <mat-error *ngIf="form.get('bookletDescription')?.hasError('maxlength')">
+        Max 1200 characters allowed
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field class="full-width">
-        <mat-label>Booklet Link</mat-label>
-        <input matInput [(ngModel)]="booklet.bookletLink" name="bookletLink" required />
-      </mat-form-field>
+      <mat-label>Booklet Link</mat-label>
+      <input matInput formControlName="bookletLink" required />
+      <mat-error *ngIf="form.get('bookletLink')?.hasError('required')">
+        Link is required
+      </mat-error>
+      <mat-error *ngIf="form.get('bookletLink')?.hasError('maxlength')">
+        Max 500 characters allowed
+      </mat-error>
+    </mat-form-field>
 
+    <div class="file-upload">
+      <label for="thumbnail">Upload Thumbnail</label><br />
       <input
         id="thumbnail"
         type="file"
         (change)="onFileSelected($event)"
         accept="image/*"
       />
-      <div *ngIf="!selectedFile">
-        Image is required
-      </div>
+    </div>
 
-      <div *ngIf="previewUrl" class="image-preview mt-2">
-        <img [src]="previewUrl" alt="Preview" style="max-height: 200px;" />
-      </div>
+    <div *ngIf="!previewUrl && !selectedFile" class="error-message">
+      Thumbnail image is required
+    </div>
 
-    <div mat-dialog-actions>
-      <button mat-button (click)="onCancel()">Cancel</button>
-      <button mat-button color="primary" type="submit">Save Changes</button>
+    <div *ngIf="previewUrl" class="image-preview mt-2">
+      <img [src]="previewUrl" alt="Preview" style="max-height: 200px;" />
+    </div>
+
+    <div mat-dialog-actions align="end">
+      <button mat-button type="button" (click)="onCancel()">Cancel</button>
+      <button
+        mat-button
+        color="primary"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Save Changes
+      </button>
     </div>
   </form>
 </mat-dialog-content>
