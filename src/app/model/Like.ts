@@ -3,8 +3,10 @@ export interface Like {
   postId: number,
   bookletId: number;
   userId: number;
+  thumbnail:string;
+  title:string;
+  url:string;
   createdAt: Date;
   updatedAt:Date;
-
   }
   

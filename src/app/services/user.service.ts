@@ -36,5 +36,20 @@ export class UserService {
     )
   }
 
+  getuser(userId:number):Observable<any>
+  {
+    return this.http.get(`${this.apiUrl}/userprofile/${userId}`,{withCredentials:true}).pipe(
+      catchError((error:HttpErrorResponse)=>{
+        let errorMessage = 'An error occurred while registering user.';
+        if(error.status === 400)
+        {
+          errorMessage = 'Bad request'
+        }
+        console.error('Error Registering User',error)
+        return throwError(()=> new Error('Registeration Failed'));
+      })
+    )
+  }
+
 
 }

@@ -40,9 +40,9 @@ export class VideosService {
       );
     }
 
-    updateVideo(video:Video):Observable<any>
+    updateVideo(formData:FormData,videoId:number):Observable<any>
       {
-        return this.http.put(`${this.apiUrl}/updateVideo/${video.videoId}`,video,{withCredentials: true, }).pipe(
+        return this.http.put(`${this.apiUrl}/updateVideo/${videoId}`,formData,{withCredentials: true, }).pipe(
           catchError((error:HttpErrorResponse)=>{
             let errorMessage = 'An error occurred while updating video.';
             if(error.status === 404)
@@ -73,7 +73,7 @@ export class VideosService {
       createVideo(formData : FormData):Observable<any>
   {
    return this.http
-      .post(`${this.apiUrl}/createVideo`,formData, {
+      .post(`${this.apiUrl}/addVideo`,formData, {
        withCredentials: true,
       })
       .pipe(

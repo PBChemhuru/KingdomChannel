@@ -36,8 +36,8 @@ export class CreatePostDialogComponent {
     private dialogRef: MatDialogRef<CreatePostDialogComponent>
   ) {
     this.form = this.fb.group({
-      postTitle: ['', Validators.required, Validators.maxLength(200)],
-      postContent: ['', Validators.required, Validators.maxLength(1200)],
+      postTitle: ['', [Validators.required, Validators.maxLength(200)]],
+      postContent: ['',[Validators.required, Validators.maxLength(1200)]],
       thumbnail: [null, Validators.required],
     });
   }
@@ -46,8 +46,23 @@ export class CreatePostDialogComponent {
   }
 
   submitForm(): void {
-    if (this.form.valid) {
-      this.dialogRef.close(this.form.value);
+    if (this.form.valid && this.selectedFile) {
+      const formData = new FormData();
+      formData.append('postTitle', this.form.value.postTitle);
+      formData.append('postContent', this.form.value.postContent);
+      formData.append('thumbnail', this.selectedFile);
+      console.log(this.form.value.postTitle,this.form.value.postContent,this.selectedFile);
+      this.postService.createPost(formData).subscribe({
+        next:()=>{
+          this.snackbar.open('Post created successfully!','close',{duration:300,horizontalPosition:'center',verticalPosition:'top'});
+          this.dialogRef.close(true);
+        },
+        error:(err) => {
+          console.error('Failed to create Post:',err);
+          this.snackbar.open('Failed to create booklet','close',{horizontalPosition:'center',verticalPosition:'top'});
+
+        }
+      });
     }
   }
 
@@ -63,12 +78,10 @@ export class CreatePostDialogComponent {
         this.previewUrl = reader.result;
       };
       reader.readAsDataURL(this.selectedFile);
-    }
-    else
-    {
+    } else {
       this.selectedFile = null;
       this.previewUrl = null;
-      this.form.patchValue({image:null});
+      this.form.patchValue({ image: null });
     }
   }
 }

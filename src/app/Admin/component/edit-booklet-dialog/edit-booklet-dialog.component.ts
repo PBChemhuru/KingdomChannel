@@ -72,7 +72,6 @@ export class EditBookletDialogComponent {
     formData.append('bookletTitle', this.form.value.bookletTitle);
     formData.append('bookletLink', this.form.value.bookletLink);
     formData.append('bookletDescription', this.form.value.bookletDescription);
-    console.log(formData.append);
     if (this.selectedFile) {
       formData.append('thumbnail', this.selectedFile);
     }

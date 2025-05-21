@@ -37,7 +37,6 @@ submitForm(): void {
     formData.append('bookletLink',this.form.value.bookletLink);
     formData.append('bookletDescription',this.form.value.bookletDescription);
     formData.append('thumbnail',this.selectedFile);
-    console.log(formData.values);
     this.booksService.createBooklet(formData).subscribe({
       next:() => {
         this.snackbar.open('Booklet was created successfully!','close',{duration:300,horizontalPosition:'center',verticalPosition:'top'});
@@ -46,7 +45,6 @@ submitForm(): void {
       error:(err) => {
         console.error('Failed to create booklet:',err);
         this.snackbar.open('Failed to create booklet','close',{horizontalPosition:'center',verticalPosition:'top'});
-
       }
     });
   }

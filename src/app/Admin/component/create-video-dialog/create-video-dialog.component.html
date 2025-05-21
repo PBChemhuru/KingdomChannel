@@ -1,18 +1,18 @@
 <div class="container-fluid p-5" >
-    <h1 mat-dialog-title>Post Booklet</h1>
+    <h1 mat-dialog-title>Post Video</h1>
 <div mat-dialog-content>
   <form [formGroup]="form">
     <mat-form-field appearance="fill">
-      <mat-label>Booklet Title</mat-label>
-      <input matInput formControlName="bookletTitle" />
+      <mat-label>Video Title</mat-label>
+      <input matInput formControlName="videoTitle" />
     </mat-form-field>
     <mat-form-field appearance="fill">
-        <mat-label>Booklet Link</mat-label>
-        <input matInput formControlName="bookletLink" />
+        <mat-label>Video Link</mat-label>
+        <input matInput formControlName="videoLink" />
       </mat-form-field>
     <mat-form-field appearance="fill">
-      <mat-label>Booklet Synopsis</mat-label>
-      <input matInput formControlName="bookletDescription" />
+      <mat-label>Video Synopsis</mat-label>
+      <input matInput formControlName="videoDescription" />
     </mat-form-field>
     <input
       id="thumbnail"
@@ -31,7 +31,7 @@
   </form>
 </div>
 <div mat-dialog-actions class="container-fluid m-2">
-  <button mat-button (click)="closeDialog()" class="m-2">Cancel</button >
+  <button mat-button type="button" (click)="closeDialog()" class="m-2">Cancel</button >
   <button mat-button color="primary" (click)="submitForm()" [disabled]="form.invalid">Save</button>
 </div>
 </div>

@@ -78,13 +78,18 @@
       <ng-template #loggedInBlock>
         <mat-menu #userMenu="matMenu">
           <button mat-menu-item disabled>Hi, {{ username }}</button>
+          <button mat-menu-item ><a class="nav-link" routerLink="/profile" routerLinkActive="active"
+            >Profile</a
+          > </button>
           <button mat-menu-item (click)="logout()">Logout</button>
         </mat-menu>
         
         <button mat-button [matMenuTriggerFor]="userMenu">
-          {{ username }}
+          
           <mat-icon>arrow_drop_down</mat-icon>
+          {{ username }}
         </button>
+        
       </ng-template>
     </div>
   </div>

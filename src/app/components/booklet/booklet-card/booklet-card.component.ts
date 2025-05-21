@@ -5,7 +5,6 @@ import { RouterLink } from '@angular/router';
 import { NavbarComponent } from "../../../navbar/navbar.component";
 import { Booklet } from '../../../model/Booklet';
 import { LikesService } from '../../../services/likes.service';
-import { Like } from '../../../model/Like';
 import { CommentsService } from '../../../services/comment.service';
 import { ContentType } from '../../../model/ContentType.enum';
 

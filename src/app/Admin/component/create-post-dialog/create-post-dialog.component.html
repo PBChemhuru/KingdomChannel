@@ -17,7 +17,7 @@
       accept="image/*"
     />
     <div *ngIf="!selectedFile && form.get('image')?.touched">
-      Image is required
+      Image is required(30mb limit)
     </div>
 
     <!-- Image preview -->

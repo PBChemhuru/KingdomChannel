@@ -41,9 +41,9 @@ import { Post } from '../model/Post';
     );
   }
 
-  updatePost(post:Post):Observable<any>
+  updatePost(formData:FormData,postId:number):Observable<any>
   {
-    return this.http.put(`${this.apiUrl}/updatePost/${post.postId}`,post,{withCredentials: true, }).pipe(
+    return this.http.put(`${this.apiUrl}/updatePost/${postId}`,formData,{withCredentials: true, }).pipe(
       catchError((error:HttpErrorResponse)=>{
         let errorMessage = 'An error occurred while updating post.';
         if(error.status === 404)

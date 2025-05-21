@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Edit Post Information</h2>
 <mat-dialog-content>
-  <form (ngSubmit)="submitChanges()">
+  <form [formGroup]="form" (ngSubmit)="submitChanges()">
     <mat-form-field class="full-width">
       <div *ngIf="errorMessage" class="error-message">
         {{ errorMessage }}
@@ -8,15 +8,14 @@
       <mat-label>Post Title</mat-label>
       <input
         matInput
-        [(ngModel)]="post.postTitle"
-        name="postTitle"
+        formControlName="postTitle"
         required
       />
     </mat-form-field>
 
     <mat-form-field class="full-width">
       <mat-label>Post Content</mat-label>
-      <input matInput [(ngModel)]="post.postContent" name="postContent" required />
+      <input matInput formControlName="postContent" required />
     </mat-form-field>
 
     <input
@@ -26,7 +25,6 @@
         accept="image/*"
       />
       <div *ngIf="!selectedFile">
-        Image is required
       </div>
 
       <div *ngIf="previewUrl" class="image-preview mt-2">
@@ -35,7 +33,7 @@
       
 
     <div mat-dialog-actions>
-      <button mat-button (click)="onCancel()">Cancel</button>
+      <button mat-button type="button" (click)="onCancel()">Cancel</button>
       <button mat-button color="primary" type="submit">Save Changes</button>
     </div>
   </form>
