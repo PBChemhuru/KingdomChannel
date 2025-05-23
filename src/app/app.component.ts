@@ -4,8 +4,6 @@ import { NavbarComponent } from "./navbar/navbar.component";
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
-import { LoginmodalComponent } from "./components/loginmodal/loginmodal.component";
-import { RegistermodalComponent } from "./components/registermodal/registermodal.component";
 import { FormsModule } from '@angular/forms';
 
 

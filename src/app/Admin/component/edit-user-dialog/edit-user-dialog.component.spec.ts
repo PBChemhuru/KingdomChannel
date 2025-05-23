@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoginmodalComponent } from './loginmodal.component';
+import { EditUserDialogComponent } from './edit-user-dialog.component';
 
-describe('LoginmodalComponent', () => {
-  let component: LoginmodalComponent;
-  let fixture: ComponentFixture<LoginmodalComponent>;
+describe('EditUserDialogComponent', () => {
+  let component: EditUserDialogComponent;
+  let fixture: ComponentFixture<EditUserDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginmodalComponent]
+      imports: [EditUserDialogComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LoginmodalComponent);
+    fixture = TestBed.createComponent(EditUserDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

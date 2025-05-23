@@ -7,10 +7,26 @@
         <input matInput formControlName="bookletTitle" />
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" *ngIf="!form.get('uploadPdf')" >
         <mat-label>Booklet Link</mat-label>
         <input matInput formControlName="bookletLink" />
       </mat-form-field>
+       <mat-checkbox formControlName="uploadPdf" name="uploadPdfToggle">
+        Upload PDF
+      </mat-checkbox>
+      
+      <div *ngIf="form.get('uploadPdf')?.value">
+        <label for="pdf">Upload PDF</label>
+        <input
+          id="pdf"
+          type="file"
+          (change)="onPdfSelected($event)"
+          accept="application/pdf"
+        />
+        <div *ngIf="!selectedPdfFile && form.touched">
+          PDF is required
+        </div>
+      </div>
 
       <mat-form-field appearance="fill">
         <mat-label>Booklet Synopsis</mat-label>

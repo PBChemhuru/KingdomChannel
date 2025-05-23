@@ -1,9 +1,13 @@
 <mat-toolbar color="primary">
-  <select (change)="onFilter($event)">
+  <div>
+    <select (change)="onFilter($event)">
     <option value="">All</option>
     <option value="true">Resolved</option>
     <option value="false">Unresolved</option>
   </select>
+  </div>
+
+  <app-searchbar (filtersChange)="onFiltersChanged($event)"></app-searchbar>
 </mat-toolbar>
 <mat-table
   #table

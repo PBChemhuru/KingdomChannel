@@ -66,10 +66,10 @@
         </ul>
       </div>
       <div *ngIf="!authservice.isLoggedIn(); else loggedInBlock">
-        <button data-bs-target="#loginmodal" data-bs-toggle="modal">
+        <button (click)="login()">
           Login
         </button>
-        <button data-bs-target="#registermodal" data-bs-toggle="modal">
+        <button (click)="register()">
           Register
         </button>
       </div>

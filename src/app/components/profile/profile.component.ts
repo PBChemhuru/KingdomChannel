@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
       this.userService.getuser(userinfo.nameid).subscribe({
         next: (user) => {
           this.user = user;
+          console.log(user);
         },
         error: (err) => {
           console.error(err);
