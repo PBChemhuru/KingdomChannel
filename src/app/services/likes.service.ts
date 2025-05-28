@@ -31,7 +31,7 @@ export class LikesService {
 
     return this.http
       .get(`${this.apiUrl}/getLikes`, {
-       withCredentials: true, 
+        withCredentials: true,
         params,
       })
       .pipe(
@@ -47,18 +47,20 @@ export class LikesService {
   }
 
   like(id: number, contentType: string): Observable<any> {
-    const payload =
-    {
-      ContentId:id,
-      contentType:contentType,
-    }
+    const payload = {
+      ContentId: id,
+      contentType: contentType,
+    };
     return this.http
-      .post(`${this.apiUrl}/like`,payload, { headers: this.getAuthHeaders() })
+      .post(`${this.apiUrl}/like`, payload, { withCredentials:true })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           let errorMessage = 'An error occurred while liking .';
           if (error.status === 404) {
             errorMessage = 'content not Found';
+          }
+          if (error.status === 401) {
+            errorMessage = 'You need to log in to like this content.';
           }
           console.error('Error liking article', error);
           return throwError(() => new Error('Failed to retrieve updating'));
@@ -68,7 +70,7 @@ export class LikesService {
 
   userlikes(): Observable<any> {
     return this.http
-      .get(`${this.apiUrl}/getuserlikes`, { headers: this.getAuthHeaders() })
+      .get(`${this.apiUrl}/getuserlikes`, { withCredentials:true })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           let errorMessage = 'An error occurred while updating booklet.';

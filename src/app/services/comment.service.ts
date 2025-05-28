@@ -98,7 +98,7 @@ export class CommentsService {
 
   deleteComment(commentId: number) {
     return this.http
-      .delete(`${this.apiUrl}/${commentId}`, { headers: this.getAuthHeaders() })
+      .delete(`${this.apiUrl}/${commentId}`, { withCredentials:true })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           let errorMessage = 'An error occured while deleting comment,';
