@@ -12,7 +12,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarToggler">
-      <a class="navbar-brand" href="#">Hidden brand</a>
+      <a class="navbar-brand" href="#">Kingdom Channel</a>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a
@@ -66,10 +66,10 @@
         </ul>
       </div>
       <div *ngIf="!authservice.isLoggedIn(); else loggedInBlock">
-        <button (click)="login()">
+        <button class="btn btn-outline-dark m-2" (click)="login()">
           Login
         </button>
-        <button (click)="register()">
+        <button class="btn btn-outline-dark m-2" (click)="register()">
           Register
         </button>
       </div>
@@ -81,7 +81,7 @@
           <button mat-menu-item ><a class="nav-link" routerLink="/profile" routerLinkActive="active"
             >Profile</a
           > </button>
-          <button mat-menu-item (click)="logout()">Logout</button>
+          <button  mat-menu-item (click)="logout()">Logout</button>
         </mat-menu>
         
         <button mat-button [matMenuTriggerFor]="userMenu">

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -18,8 +18,9 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 })
 export class PostCardComponent {
   @Input() post!: any;
+  @Input() isLiked: boolean = false;
+  @Output() likedChanged = new EventEmitter<void>();
   likecounter!: number;
-  commentcounter!: number;
   constructor(
     private likesServices: LikesService,
     private commentservice: CommentsService,
@@ -28,29 +29,15 @@ export class PostCardComponent {
     private snackbar: MatSnackBar
   ) {}
   ngOnInit(): void {
-    this.getlikes(this.post.postId, 'booklet');
-    this.getcomments(this.post.postId);
+    this.getlikes(this.post.postId, 'post');
   }
 
-  getcomments(id: number) {
-    this.commentservice
-      .getCommentsByContentType(ContentType.Post, id)
-      .subscribe({
-        next: (data) => {
-          this.commentcounter = data.length;
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
-  }
   getlikes(id: number, contentType: string) {
     this.likesServices.getLikes(id, contentType).subscribe({
       next: (data) => {
         this.likecounter = data.length;
       },
       error: (error) => {
-        console.log('hey you ');
         console.error(error);
       },
     });
@@ -88,6 +75,7 @@ export class PostCardComponent {
       this.likesServices.like(id, contentType).subscribe({
         next: () => {
           this.getlikes(id, contentType);
+          this.likedChanged.emit();
         },
         error: (err) => {
           console.error(err);
