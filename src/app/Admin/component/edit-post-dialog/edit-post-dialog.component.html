@@ -1,40 +1,60 @@
-<h2 mat-dialog-title>Edit Post Information</h2>
-<mat-dialog-content>
-  <form [formGroup]="form" (ngSubmit)="submitChanges()">
-    <mat-form-field class="full-width">
-      <div *ngIf="errorMessage" class="error-message">
+<div class="postcard p-4">
+  <h1 mat-dialog-title class="dialog-title">Edit Post Information</h1>
+
+  <div mat-dialog-content>
+    <form [formGroup]="form" (ngSubmit)="submitChanges()" class="post-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Post Title</mat-label>
+        <input matInput formControlName="postTitle" required />
+      </mat-form-field>
+
+      <div *ngIf="errorMessage" class="error-message mb-2">
         {{ errorMessage }}
       </div>
-      <mat-label>Post Title</mat-label>
-      <input
-        matInput
-        formControlName="postTitle"
-        required
-      />
-    </mat-form-field>
 
-    <mat-form-field class="full-width">
-      <mat-label>Post Content</mat-label>
-      <input matInput formControlName="postContent" required />
-    </mat-form-field>
-
-    <input
-        id="thumbnail"
-        type="file"
-        (change)="onFileSelected($event)"
-        accept="image/*"
-      />
-      <div *ngIf="!selectedFile">
+      <div class="editor-wrapper full-width">
+        <mat-label class="mb-2">Post Content</mat-label>
+        <ngx-editor
+          [editor]="editor"
+          formControlName="postContent"
+          placeholder="Update your blog content here..."
+        ><ngx-editor-menu [editor]="editor" style="color: black;"></ngx-editor-menu></ngx-editor>
+        
+        
       </div>
 
-      <div *ngIf="previewUrl" class="image-preview mt-2">
+      <div class="upload-section mt-3">
+        <label class="upload-label" for="thumbnail">
+          <span class="actionbutton">📁 Upload Thumbnail</span>
+        </label>
+        <input
+          id="thumbnail"
+          type="file"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          hidden
+        />
+        <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+      </div>
+
+      <div *ngIf="previewUrl" class="image-preview mt-3">
         <img [src]="previewUrl" alt="Preview" style="max-height: 200px;" />
       </div>
-      
 
-    <div mat-dialog-actions>
-      <button mat-button type="button" (click)="onCancel()">Cancel</button>
-      <button mat-button color="primary" type="submit">Save Changes</button>
-    </div>
-  </form>
-</mat-dialog-content>
+      <div mat-dialog-actions class="dialog-actions mt-4">
+        <button mat-button type="button" (click)="onCancel()" class="actionbutton">
+          Cancel
+        </button>
+        <button
+          mat-button
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid"
+          class="actionbutton"
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

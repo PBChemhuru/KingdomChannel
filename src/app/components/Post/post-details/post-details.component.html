@@ -1,66 +1,88 @@
-<div class="container-fluid" style="padding: 20px">
-  <div class="container-fluid">
-    <div class="header">
-      <p>{{ postDetails.createdAt | date : "MMM d, y" }}</p>
-      <p></p>
-      <h1>{{ postDetails.postTitle }}</h1>
-    </div>
-    <div class="container-fluid">
-      <img
-        [src]="postDetails.thumbnail"
-        alt=""
-        style="
-          width: 740px;
-          height: 416px;
-          object-fit: cover;
-          object-position: 50% 50%;
-          max-width: 100%;
-        "
-        data-pin-url="https://www.wix.com/demone2/personal-blog/post/do-not-leave-tokyo-before-eating-this-ramen"
-        data-pin-media="https://static.wixstatic.com/media/c22c23_e3b5cb121db549fdbb1590f51d378b8c~mv2.png/v1/fill/w_1920,h_1080,al_c,q_95/c22c23_e3b5cb121db549fdbb1590f51d378b8c~mv2.png"
-        draggable="false"
-        data-ssr-src-done="true"
-        fetchpriority="high"
-        data-load-done=""
-      />
-      <div>
-        <span>{{ postDetails.postContent }}</span>
+<div class="container-fluid postdetails" style="margin-top: 17px">
+  <div
+    class="container-fluid d-flex flex-column justify-content-center align-items-center post"
+  >
+    <div class="row justify-content-center">
+      <div class="col-md-8" style=" width: inherit">
+        <div class="header">
+          <p>{{ postDetails.createdAt | date : "MMM d, y" }}</p>
+          <p></p>
+          <h1>{{ postDetails.postTitle }}</h1>
+        </div>
+        <div class="container-fluid">
+          <div style="text-align: center">
+            <img
+              [src]="postDetails.thumbnail"
+              alt=""
+              style="
+                width: 740px;
+                height: 416px;
+                object-fit: cover;
+                object-position: 50% 50%;
+                max-width: 100%;
+                display: block;
+                margin: 0 auto;
+              "
+              data-pin-url="https://www.wix.com/demone2/personal-blog/post/do-not-leave-tokyo-before-eating-this-ramen"
+              data-pin-media="https://static.wixstatic.com/media/c22c23_e3b5cb121db549fdbb1590f51d378b8c~mv2.png/v1/fill/w_1920,h_1080,al_c,q_95/c22c23_e3b5cb121db549fdbb1590f51d378b8c~mv2.png"
+              draggable="false"
+              data-ssr-src-done="true"
+              fetchpriority="high"
+              data-load-done=""
+            />
+          </div>
+          <div>
+            <span [innerHTML]="postDetails.postContent"></span>
+          </div>
+        </div>
+        <div
+          class="container-fluid"
+          style="
+            border-top: 1px solid;
+            border-left: 0;
+            border-right: 0;
+            border-bottom: 0;
+            padding: 10px;
+            margin-top: 2rem;
+          "
+        >
+          <button><i class="bi bi-facebook"></i></button>
+          <button><i class="bi bi-whatsapp"></i></button>
+          <button><i class="bi bi-link"></i></button>
+        </div>
       </div>
     </div>
-    <div class="container-fluid">
-      <button><i class="bi bi-facebook"></i></button>
-      <button><i class="bi bi-whatsapp"></i></button>
-      <button><i class="bi bi-link"></i></button>
+    <div class="d-flex row m-2" style="width: inherit">
+      <div class="col">Read some of our other articles</div>
+      <div class="col text-end">
+        <a routerLink="/post">See all Articles</a>
+      </div>
     </div>
-  </div>
-
-  <div class="container-fluid">
-    <div class="row">
-      <div
-        class="col m-3"
-        *ngFor="let post of rposts.data"
-        style="
-          border-style: solid;
-          border: 12px;
-          border-color: black;
-          width: fit-content;
-        "
-      >
-        <div>
-          <a routerLink="/post/{{ post.postId }}" routerLinkActive="active ">
+    <div class="container-fluid recommended">
+      <div class="d-flex flex-wrap justify-content-between gap-3 my-4">
+        <div
+          *ngFor="let post of rposts.data"
+          class="p-2 border"
+          style="min-width: 180px; max-width: 220px"
+        >
+          <a
+            [routerLink]="'/post/' + post.postId"
+            class="text-decoration-none text-dark"
+          >
             <img
-              src="IMG-20241119-WA0132.jpg"
-              class="img-fluid"
-              style="height: 150px; width: 150px"
+              [src]="post.thumbnail || 'IMG-20241119-WA0132.jpg'"
+              class="img-fluid mb-2"
+              style="width: 100%; height: 150px; object-fit: cover"
             />
-            <p routerLink="/post/{{ post.postId }}" routerLinkActive="active ">
-              {{ post.postTitle }}
-            </p>
+            <p class="mb-0">{{ post.postTitle }}</p>
           </a>
         </div>
       </div>
     </div>
+    <app-comments-section
+      [id]="id"
+      [contentType]="ContentType.Post"
+      style=" width: inherit"
+    ></app-comments-section>
   </div>
-
-  <app-comments-section [id]="id" [contentType]="ContentType.Post"></app-comments-section>
 </div>

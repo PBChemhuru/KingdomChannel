@@ -4,6 +4,7 @@ import {
   OnInit,
   SimpleChanges,
   ViewChild,
+  Input
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Post } from '../../../model/Post';
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { CommentsSectionComponent } from '../../../comments-section/comments-section.component';
 import { Comment } from '../../../model/Comment';
 import { ContentType } from '../../../model/ContentType.enum';
+import { DomSanitizer,SafeHtml } from '@angular/platform-browser';
 @Component({
   selector: 'app-post-details',
   imports: [
@@ -31,6 +33,7 @@ export class PostDetailsComponent implements OnInit, OnChanges {
   id!: number;
   postDetails!: Post;
   ContentType = ContentType;
+  safeContent!: SafeHtml;
   rposts: MatTableDataSource<Post> = new MatTableDataSource<Post>([]);
   postComments: MatTableDataSource<Comment> = new MatTableDataSource<Comment>(
     []
@@ -41,7 +44,7 @@ export class PostDetailsComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private router: Router,
     private postService: PostsService,
-
+    private santizer:DomSanitizer,
     private snackbar: MatSnackBar
   ) {}
   ngOnInit(): void {
@@ -57,9 +60,16 @@ export class PostDetailsComponent implements OnInit, OnChanges {
       this.getPostDetails(this.id);
     }
   }
+
+  sanitize(html:string):SafeHtml
+  {
+    return this.santizer.bypassSecurityTrustHtml(html);
+  }
+
   getPostDetails(id: number): void {
     this.postService.getPost(id).subscribe((data) => {
       this.postDetails = data;
+      this.safeContent = this.sanitize(data.postContent);
     });
   }
 

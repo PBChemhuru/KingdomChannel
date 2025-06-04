@@ -6,6 +6,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DecodedToken } from '../../model/DecodedToken';
 import { AuthService } from '../../services/auth.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 
 
@@ -23,12 +24,18 @@ export class CommentCardComponent {
 @Output() commentFlagged = new EventEmitter<Comment>()
 userinfo!: DecodedToken;
 
-constructor(private authservice:AuthService){}
+constructor(private authservice:AuthService,private sanitizer: DomSanitizer){}
 ngOnInit(): void {
   const token = sessionStorage.getItem('jwtToken');
   if(token)
   this.userinfo =this.authservice.getUserInfoFromToken(token)
 }
+
+ sanitize(html:string):SafeHtml
+  {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+
 editComment()
 {
   this.commenEdited.emit(this.comment);

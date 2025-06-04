@@ -24,6 +24,11 @@
           >
         </li>
         <li class="nav-item">
+          <a class="nav-link" routerLink="/about" routerLinkActive="active"
+            >About</a
+          >
+        </li>
+        <li class="nav-item">
           <a class="nav-link" routerLink="/posts" routerLinkActive="active"
             >Posts</a
           >
@@ -38,11 +43,7 @@
             >Booklets</a
           >
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/about" routerLinkActive="active"
-            >About</a
-          >
-        </li>
+        
         <li *ngIf="authservice.getRole() === 'admin'" class="nav-item">
           <a class="nav-link" routerLink="/admin" routerLinkActive="active"
             >AdminDashBoard</a

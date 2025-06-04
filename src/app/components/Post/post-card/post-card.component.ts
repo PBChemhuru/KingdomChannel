@@ -9,6 +9,7 @@ import { AuthService } from '../../../services/auth.service';
 import { LoginDialogComponent } from '../../login-dialog/login-dialog.component';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-post-card',
@@ -26,7 +27,8 @@ export class PostCardComponent {
     private commentservice: CommentsService,
     private authService: AuthService,
     private dialog: MatDialog,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private sanitizer: DomSanitizer
   ) {}
   ngOnInit(): void {
     this.getlikes(this.post.postId, 'post');
@@ -42,6 +44,12 @@ export class PostCardComponent {
       },
     });
   }
+
+   sanitize(html:string):SafeHtml
+  {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+
 
   like(id: number, contentType: string) {
     if (!this.authService.isLoggedIn()) {

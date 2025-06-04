@@ -1,8 +1,10 @@
-.book-card {
+.bookcard {
     transition: transform 0.2s ease;
+    background-color:rgb(229, 248, 247);
+    border-radius: 12px;
   }
 
-  .book-card:hover {
+  .bookcard:hover {
     transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   }
@@ -20,4 +22,29 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.actionbutton {
+    background: transparent;
+    border: none;
+    color: #3aa7a0;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-right: 1rem;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
 
+.actionbutton:hover {
+    color: #2a7d77;
+    transform: scale(1.1);
+}
+
+.bookcard h1 {
+    font-size: 1.5rem;
+    color: #2a7d77;
+}
+
+.bookcard p {
+  color: #777;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}

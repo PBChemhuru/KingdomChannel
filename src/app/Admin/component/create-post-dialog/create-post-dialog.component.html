@@ -1,33 +1,56 @@
-<div class="container-fluid p-5" >
-    <h1 mat-dialog-title>Post</h1>
-<div mat-dialog-content>
-  <form [formGroup]="form">
-    <mat-form-field appearance="fill">
-      <mat-label>Post Title</mat-label>
-      <input matInput formControlName="postTitle" />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Post Content</mat-label>
-      <input matInput formControlName="postContent" />
-    </mat-form-field>
-    <input
-      id="thumbnail"
-      type="file"
-      (change)="onFileSelected($event)"
-      accept="image/*"
-    />
-    <div *ngIf="!selectedFile && form.get('image')?.touched">
-      Image is required(30mb limit)
-    </div>
+<div class="postcard p-4">
+  <h1 mat-dialog-title class="dialog-title">Create a New Post</h1>
 
-    <!-- Image preview -->
-    <div *ngIf="previewUrl" class="image-preview">
-      <img [src]="previewUrl" alt="Preview" />
-    </div>
-  </form>
-</div>
-<div mat-dialog-actions class="container-fluid m-2">
-  <button mat-button (click)="closeDialog()" class="m-2">Cancel</button >
-  <button mat-button color="primary" (click)="submitForm()" [disabled]="form.invalid">Save</button>
-</div>
+  <div mat-dialog-content>
+    <form [formGroup]="form" class="post-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Post Title</mat-label>
+        <input matInput formControlName="postTitle" />
+      </mat-form-field>
+
+      <div class="editor-wrapper full-width">
+        <mat-label class="mb-2">Post Content</mat-label>
+        
+        <ngx-editor
+          [editor]="editor"
+          formControlName="postContent"
+          placeholder="Write your awesome blog post here..."
+        ><ngx-editor-menu [editor]="editor" style="color: black;"></ngx-editor-menu></ngx-editor>
+      </div>
+
+      <div class="upload-section">
+        <label class="upload-label" for="thumbnail">
+          <span class="actionbutton">📁 Upload Thumbnail</span>
+        </label>
+        <input
+          id="thumbnail"
+          type="file"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          hidden
+        />
+        <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+        <div *ngIf="!selectedFile && form.get('thumbnail')?.touched" class="error-text">
+          Image is required (30MB limit)
+        </div>
+      </div>
+
+      <div *ngIf="previewUrl" class="image-preview mt-3">
+        <img [src]="previewUrl" alt="Preview" />
+      </div>
+    </form>
+  </div>
+
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="closeDialog()" class="actionbutton">Cancel</button>
+    <button
+      mat-button
+      color="primary"
+      (click)="submitForm()"
+      [disabled]="form.invalid"
+      class="actionbutton"
+    >
+      Save
+    </button>
+  </div>
 </div>

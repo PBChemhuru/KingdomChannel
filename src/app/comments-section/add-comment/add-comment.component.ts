@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
@@ -6,13 +6,14 @@ import { AuthService } from '../../services/auth.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommentsService } from '../../services/comment.service';
 import { ContentType } from '../../model/ContentType.enum';
+import { Editor, NgxEditorModule } from 'ngx-editor';
 @Component({
   selector: 'app-add-comment',
-  imports: [MatInputModule, MatFormFieldModule, FormsModule, MatSnackBarModule],
+  imports: [MatInputModule, MatFormFieldModule, FormsModule, MatSnackBarModule,NgxEditorModule],
   templateUrl: './add-comment.component.html',
   styleUrl: './add-comment.component.css',
 })
-export class AddCommentComponent implements OnInit {
+export class AddCommentComponent implements OnInit,OnDestroy {
   @Input() postId!: number;
   @Input() bookletId!: number;
   @Input() videoId!: number;
@@ -21,6 +22,7 @@ export class AddCommentComponent implements OnInit {
   newComment: string = '';
   userId!: number;
   userinfo: any;
+  editor!:Editor
   @Output() commentPosted: EventEmitter<void> = new EventEmitter<void>();
   constructor(
     private commentsService: CommentsService,
@@ -30,6 +32,7 @@ export class AddCommentComponent implements OnInit {
 
   ngOnInit(): void {
     const token = sessionStorage.getItem('jwtToken');
+    this.editor = new Editor();
     if (token) {
       this.userinfo = this.authService.getUserInfoFromToken(token);
     } else {
@@ -47,6 +50,10 @@ export class AddCommentComponent implements OnInit {
         break;
     }
     
+  }
+
+  ngOnDestroy(): void {
+    this.editor.destroy();
   }
   submitComment(): void {
     this.commentsService

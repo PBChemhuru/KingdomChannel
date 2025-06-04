@@ -2,7 +2,7 @@
 <div class="container-fluid">
     <div class="row mx-4 py-3 ">
         <div  *ngFor="let booklet of booklets.data" class="col-md-3 ">
-            <app-booklet-card [booklet]="booklet" class="m-3 p-3 "></app-booklet-card>
+            <app-booklet-card  [booklet]="booklet" [isLiked]="userLikedBookletsIds.has(booklet.bookletId)" (likedChanged)="userLikeBooklets()" class="m-3 p-3 "></app-booklet-card>
        </div>
     </div>
 </div>

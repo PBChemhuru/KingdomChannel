@@ -5,8 +5,7 @@
         
     
     <img mat-card-image [src]="post.thumbnail" style="width:100%" >
-    <div class="postTeaser">
-            {{post.postContent}}
+    <div class="postTeaser" [innerHTML]="sanitize(post.postContent)">
     </div>
     </mat-card-content>
     <mat-card-actions>
