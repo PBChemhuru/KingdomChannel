@@ -8,7 +8,7 @@
  <app-searchbar (filtersChange)="onFiltersChanged($event)"></app-searchbar>
 </div>
 </div>
-<mat-table #table [dataSource]="posts" matSort class="mat-elevation-z8">
+<mat-table #table [dataSource]="posts" matSort class="mat-elevation-z0 full-width-table">
     <!-- postId-->
      <ng-container matColumnDef="postId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>PostId</th>
