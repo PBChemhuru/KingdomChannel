@@ -5,7 +5,7 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { VideosService } from '../../services/videos.service';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteItemDialogComponent } from '../component/delete-item-dialog/delete-item-dialog.component';
 import { EditVideoDialogComponent } from '../component/edit-video-dialog/edit-video-dialog.component';
@@ -13,13 +13,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { CreateVideoDialogComponent } from '../component/create-video-dialog/create-video-dialog.component';
 import { SearchbarComponent } from "../../searchbar/searchbar.component";
 import { MatSortModule,MatSort } from '@angular/material/sort';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-manage-videos',
   imports: [MatPaginatorModule,
     MatSnackBarModule,
     MatTableModule,
-    MatIconModule, MatToolbarModule, SearchbarComponent,MatSortModule],
+    MatIconModule, MatToolbarModule, SearchbarComponent,MatSortModule,CommonModule],
   templateUrl: './manage-videos.component.html',
   styleUrl: './manage-videos.component.css'
 })
@@ -143,5 +144,10 @@ export class ManageVideosComponent {
         this.getVideos();
       }
     })
+ 
   }
+
+  openLink(link: string) {
+  window.open(link, '_blank');
+}
 }

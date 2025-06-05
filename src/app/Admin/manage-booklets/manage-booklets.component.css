@@ -1,0 +1,33 @@
+.container-fluid {
+  padding: 1rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.full-width-table {
+  width: 100%;
+  min-width: 100%;
+  table-layout: fixed;
+  border-radius: 12px;
+
+  .mat-mdc-header-cell,
+  .mat-mdc-cell {
+    padding: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+  }
+
+  .mat-mdc-row {
+    width: 100%;
+  }
+
+  .mat-mdc-cell:last-child {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+}

@@ -33,14 +33,14 @@
      <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
         <td mat-cell *matCellDef="let post">
-            <button mat-raised-button color="primary" (click)="viewPostDetails(post.postId)" style="margin: 0.5rem;">
-                <mat-icon>visibility</mat-icon>
-            </button>
-            <button mat-icon-button color="warn" (click)="openEditDialog(post)">
-                <mat-icon style="color: blue;">edit</mat-icon>
+              <button class="btn btn-info" (click)="viewPostDetails(post.postId)" style="margin: 0.5rem;">
+            <i class="bi bi-eye"></i>
+        </button>
+            <button class="btn btn-primary" (click)="openEditDialog(post)" style="margin: 0.5rem;">
+                <i class="bi bi-pencil-square"></i>
               </button>
-            <button mat-icon-button color="warn" (click)="openDeleteDialog(post)">
-                <mat-icon style="color: red;">delete</mat-icon>
+            <button class="btn btn-danger" (click)="openDeleteDialog(post)" style="margin: 0.5rem;">
+                <i class="bi bi-trash3"></i>
               </button>
         </td>
      </ng-container>

@@ -1,9 +1,13 @@
-<mat-toolbar color="primary">
-   <button (click)="openCreateUserDialog()">
+<div class="container-fluid">
+
+<div style="display: flex; align-items: center;width: 100%;justify-content: space-between;padding: 0.5rem 1rem;margin-bottom: 2rem;border-radius: 12px;border-color: blanchedalmond;background-color: blanchedalmond;">
+<button class="btn btn-primary btn-lg" (click)="openCreateUserDialog()">
       Create User
    </button><br>
-   <app-searchbar (filtersChange)="onFiltersChanged($event)"></app-searchbar>
-</mat-toolbar>
+<div style="display: flex;align-items: center;">
+ <app-searchbar (filtersChange)="onFiltersChanged($event)"></app-searchbar>
+</div>
+</div>
 <mat-table #table [dataSource]="users" matSort class="mat-elevation-z8">
      <ng-container matColumnDef="userId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>UserId</th>
@@ -24,11 +28,12 @@
      <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
         <td mat-cell *matCellDef="let user">
-            <button mat-icon-button color="warn" (click)="openEditDialog(user)">
-                <mat-icon style="color: blue;">edit</mat-icon>
+            
+            <button class="btn btn-primary" (click)="openEditDialog(user)" style="margin: 0.5rem;">
+                <i class="bi bi-pencil-square"></i>
               </button>
-            <button mat-icon-button color="warn" (click)="openDeleteDialog(user)">
-                <mat-icon style="color: red;">delete</mat-icon>
+            <button class="btn btn-danger" (click)="openDeleteDialog(user)" style="margin: 0.5rem;">
+                <i class="bi bi-trash3"></i>
               </button>
         </td>
      </ng-container>
@@ -36,3 +41,4 @@
      <tr mat-row *matRowDef="let row; columns:displayedColumns;"></tr>
 </mat-table>
 <mat-paginator [pageSizeOptions]="[10,25,50,100]" showFirstLastButtons></mat-paginator>
+</div>

@@ -13,6 +13,7 @@ import { CreateBookletDialogComponent } from '../component/create-booklet-dialog
 import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
 import { SearchbarComponent } from '../../searchbar/searchbar.component';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-manage-booklets',
@@ -24,6 +25,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
     MatToolbarModule,
     SearchbarComponent,
     MatSortModule,
+    CommonModule
   ],
   templateUrl: './manage-booklets.component.html',
   styleUrl: './manage-booklets.component.css',

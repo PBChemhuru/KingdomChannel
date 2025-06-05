@@ -1,14 +1,16 @@
-<mat-toolbar color="primary">
-  <div>
+
+<div style="display: flex; align-items: center;width: 100%;justify-content: space-between;padding: 0.5rem 1rem;margin-bottom: 2rem;border-radius: 12px;border-color: blanchedalmond;background-color: blanchedalmond;">
+<div>
     <select (change)="onFilter($event)">
     <option value="">All</option>
     <option value="true">Resolved</option>
     <option value="false">Unresolved</option>
   </select>
   </div>
-
-  <app-searchbar (filtersChange)="onFiltersChanged($event)"></app-searchbar>
-</mat-toolbar>
+<div style="display: flex;align-items: center;">
+ <app-searchbar (filtersChange)="onFiltersChanged($event)"></app-searchbar>
+</div>
+</div>
 <mat-table
   #table
   [dataSource]="flaggedComments"
@@ -61,14 +63,14 @@
   <ng-container matColumnDef="createdAt">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Created At</th>
     <td mat-cell *matCellDef="let flaggedComment">
-      {{ flaggedComment.createdAt }}
+      {{ flaggedComment.createdAt| date:"dd-MM-yy HH:mm:ss" }}
     </td>
   </ng-container>
   <!--updatedAt-->
   <ng-container matColumnDef="updatedAt">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated At</th>
     <td mat-cell *matCellDef="let flaggedComment">
-      {{ flaggedComment.updatedAt }}
+      {{ flaggedComment.updatedAt | date:"dd-MM-yy HH:mm:ss"}}
     </td>
   </ng-container>
   <!--Action Column-->
@@ -81,7 +83,7 @@
         'btn btn-success': flaggedComment.flagResolutionStatus,
         'btn btn-primary': !flaggedComment.flagResolutionStatus
       }"
-      (click)="openResolutionDialog(flaggedComment)">
+      (click)="openResolutionDialog(flaggedComment)" style="margin: 0.5rem;">
       {{ flaggedComment.flagResolutionStatus ? 'Resolved' : 'Resolve' }}
     </button>
     </td>
