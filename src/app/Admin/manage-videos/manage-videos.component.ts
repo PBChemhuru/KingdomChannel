@@ -131,9 +131,7 @@ export class ManageVideosComponent {
   openEditDialog(video: any): void {
     const dialogRef = this.dialog.open(EditVideoDialogComponent, { data: video });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.viewVideoDetails(result.videoId);
-      }
+      this.getVideos();
     });
   }
 

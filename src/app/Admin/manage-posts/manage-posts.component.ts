@@ -140,7 +140,10 @@ export class ManagePostsComponent implements OnInit {
   }
 
   openCreatePostDialog(): void {
-    const dialogRef = this.dialog.open(CreatePostDialogComponent);
+    const dialogRef = this.dialog.open(CreatePostDialogComponent,{
+      width:'600px',
+      maxHeight:'90vh'
+    });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.getPosts();

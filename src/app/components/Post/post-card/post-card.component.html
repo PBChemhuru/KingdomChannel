@@ -1,14 +1,16 @@
-<mat-card class="bg-light shadow-sm">
-    <img mat-card-image [src]="post.thumbnail" style="height: 450px;">
-    <mat-card-content>
-        <h3>{{post.postTitle}}</h3> <mat-card-subtitle style="color: black;">{{post.createdAt | date:'MMM d, y'}}.</mat-card-subtitle>
-        <div class="postTeaser">
-            {{post.postContent}}
-        </div>
+<mat-card class="postcard" >
+    <mat-card-content routerLink="/post/{{post.postId}}" routerLinkActive="active ">
+        <p style="color: gray;font-size: small;">Posted on {{post.createdAt | date:'MMM d, y'}}</p>
+        <h1 style="font-weight: bold;padding-bottom: 1rem;">{{post.postTitle}}</h1>
+        
+    
+    <img mat-card-image [src]="post.thumbnail" style="width:100%" >
+    <div class="postTeaser" [innerHTML]="sanitize(post.postContent)">
+    </div>
     </mat-card-content>
     <mat-card-actions>
-        <button (click)="like(post.postId,'post')"><i class="bi bi-hand-thumbs-up">{{likecounter}}</i></button>
-        <button><i class="bi bi-chat-text" routerLink="/booklets/{{post.postId}}" routerLinkActive="active ">{{commentcounter}}</i></button>
-        <button class="btn btn-primary" routerLink="/post/{{post.postId}}" routerLinkActive="active ">Read More</button>
+        <button type="button" class="actionbutton" (click)="like(post.postId,'post')"><i class="bi" [ngClass]="isLiked ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'">{{likecounter}}</i></button>
+        <button class = "actionbutton"><i class="bi bi-chat-text" routerLink="/post/{{post.postId}}" routerLinkActive="active ">{{post.commentCount}}</i></button>
     </mat-card-actions>
 </mat-card>
+

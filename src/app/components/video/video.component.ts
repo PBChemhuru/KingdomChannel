@@ -31,7 +31,6 @@ export class VideoComponent implements OnInit {
         const randomIndex = Math.floor(Math.random() * data.length);
         this.featuredVideo = data[randomIndex];
         this.videos.data = data;
-        console.log(this.videos.data, this.featuredVideo);
       },
       error: (err) => {
         console.error(err);

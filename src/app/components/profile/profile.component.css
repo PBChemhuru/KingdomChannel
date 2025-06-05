@@ -1,0 +1,56 @@
+.likes-container {
+  padding: 16px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.like-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  padding: 16px;
+}
+
+.thumbnail {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.like-details {
+  flex: 1;
+}
+
+.like-details h3 {
+  margin: 0 0 8px;
+}
+
+.content-type {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.liked-date {
+  font-size: 0.85rem;
+  color: #f10707;
+  margin: 4px 0;
+}
+
+.view-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.view-link:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,37 @@
+
+<div class="container-fluid">
+    <div class="row mx-4 py-3 ">
+        <div  class="col-md-6 ">
+          <div class="p-4 max-w-6xl mx-auto space-y-6">
+  <!-- User Info Section -->
+  <div class="bg-white shadow rounded-2xl p-6 flex items-center space-x-6">
+    <i class="bi bi-person-fill"></i>
+    <div>
+      <h2 class="text-2xl font-semibold">{{ user.username }}</h2>
+      <p class="text-gray-600">{{ user.email }}</p>
+    </div>
+  </div>
+
+  <div class="likes-container">
+  <h2 class="section-title">Liked Content</h2>
+
+  <div *ngIf="likedItem.length > 0; else noLikes">
+    <div class="like-card" *ngFor="let like of likedItem">
+      <img [src]="like.thumbnail" alt="Thumbnail" class="thumbnail" />
+      <div class="like-details">
+        <h3>{{ like.title }}</h3>
+        <p class="content-type">{{ getContentType(like) }}</p>
+        <p class="liked-date">Liked on: {{ like.createdAt| date: 'mediumDate' }}</p>
+        <a [routerLink]="[like.url]" class="view-link">View</a>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noLikes>
+    <p>No liked content to display.</p>
+  </ng-template>
+</div>
+</div>
+       </div>
+    </div>
+</div>

@@ -26,14 +26,14 @@ export class BookletsService {
 
   getBooklets(): Observable<any> {
     return this.http.get(`${this.apiUrl}/getBooklets`, {
-      headers: this.getAuthHeaders(),
+     withCredentials: true, 
     });
   }
 
   getBooklet(bookletid: number): Observable<any> {
     return this.http
       .get(`${this.apiUrl}/getBooklet/${bookletid}`, {
-        headers: this.getAuthHeaders(),
+       withCredentials: true, 
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {
@@ -47,10 +47,10 @@ export class BookletsService {
       );
   }
 
-  updateBooklet(booklet: Booklet): Observable<any> {
+  updateBooklet(formData : FormData,bookletid: number): Observable<any> {
     return this.http
-      .put(`${this.apiUrl}/updateBooklet/${booklet.bookletId}`, booklet, {
-        headers: this.getAuthHeaders(),
+      .put(`${this.apiUrl}/updateBooklet/${bookletid}`,formData , {
+       withCredentials: true, 
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {
@@ -67,7 +67,7 @@ export class BookletsService {
   deleteBooklet(bookletId: number): Observable<any> {
     return this.http
       .delete(`${this.apiUrl}/deleteBooklet/${bookletId}`, {
-        headers: this.getAuthHeaders(),
+       withCredentials: true, 
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {
@@ -86,7 +86,6 @@ export class BookletsService {
    return this.http
       .post(`${this.apiUrl}/createBooklet`,formData, {
        withCredentials: true,
-       headers:this.getAuthHeaders(),
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {

@@ -7,6 +7,7 @@ export interface Booklet {
     userId: number;
     createdAt: Date;
     updatedAt:Date;
+    commentCount: number
 
   }
   

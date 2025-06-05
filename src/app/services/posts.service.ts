@@ -21,14 +21,14 @@ import { Post } from '../model/Post';
   }
 
   getPosts():Observable<any> {
-    return this.http.get(`${this.apiUrl}/getPosts`,{headers:this.getAuthHeaders(),})
+    return this.http.get(`${this.apiUrl}/getPosts`,{withCredentials: true, })
   }
 
   getPost(postId:number):Observable<any>
   {
     console.log(this.getAuthHeaders());
 
-    return this.http.get(`${this.apiUrl}/getPost/${postId}`,{headers:this.getAuthHeaders(),}).pipe(
+    return this.http.get(`${this.apiUrl}/getPost/${postId}`,{withCredentials: true, }).pipe(
       catchError((error:HttpErrorResponse)=>{
         let errorMessage = 'An error occurred while fetching post.';
         if(error.status === 404)
@@ -41,9 +41,9 @@ import { Post } from '../model/Post';
     );
   }
 
-  updatePost(post:Post):Observable<any>
+  updatePost(formData:FormData,postId:number):Observable<any>
   {
-    return this.http.put(`${this.apiUrl}/updatePost/${post.postId}`,post,{headers:this.getAuthHeaders(),}).pipe(
+    return this.http.put(`${this.apiUrl}/updatePost/${postId}`,formData,{withCredentials: true, }).pipe(
       catchError((error:HttpErrorResponse)=>{
         let errorMessage = 'An error occurred while updating post.';
         if(error.status === 404)
@@ -70,4 +70,19 @@ import { Post } from '../model/Post';
       })
     )
   }
+
+  createPost(formData : FormData):Observable<any>
+  {
+   return this.http
+      .post(`${this.apiUrl}/createPost`,formData, {
+       withCredentials: true,
+      })
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          let errorMessage = 'An error occurred while adding post.';
+          console.error('Error adding post', error);
+          return throwError(() => new Error('Failed to adding'));
+        })
+      );
+  } 
   }

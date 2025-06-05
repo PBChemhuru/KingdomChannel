@@ -23,7 +23,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
     MatIconModule,
     MatToolbarModule,
     SearchbarComponent,
-    MatSortModule
+    MatSortModule,
   ],
   templateUrl: './manage-booklets.component.html',
   styleUrl: './manage-booklets.component.css',
@@ -66,7 +66,7 @@ export class ManageBookletsComponent {
     };
   }
   ngAfterViewInit(): void {
-    this.booklets.sort =this.sort;
+    this.booklets.sort = this.sort;
     this.booklets.paginator = this.paginator;
   }
 
@@ -137,9 +137,11 @@ export class ManageBookletsComponent {
       data: booklet,
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
+      console.log(result);
+      if (result && result.bookletId) {
         this.viewBookletDetails(result.bookletId);
       }
+
     });
   }
 

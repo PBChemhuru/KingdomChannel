@@ -1,6 +1,13 @@
 <h2 mat-dialog-title>Edit Comment</h2>
 <mat-dialog-content>
-  <textarea [(ngModel)]="updatedCommentText" rows="4" placeholder="Edit your comment"></textarea>
+  <ngx-editor 
+    [editor]="editor" 
+    [(ngModel)]="updatedCommentText" 
+    placeholder="Edit your comment"
+    name="comment"
+  > <ngx-editor-menu [editor]="editor" style="color: black;"></ngx-editor-menu></ngx-editor>
+ 
+  
 </mat-dialog-content>
 
 <mat-dialog-actions>

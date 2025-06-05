@@ -13,6 +13,8 @@ import { CommentsService } from '../services/comment.service';
 import { AuthService } from '../services/auth.service';
 import { ContentType } from '../model/ContentType.enum';
 import { FlaggedcommentsService } from '../services/flaggedcomments.service';
+import { LoginDialogComponent } from '../components/login-dialog/login-dialog.component';
+import { RegisterDialogComponent } from '../components/register-dialog/register-dialog.component';
 
 @Component({
   selector: 'app-comments-section',
@@ -134,4 +136,63 @@ export class CommentsSectionComponent implements OnInit {
       },
     });
   }
+
+
+   login(): void {
+      const dialogRef = this.dialog.open(LoginDialogComponent, {
+        width: '500px',
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.authservice.login(result.username, result.password).subscribe({
+            next: (response) => {
+              if (response && response.token) {
+                sessionStorage.setItem('jwtToken', response.token);
+                this.snackbar.open('Login Successful', 'close', {
+                  duration: 3000,
+                  horizontalPosition: 'center',
+                  verticalPosition: 'top',
+                });
+              }
+            },
+            error: (error) => {
+              this.snackbar.open('Login Failed', 'close', {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'top',
+              });
+            },
+          });
+        }
+      });
+    }
+
+     register(): void {
+        const dialogRef = this.dialog.open(RegisterDialogComponent, {
+          width: '500px',
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            this.authservice.login(result.username, result.password).subscribe({
+              next: (response) => {
+                if (response && response.token) {
+                  sessionStorage.setItem('jwtToken', response.token);
+                  this.snackbar.open('Login Successful', 'close', {
+                    duration: 3000,
+                    horizontalPosition: 'center',
+                    verticalPosition: 'top',
+                  });
+                }
+              },
+              error: (error) => {
+                this.snackbar.open('Login Failed', 'close', {
+                  duration: 3000,
+                  horizontalPosition: 'center',
+                  verticalPosition: 'top',
+                });
+              },
+            });
+          }
+        });
+      }
 }

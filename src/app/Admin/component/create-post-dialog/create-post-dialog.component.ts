@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -12,6 +12,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
+import { Editor, NgxEditorModule } from 'ngx-editor';
 
 @Component({
   selector: 'app-create-post-dialog',
@@ -21,14 +22,16 @@ import { CommonModule } from '@angular/common';
     MatFormFieldModule,
     MatInputModule,
     CommonModule,
+    NgxEditorModule,
   ],
   templateUrl: './create-post-dialog.component.html',
   styleUrl: './create-post-dialog.component.css',
 })
-export class CreatePostDialogComponent {
+export class CreatePostDialogComponent implements OnInit, OnDestroy {
   form: FormGroup;
   selectedFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
+  editor!: Editor;
   constructor(
     private postService: PostsService,
     private snackbar: MatSnackBar,
@@ -36,18 +39,51 @@ export class CreatePostDialogComponent {
     private dialogRef: MatDialogRef<CreatePostDialogComponent>
   ) {
     this.form = this.fb.group({
-      postTitle: ['', Validators.required, Validators.maxLength(200)],
-      postContent: ['', Validators.required, Validators.maxLength(1200)],
+      postTitle: ['', [Validators.required, Validators.maxLength(200)]],
+      postContent: ['', [Validators.required]],
       thumbnail: [null, Validators.required],
     });
+  }
+
+  ngOnInit(): void {
+    this.editor = new Editor()
+  }
+
+  ngOnDestroy(): void {
+    this.editor.destroy();
   }
   closeDialog(): void {
     this.dialogRef.close();
   }
 
   submitForm(): void {
-    if (this.form.valid) {
-      this.dialogRef.close(this.form.value);
+    if (this.form.valid && this.selectedFile) {
+      const formData = new FormData();
+      formData.append('postTitle', this.form.value.postTitle);
+      formData.append('postContent', this.form.value.postContent);
+      formData.append('thumbnail', this.selectedFile);
+      console.log(
+        this.form.value.postTitle,
+        this.form.value.postContent,
+        this.selectedFile
+      );
+      this.postService.createPost(formData).subscribe({
+        next: () => {
+          this.snackbar.open('Post created successfully!', 'close', {
+            duration: 300,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+          });
+          this.dialogRef.close(true);
+        },
+        error: (err) => {
+          console.error('Failed to create Post:', err);
+          this.snackbar.open('Failed to create booklet', 'close', {
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+          });
+        },
+      });
     }
   }
 
@@ -63,12 +99,10 @@ export class CreatePostDialogComponent {
         this.previewUrl = reader.result;
       };
       reader.readAsDataURL(this.selectedFile);
-    }
-    else
-    {
+    } else {
       this.selectedFile = null;
       this.previewUrl = null;
-      this.form.patchValue({image:null});
+      this.form.patchValue({ image: null });
     }
   }
 }

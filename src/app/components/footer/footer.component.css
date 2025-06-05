@@ -1,0 +1,16 @@
+.socials .bi-facebook:hover
+{
+    color: blue;
+}
+.socials .bi-tiktok:hover
+{
+    color: rgb(0, 255, 255);
+}
+.socials .bi-youtube:hover
+{
+    color: rgb(255, 0, 0);
+}
+.socials .bi-whatsapp:hover
+{
+    color: rgb(43, 255, 0);
+}

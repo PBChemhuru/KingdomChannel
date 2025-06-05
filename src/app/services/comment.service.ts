@@ -32,7 +32,7 @@ export class CommentsService {
   ): Observable<any> {
     return this.http
       .get(`${this.apiUrl}/${contentType}/${contentId}`, {
-        headers: this.getAuthHeaders(),
+       withCredentials: true, 
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {
@@ -60,7 +60,7 @@ export class CommentsService {
     };
     return this.http
       .post(`${this.apiUrl}/comments`, payload, {
-        headers: this.getAuthHeaders(),
+       withCredentials: true, 
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {
@@ -82,7 +82,7 @@ export class CommentsService {
 
     return this.http
       .put(`${this.apiUrl}/${commentId}`, payload, {
-        headers: this.getAuthHeaders(),
+       withCredentials: true, 
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {
@@ -98,7 +98,7 @@ export class CommentsService {
 
   deleteComment(commentId: number) {
     return this.http
-      .delete(`${this.apiUrl}/${commentId}`, { headers: this.getAuthHeaders() })
+      .delete(`${this.apiUrl}/${commentId}`, { withCredentials:true })
       .pipe(
         catchError((error: HttpErrorResponse) => {
           let errorMessage = 'An error occured while deleting comment,';
@@ -127,7 +127,7 @@ export class CommentsService {
 
     return this.http
       .post(`${this.apiUrl}/flagComment`, payload, {
-        headers: this.getAuthHeaders(),
+       withCredentials: true, 
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {

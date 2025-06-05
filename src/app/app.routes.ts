@@ -14,6 +14,8 @@ import { FlaggedCommentsComponent } from './Admin/flagged-comments/flagged-comme
 import { adminGuard } from './guards/admin.guard';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { AdminstatsComponent } from './Admin/adminstats/adminstats.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { ManageUsersComponent } from './Admin/manage-users/manage-users.component';
 
 export const routes: Routes = [
   {
@@ -24,6 +26,7 @@ export const routes: Routes = [
       { path: 'posts', pathMatch: 'full', component: PostListComponent },
       { path: 'post/:id', pathMatch: 'full', component: PostDetailsComponent },
       { path: 'booklets', pathMatch: 'full', component: BookletComponent },
+      { path: 'profile', pathMatch: 'full', component: ProfileComponent },
       {
         path: 'booklets/:id',
         pathMatch: 'full',
@@ -44,6 +47,7 @@ export const routes: Routes = [
       { path: 'videos', component: ManageVideosComponent },
       { path: 'booklets', component: ManageBookletsComponent },
       { path: 'flagged-comments', component: FlaggedCommentsComponent },
+      { path: 'users', component: ManageUsersComponent },
     ],
   },
 ];
