@@ -1,40 +1,38 @@
-<mat-toolbar color="primary"
-  ><nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <a class="navbar-brand text-light" href="#" >AdminDashBoard</a>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link text-light" routerLink="/" routerLinkActive="active"
-              >User Site</a
-            >
-          </li>
-        </ul>
-    </div>
-    <div>
-      <mat-menu #userMenu="matMenu">
-        <button mat-menu-item disabled>Hi, {{ username }}</button>
-        <button mat-menu-item (click)="logout()">Logout</button>
-      </mat-menu>
-      
-      <button mat-button [matMenuTriggerFor]="userMenu">
-        {{ username }}
-      </button>
-      <mat-icon>arrow_drop_down</mat-icon>
-    </div>
-  </nav></mat-toolbar
->
-<mat-sidenav-container class="admin-container">
-  <mat-sidenav mode="side" opened>
+<div class="dashboard-layout">
+  <aside class="sidebar">
     <mat-nav-list>
+      <a mat-list-item routerLink="admin">AdminDashBoard</a>
       <a mat-list-item routerLink="posts">Manage Posts</a>
       <a mat-list-item routerLink="videos">Manage Videos</a>
       <a mat-list-item routerLink="booklets">Manage Booklets</a>
       <a mat-list-item routerLink="flagged-comments">Flagged Comments</a>
       <a mat-list-item routerLink="users">Manage Users</a>
     </mat-nav-list>
-  </mat-sidenav>
+  </aside>
+  <main class="main-content">
+    <nav class="adminnavbar">
+  <div>
+    <a class="nav-link text-light" routerLink="/" routerLinkActive="active" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: 500;">
+      User Site
+    </a>
+  </div>
 
-  <mat-sidenav-content class="me-2">
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  <div style="display: flex; align-items: center;">
+    <button mat-button [matMenuTriggerFor]="userMenu" style="color: rgb(255, 255, 255);">
+      {{ username }}
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+
+    <mat-menu #userMenu="matMenu" xPosition="before">
+      <button mat-menu-item disabled>Hi, {{ username }}</button>
+      <button mat-menu-item (click)="logout()">Logout</button>
+    </mat-menu>
+  </div>
+</nav>
+    <mat-sidenav-container class="admin-container">
+      <mat-sidenav-content>
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </main>
+</div>

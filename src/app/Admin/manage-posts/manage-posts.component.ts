@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteItemDialogComponent } from '../component/delete-item-dialog/delete-item-dialog.component';
 import { EditPostDialogComponent } from '../component/edit-post-dialog/edit-post-dialog.component';
-import { MatToolbar } from '@angular/material/toolbar';
 import { CreatePostDialogComponent } from '../component/create-post-dialog/create-post-dialog.component';
 import { SearchbarComponent } from '../../searchbar/searchbar.component';
 import { MatSortModule,MatSort } from '@angular/material/sort';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-manage-posts',
@@ -21,9 +21,9 @@ import { MatSortModule,MatSort } from '@angular/material/sort';
     MatSnackBarModule,
     MatTableModule,
     MatIconModule,
-    MatToolbar,
     SearchbarComponent,
-    MatSortModule
+    MatSortModule,
+    CommonModule
   ],
   templateUrl: './manage-posts.component.html',
   styleUrl: './manage-posts.component.css',

@@ -20,16 +20,19 @@
             aria-current="page"
             routerLink="/"
             routerLinkActive="active "
+            data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
             >Home</a
           >
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/about" routerLinkActive="active"
+          data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
             >About</a
           >
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/posts" routerLinkActive="active"
+          data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
             >Posts</a
           >
         </li>
@@ -40,12 +43,14 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/booklets" routerLinkActive="active"
+          data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
             >Booklets</a
           >
         </li>
         
         <li *ngIf="authservice.getRole() === 'admin'" class="nav-item">
           <a class="nav-link" routerLink="/admin" routerLinkActive="active"
+          data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
             >AdminDashBoard</a
           >
         </li>
@@ -80,6 +85,7 @@
         <mat-menu #userMenu="matMenu">
           <button mat-menu-item disabled>Hi, {{ username }}</button>
           <button mat-menu-item ><a class="nav-link" routerLink="/profile" routerLinkActive="active"
+            data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
             >Profile</a
           > </button>
           <button  mat-menu-item (click)="logout()">Logout</button>
