@@ -1,31 +1,37 @@
 <div class="postcard p-4">
   <h1 mat-dialog-title class="dialog-title">Edit Post Information</h1>
 
-  <div mat-dialog-content>
-    <form [formGroup]="form" (ngSubmit)="submitChanges()" class="post-form">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Post Title</mat-label>
+  <div mat-dialog-content style="margin-top: 1rem;">
+    <form [formGroup]="form" (ngSubmit)="submitChanges()" class="post-form" novalidate>
+      <mat-form-field appearance="outline" class="full-width" style="margin-top:1rem ;">
+        <mat-label class="dialog-title" >Post Title</mat-label>
         <input matInput formControlName="postTitle" required />
+        <mat-error *ngIf="form.get('postTitle')?.hasError('required')">
+          Title is required
+        </mat-error>
+        <mat-error *ngIf="form.get('postTitle')?.hasError('maxlength')">
+          Max length exceeded
+        </mat-error>
       </mat-form-field>
 
-      <div *ngIf="errorMessage" class="error-message mb-2">
+      <div *ngIf="errorMessage" class="error-text">
         {{ errorMessage }}
       </div>
 
       <div class="editor-wrapper full-width">
-        <mat-label class="mb-2">Post Content</mat-label>
+        <mat-label class="mb-2 dialog-title">Post Content</mat-label>
         <ngx-editor
           [editor]="editor"
           formControlName="postContent"
           placeholder="Update your blog content here..."
-        ><ngx-editor-menu [editor]="editor" style="color: black;"></ngx-editor-menu></ngx-editor>
-        
-        
+        >
+          <ngx-editor-menu [editor]="editor" style="color: black;"></ngx-editor-menu>
+        </ngx-editor>
       </div>
 
       <div class="upload-section mt-3">
         <label class="upload-label" for="thumbnail">
-          <span class="actionbutton">📁 Upload Thumbnail</span>
+          <span class="actionbutton dialog-title">📁 Upload Thumbnail</span>
         </label>
         <input
           id="thumbnail"
@@ -35,26 +41,29 @@
           hidden
         />
         <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+        <div *ngIf="!selectedFile && form.get('thumbnail')?.touched" class="error-text">
+          Thumbnail image is required
+        </div>
       </div>
 
       <div *ngIf="previewUrl" class="image-preview mt-3">
-        <img [src]="previewUrl" alt="Preview" style="max-height: 200px;" />
-      </div>
-
-      <div mat-dialog-actions class="dialog-actions mt-4">
-        <button mat-button type="button" (click)="onCancel()" class="actionbutton">
-          Cancel
-        </button>
-        <button
-          mat-button
-          color="primary"
-          type="submit"
-          [disabled]="form.invalid"
-          class="actionbutton"
-        >
-          Save Changes
-        </button>
+        <img [src]="previewUrl" alt="Preview" />
       </div>
     </form>
+  </div>
+
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-button type="button" (click)="onCancel()" class="actionbutton">
+      Cancel
+    </button>
+    <button
+      mat-button
+      color="primary"
+      type="submit"
+      [disabled]="form.invalid"
+      class="actionbutton"
+    >
+      Save Changes
+    </button>
   </div>
 </div>

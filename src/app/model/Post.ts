@@ -7,5 +7,6 @@ export interface Post {
     thumbnail: string;
     createdAt: Date;
     updatedAt:Date;
+    commentCount: number;
   }
   

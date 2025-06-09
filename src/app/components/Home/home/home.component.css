@@ -1,0 +1,157 @@
+.postTeaser {
+    margin-top: 1rem;
+    color: #333;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+img {
+    max-height: 400px;
+    width: auto;
+}
+
+.actionbutton {
+    background: transparent;
+    border: none;
+    color: #3aa7a0;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-right: 1rem;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.actionbutton:hover {
+    color: #2a7d77;
+    transform: scale(1.1);
+}
+
+.postcard {
+    background-color: rgb(229, 248, 247);
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.postcard:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.postcard h1 {
+    font-size: 1.5rem;
+    color: #2a7d77;
+}
+
+.postcard p {
+  color: #777;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.bookcard {
+    transition: transform 0.2s ease;
+    background-color:rgb(229, 248, 247);
+    border-radius: 12px;
+  }
+
+  .bookcard:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .book-img {
+    height: 250px;
+    object-fit: cover;
+  }
+
+  .bookletTeaser
+{
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.actionbutton {
+    background: transparent;
+    border: none;
+    color: #3aa7a0;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-right: 1rem;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.actionbutton:hover {
+    color: #2a7d77;
+    transform: scale(1.1);
+}
+
+.bookcard h1 {
+    font-size: 1.5rem;
+    color: #2a7d77;
+}
+
+.bookcard p {
+  color: #777;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.videocard {
+  background-color: rgb(229, 248, 247); /* Matches .bookcard background */
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.videocard:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+.videocard video {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.videocard .card-body {
+  padding: 1rem;
+}
+
+.videocard h1 {
+  font-size: 1.25rem;
+  color: #2a7d77;
+  margin-bottom: 0.5rem;
+}
+
+.videocard p {
+  font-size: 0.875rem;
+  color: #777;
+  margin-bottom: 1rem;
+}
+
+.videocard .btn {
+  background-color: #3aa7a0;
+  border: none;
+  color: white;
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.videocard .btn:hover {
+  background-color: #2a7d77;
+}

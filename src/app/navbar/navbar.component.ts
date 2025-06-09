@@ -88,8 +88,11 @@ export class NavbarComponent implements OnInit {
             }
           },
           error: (error) => {
-            this.snackbar.open('Login Failed', 'close', {
+            const errorMessage =
+            error?.error?.message || 'Login failed. Please try again.';
+            this.snackbar.open(errorMessage, 'close', {
               duration: 3000,
+              panelClass:['snackbar-error'],
               horizontalPosition: 'center',
               verticalPosition: 'top',
             });

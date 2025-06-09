@@ -130,14 +130,14 @@ export class ManageVideosComponent {
   }
 
   openEditDialog(video: any): void {
-    const dialogRef = this.dialog.open(EditVideoDialogComponent, { data: video });
+    const dialogRef = this.dialog.open(EditVideoDialogComponent, { width:'800px', data: video });
     dialogRef.afterClosed().subscribe((result) => {
       this.getVideos();
     });
   }
 
   openCreateVideoDialog():void{
-    const dialogRef = this.dialog.open(CreateVideoDialogComponent);
+    const dialogRef = this.dialog.open(CreateVideoDialogComponent,{width:'600px',minHeight:'50vh'});
     dialogRef.afterClosed().subscribe((result)=>{
       if(result)
       {

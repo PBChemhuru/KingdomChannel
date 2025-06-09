@@ -6,7 +6,7 @@
     <mat-card-content>
         <h1>{{booklet.bookletTitle}}</h1>
         <div class="bookletTeaser">
-            <p>{{booklet.bookletDescription}} </p>
+            <p [innerHTML]="safeContent"></p>
         </div>
     </mat-card-content>
     </div>

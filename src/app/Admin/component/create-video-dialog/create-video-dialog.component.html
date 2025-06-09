@@ -1,37 +1,68 @@
-<div class="container-fluid p-5" >
-    <h1 mat-dialog-title>Post Video</h1>
-<div mat-dialog-content>
-  <form [formGroup]="form">
-    <mat-form-field appearance="fill">
-      <mat-label>Video Title</mat-label>
-      <input matInput formControlName="videoTitle" />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-        <mat-label>Video Link</mat-label>
-        <input matInput formControlName="videoLink" />
-      </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Video Synopsis</mat-label>
-      <input matInput formControlName="videoDescription" />
-    </mat-form-field>
-    <input
-      id="thumbnail"
-      type="file"
-      (change)="onFileSelected($event)"
-      accept="image/*"
-    />
-    <div *ngIf="!selectedFile && form.get('image')?.touched">
-      Image is required
-    </div>
+<div class="video-card p-4">
+  <h1 mat-dialog-title class="dialog-title">Post Video</h1>
 
-    <!-- Image preview -->
-    <div *ngIf="previewUrl" class="image-preview">
-      <img [src]="previewUrl" alt="Preview" />
-    </div>
-  </form>
-</div>
-<div mat-dialog-actions class="container-fluid m-2">
-  <button mat-button type="button" (click)="closeDialog()" class="m-2">Cancel</button >
-  <button mat-button color="primary" (click)="submitForm()" [disabled]="form.invalid">Save</button>
-</div>
+  <div mat-dialog-content style="margin-top: 1rem;">
+    <form [formGroup]="form" (ngSubmit)="submitForm()" class="video-form" novalidate>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Video Title</mat-label>
+        <input matInput formControlName="videoTitle" required />
+        <mat-error *ngIf="form.get('videoTitle')?.hasError('required')">
+          Title is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Video Link</mat-label>
+        <input matInput formControlName="videoLink" required />
+        <mat-error *ngIf="form.get('videoLink')?.hasError('required')">
+          Link is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Video Synopsis</mat-label>
+        <input matInput formControlName="videoDescription" required />
+        <mat-error *ngIf="form.get('videoDescription')?.hasError('required')">
+          Synopsis is required
+        </mat-error>
+      </mat-form-field>
+
+      <div class="upload-section mt-3">
+        <label class="upload-label" for="thumbnail">
+          <span class="actionbutton">📁 Upload Thumbnail</span>
+        </label>
+        <input
+          id="thumbnail"
+          type="file"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          hidden
+        />
+        <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+        <div *ngIf="!selectedFile && form.get('image')?.touched" class="error-text">
+          Thumbnail image is required
+        </div>
+      </div>
+
+      <div *ngIf="previewUrl" class="image-preview mt-3">
+        <img [src]="previewUrl" alt="Preview" />
+      </div>
+
+      <div mat-dialog-actions class="dialog-actions mt-4">
+        <button mat-button type="button" (click)="closeDialog()" class="actionbutton">
+          Cancel
+        </button>
+        <button
+          mat-button
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid"
+          class="actionbutton"
+        >
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

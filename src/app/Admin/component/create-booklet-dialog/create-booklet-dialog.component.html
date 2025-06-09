@@ -1,64 +1,93 @@
-<div class="container-fluid p-5">
-  <h1 mat-dialog-title>Post Booklet</h1>
+<div class="postcard p-4">
+  <h1 mat-dialog-title class="dialog-title">Post Booklet</h1>
+
   <div mat-dialog-content>
-    <form [formGroup]="form" >
-      <mat-form-field appearance="fill">
+    <form [formGroup]="form" class="post-form" novalidate>
+      <mat-form-field appearance="outline" class="full-width">
         <mat-label>Booklet Title</mat-label>
-        <input matInput formControlName="bookletTitle" />
+        <input matInput formControlName="bookletTitle" required />
+        <mat-error *ngIf="form.get('bookletTitle')?.hasError('required')">
+          Title is required
+        </mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill" *ngIf="!form.get('uploadPdf')" >
-        <mat-label>Booklet Link</mat-label>
-        <input matInput formControlName="bookletLink" />
-      </mat-form-field>
-       <mat-checkbox formControlName="uploadPdf" name="uploadPdfToggle">
+      <mat-checkbox formControlName="uploadPdf" name="uploadPdfToggle">
         Upload PDF
       </mat-checkbox>
-      
-      <div *ngIf="form.get('uploadPdf')?.value">
-        <label for="pdf">Upload PDF</label>
+
+      <mat-form-field
+        appearance="outline"
+        class="full-width"
+        *ngIf="!form.get('uploadPdf')?.value"
+      >
+        <mat-label>Booklet Link</mat-label>
+        <input matInput formControlName="bookletLink" />
+        <mat-error *ngIf="form.get('bookletLink')?.hasError('required')">
+          Link is required
+        </mat-error>
+      </mat-form-field>
+
+      <div *ngIf="form.get('uploadPdf')?.value" class="upload-section">
+        <label class="upload-label" for="pdf">
+          <span class="actionbutton dialog-title">📁 Upload PDF</span>
+        </label>
         <input
           id="pdf"
           type="file"
           (change)="onPdfSelected($event)"
           accept="application/pdf"
+          hidden
         />
-        <div *ngIf="!selectedPdfFile && form.touched">
+        <span *ngIf="selectedPdfFile">{{ selectedPdfFile.name }}</span>
+        <div *ngIf="!selectedPdfFile && form.touched" class="error-text">
           PDF is required
         </div>
       </div>
 
-      <mat-form-field appearance="fill">
-        <mat-label>Booklet Synopsis</mat-label>
-        <input matInput formControlName="bookletDescription" />
-      </mat-form-field>
-
-      <input
-        id="thumbnail"
-        type="file"
-        (change)="onFileSelected($event)"
-        accept="image/*"
-      />
-      <div *ngIf="!selectedFile && form.touched">
-        Image is required
+      <div class="editor-wrapper full-width">
+        <mat-label class="mb-2 dialog-title">Booklet Synopsis</mat-label>
+        <ngx-editor
+          [editor]="editor"
+          formControlName="bookletDescription"
+          placeholder="Write a short synopsis here..."
+        >
+          <ngx-editor-menu [editor]="editor" style="color: black;"></ngx-editor-menu>
+        </ngx-editor>
       </div>
 
-      <div *ngIf="previewUrl" class="image-preview mt-2">
-        <img [src]="previewUrl" alt="Preview" style="max-height: 200px;" />
+      <div class="upload-section">
+        <label class="upload-label" for="thumbnail">
+          <span class="actionbutton dialog-title">📁 Upload Thumbnail</span>
+        </label>
+        <input
+          id="thumbnail"
+          type="file"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          hidden
+        />
+        <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+        <div *ngIf="!selectedFile && form.touched" class="error-text">
+          Image is required (30MB limit)
+        </div>
+      </div>
+
+      <div *ngIf="previewUrl" class="image-preview mt-3">
+        <img [src]="previewUrl" alt="Preview" />
       </div>
     </form>
   </div>
 
-  <div mat-dialog-actions class="container-fluid m-2">
-    <button mat-button (click)="closeDialog()" class="m-2">Cancel</button>
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-button (click)="closeDialog()" class="actionbutton">Cancel</button>
     <button
       mat-button
       color="primary"
       (click)="submitForm()"
-      [disabled]="form.invalid || !selectedFile"
+      [disabled]="form.invalid || (!selectedFile)"
+      class="actionbutton"
     >
       Save
     </button>
-    
   </div>
 </div>

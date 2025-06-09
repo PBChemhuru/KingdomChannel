@@ -1,76 +1,80 @@
-<h2 mat-dialog-title>Edit Video Information</h2>
-<mat-dialog-content>
-  <form [formGroup]="form" (ngSubmit)="submitChanges()" novalidate>
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
+<div class="video-form p-4">
+  <h1 mat-dialog-title class="dialog-title">Edit Video Information</h1>
 
-    <mat-form-field class="full-width">
-      <mat-label>Video Title</mat-label>
-      <input matInput formControlName="videoTitle" required />
-      <mat-error *ngIf="form.get('videoTitle')?.hasError('required')">
-        Title is required
-      </mat-error>
-      <mat-error *ngIf="form.get('videoTitle')?.hasError('maxlength')">
-        Max 200 characters allowed
-      </mat-error>
-    </mat-form-field>
+  <div mat-dialog-content style="margin-top: 1rem;">
+    <form [formGroup]="form" (ngSubmit)="submitChanges()" class="video-form" novalidate>
+      <mat-form-field appearance="outline" class="full-width" style="margin-top: 0.25rem;">
+        <mat-label>Video Title</mat-label>
+        <input matInput formControlName="videoTitle" required />
+        <mat-error *ngIf="form.get('videoTitle')?.hasError('required')">
+          Title is required
+        </mat-error>
+        <mat-error *ngIf="form.get('videoTitle')?.hasError('maxlength')">
+          Max 200 characters allowed
+        </mat-error>
+      </mat-form-field>
 
-    <mat-form-field class="full-width">
-      <mat-label>Video Description</mat-label>
-      <textarea
-        matInput
-        formControlName="videoDescription"
-        required
-        rows="3"
-      ></textarea>
-      <mat-error *ngIf="form.get('videoDescription')?.hasError('required')">
-        Description is required
-      </mat-error>
-      <mat-error *ngIf="form.get('videoDescription')?.hasError('maxlength')">
-        Max 1200 characters allowed
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Video Description</mat-label>
+        <textarea matInput formControlName="videoDescription" required rows="3"></textarea>
+        <mat-error *ngIf="form.get('videoDescription')?.hasError('required')">
+          Description is required
+        </mat-error>
+        <mat-error *ngIf="form.get('videoDescription')?.hasError('maxlength')">
+          Max 1200 characters allowed
+        </mat-error>
+      </mat-form-field>
 
-    <mat-form-field class="full-width">
-      <mat-label>Video Link</mat-label>
-      <input matInput formControlName="videoLink" required />
-      <mat-error *ngIf="form.get('videoLink')?.hasError('required')">
-        Link is required
-      </mat-error>
-      <mat-error *ngIf="form.get('videoLink')?.hasError('maxlength')">
-        Max 500 characters allowed
-      </mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Video Link</mat-label>
+        <input matInput formControlName="videoLink" required />
+        <mat-error *ngIf="form.get('videoLink')?.hasError('required')">
+          Link is required
+        </mat-error>
+        <mat-error *ngIf="form.get('videoLink')?.hasError('maxlength')">
+          Max 500 characters allowed
+        </mat-error>
+      </mat-form-field>
 
-    <div class="file-upload">
-      <label for="thumbnail">Upload Thumbnail</label><br />
-      <input
-        id="thumbnail"
-        type="file"
-        (change)="onFileSelected($event)"
-        accept="image/*"
-      />
-    </div>
+      <div *ngIf="errorMessage" class="error-text">
+        {{ errorMessage }}
+      </div>
 
-    <div *ngIf="!previewUrl && !selectedFile" class="error-message">
-      Thumbnail image is required
-    </div>
+      <div class="upload-section mt-3">
+        <label class="upload-label" for="thumbnail">
+          <span class="actionbutton">📁 Upload Thumbnail</span>
+        </label>
+        <input
+          id="thumbnail"
+          type="file"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          hidden
+        />
+        <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+        <div *ngIf="!selectedFile && form.get('thumbnail')?.touched" class="error-text">
+          Thumbnail image is required
+        </div>
+      </div>
 
-    <div *ngIf="previewUrl" class="image-preview mt-2">
-      <img [src]="previewUrl" alt="Preview" style="max-height: 200px;" />
-    </div>
+      <div *ngIf="previewUrl" class="image-preview mt-3">
+        <img [src]="previewUrl" alt="Preview" />
+      </div>
 
-    <div mat-dialog-actions align="end">
-      <button mat-button type="button" (click)="onCancel()">Cancel</button>
-      <button
-        mat-button
-        color="primary"
-        type="submit"
-        [disabled]="form.invalid"
-      >
-        Save Changes
-      </button>
-    </div>
-  </form>
-</mat-dialog-content>
+      <div mat-dialog-actions class="dialog-actions mt-4">
+        <button mat-button type="button" (click)="onCancel()" class="actionbutton">
+          Cancel
+        </button>
+        <button
+          mat-button
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid"
+          class="actionbutton"
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -103,7 +103,7 @@ onFiltersChanged(filters: {
   }
 
   openCreateUserDialog():void{
-    const dialogRef = this.dialog.open(CreateUserDialogComponent);
+    const dialogRef = this.dialog.open(CreateUserDialogComponent,{width:'600px'});
     dialogRef.afterClosed().subscribe((result) => {
       if(result)
       {
@@ -113,7 +113,7 @@ onFiltersChanged(filters: {
   }
 
   openEditDialog(user: any): void {
-      const dialogRef = this.dialog.open(EditUserDialogComponent, { data: user });
+      const dialogRef = this.dialog.open(EditUserDialogComponent, {width:'600px', data: user });
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
           this.getUsers();

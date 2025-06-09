@@ -14,6 +14,7 @@ import { MatToolbar, MatToolbarModule } from '@angular/material/toolbar';
 import { SearchbarComponent } from '../../searchbar/searchbar.component';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-manage-booklets',
@@ -35,9 +36,10 @@ export class ManageBookletsComponent {
     private snackbar: MatSnackBar,
     private bookletService: BookletsService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private santizer:DomSanitizer,
   ) {}
-
+  safeContent!: SafeHtml;
   booklets: MatTableDataSource<Booklet> = new MatTableDataSource<Booklet>([]);
   displayedColumns: string[] = [
     'bookletId',
@@ -76,6 +78,8 @@ export class ManageBookletsComponent {
     this.bookletService.getBooklets().subscribe({
       next: (data) => {
         this.booklets.data = data;
+        this.safeContent = this.sanitize(data.bookletDescription);
+        
       },
       error: (err) => {
         console.log(err);
@@ -148,11 +152,17 @@ export class ManageBookletsComponent {
   }
 
   openCreateBookletDialog(): void {
-    const dialogRef = this.dialog.open(CreateBookletDialogComponent);
+    const dialogRef = this.dialog.open(CreateBookletDialogComponent,{width:'600px',height:'70vh'});
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.getBooklets();
       }
     });
   }
+
+  sanitize(html:string):SafeHtml
+  {
+    return this.santizer.bypassSecurityTrustHtml(html);
+  }
+
 }

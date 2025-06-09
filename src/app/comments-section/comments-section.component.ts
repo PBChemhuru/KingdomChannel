@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { AddCommentComponent } from './add-comment/add-comment.component';
 import { CommentCardComponent } from './comment-card/comment-card.component';
@@ -27,7 +27,7 @@ import { RegisterDialogComponent } from '../components/register-dialog/register-
   templateUrl: './comments-section.component.html',
   styleUrl: './comments-section.component.css',
 })
-export class CommentsSectionComponent implements OnInit {
+export class CommentsSectionComponent implements OnInit, OnChanges{
   @Input() id!: number;
   @Input() contentType!: ContentType;
   flagDescription!: string;
@@ -46,6 +46,12 @@ export class CommentsSectionComponent implements OnInit {
     this.getComments(this.id);
     const token = sessionStorage.getItem('jwtToken');
     this.isLoggedIn = !!token;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+     if (changes['id'] && !changes['id'].firstChange) {
+      this.getComments(this.id);
+    }
   }
 
   getComments(id: number): void {

@@ -55,3 +55,20 @@
   padding: 1rem;
   min-height: 300px;
 }
+
+.actionbutton {
+  background-color: #2a7d77;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 600;
+  text-transform: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.actionbutton:hover {
+  background-color: #476866;
+  transform: scale(1.05);
+}

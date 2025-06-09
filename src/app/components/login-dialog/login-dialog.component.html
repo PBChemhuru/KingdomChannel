@@ -1,27 +1,30 @@
 <h2 mat-dialog-title>Sign In</h2>
+
 <mat-dialog-content>
   <form [formGroup]="form" (ngSubmit)="Login()">
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Username Field -->
     <mat-form-field class="full-width">
-      <div *ngIf="errorMessage" class="error-message">
-        {{ errorMessage }}
-      </div>
       <mat-label>Username</mat-label>
       <input matInput formControlName="username" required />
     </mat-form-field>
+
+    <!-- Password Field -->
     <mat-form-field class="full-width">
       <mat-label>Password</mat-label>
-      <input
-        matInput
-        type="password"
-        formControlName="password"
-        required
-        id="password"
-      />
+      <input matInput type="password" formControlName="password" required />
     </mat-form-field>
 
-    <div mat-dialog-actions>
+    <!-- Form Actions -->
+    <div mat-dialog-actions align="end">
       <button mat-button type="button" (click)="onCancel()">Cancel</button>
-      <button mat-button color="primary" type="submit">Sign In</button>
+      <button mat-raised-button color="primary" type="submit">Sign In</button>
     </div>
+
   </form>
 </mat-dialog-content>

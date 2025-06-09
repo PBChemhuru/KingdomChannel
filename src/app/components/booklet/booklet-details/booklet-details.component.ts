@@ -9,6 +9,7 @@ import { Booklet } from '../../../model/Booklet';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommentsSectionComponent } from "../../../comments-section/comments-section.component";
 import { ContentType } from '../../../model/ContentType.enum';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 
 @Component({
@@ -20,8 +21,9 @@ import { ContentType } from '../../../model/ContentType.enum';
 export class BookletDetailsComponent implements OnInit {
   bookletId!:number;
   booklet!: Booklet;
+  safeContent!: SafeHtml;
   ContentType = ContentType;
- constructor(private bookletservice:BookletsService,private route :ActivatedRoute,private snackbar:MatSnackBar){}
+ constructor(private bookletservice:BookletsService,private route :ActivatedRoute,private snackbar:MatSnackBar,private sanitizer:DomSanitizer){}
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.bookletId = +params['id'];
@@ -35,6 +37,8 @@ export class BookletDetailsComponent implements OnInit {
       {
         next:(data)=> {
           this.booklet= data;
+          console.log(data.bookletDescription);
+          this.safeContent=this.sanitize(data.bookletDescription)
         },
         error: (err)=>
         {
@@ -56,5 +60,10 @@ export class BookletDetailsComponent implements OnInit {
     link.href = this.booklet.bookletLink;
     link.download = `${this.booklet.bookletTitle}.pdf`;
     link.click();
+  }
+
+   sanitize(html:string):SafeHtml
+  {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }

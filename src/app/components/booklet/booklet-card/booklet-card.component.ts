@@ -11,6 +11,7 @@ import { AuthService } from '../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginDialogComponent } from '../../login-dialog/login-dialog.component';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-booklet-card',
@@ -21,12 +22,14 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 export class BookletCardComponent implements OnInit {
 @Input() booklet!:Booklet;
 @Input() isLiked: boolean = false;
+safeContent!: SafeHtml;
 @Output() likedChanged = new EventEmitter<void>();
 likecounter!:number;
-constructor(private likesServices:LikesService, private commentservice:CommentsService,private authService:AuthService,private dialog:MatDialog,private snackbar:MatSnackBar){}
+constructor(private likesServices:LikesService, private commentservice:CommentsService,private authService:AuthService,private dialog:MatDialog,private snackbar:MatSnackBar,private sanitizer:DomSanitizer){}
 ngOnInit(): void {
   
 this.getlikes(this.booklet.bookletId,"booklet");
+this.safeContent = this.sanitize(this.booklet.bookletDescription);
 }
 
 getlikes(id:number,contentType:string)
@@ -82,5 +85,10 @@ like(id: number, contentType: string) {
         },
       });
     }
+  }
+
+ sanitize(html:string):SafeHtml
+  {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 }

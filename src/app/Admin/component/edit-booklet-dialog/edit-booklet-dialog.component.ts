@@ -18,6 +18,8 @@ import { PostsService } from '../../../services/posts.service';
 import { Booklet } from '../../../model/Booklet';
 import { BookletsService } from '../../../services/booklets.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Editor, NgxEditorModule } from 'ngx-editor';
+import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-edit-booklet-dialog',
@@ -30,13 +32,17 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     FormsModule,
     MatSnackBarModule,
     ReactiveFormsModule,
+    NgxEditorModule,
+    MatCheckboxModule,
   ],
   templateUrl: './edit-booklet-dialog.component.html',
   styleUrl: './edit-booklet-dialog.component.css',
 })
-export class EditBookletDialogComponent {
+export class EditBookletDialogComponent implements OnInit {
   form: FormGroup;
   booklet: Booklet;
+  editor!: Editor;
+  selectedPdfFile: File | null = null;
   selectedFile: File | null = null;
   isLoading = false;
   errorMessage: string | null = null;
@@ -52,10 +58,8 @@ export class EditBookletDialogComponent {
     this.form = this.fb.group({
       bookletTitle: ['', [Validators.required, Validators.maxLength(200)]],
       bookletLink: ['', [Validators.required, Validators.maxLength(500)]],
-      bookletDescription: [
-        '',
-        [Validators.required, Validators.maxLength(1200)],
-      ],
+      bookletDescription: ['', [Validators.required]],
+      uploadPdf: [false],
     });
 
     this.booklet = { ...data };
@@ -67,11 +71,23 @@ export class EditBookletDialogComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.editor = new Editor();
+  }
   submitChanges() {
     const formData = new FormData();
     formData.append('bookletTitle', this.form.value.bookletTitle);
     formData.append('bookletLink', this.form.value.bookletLink);
     formData.append('bookletDescription', this.form.value.bookletDescription);
+     if(this.selectedPdfFile)
+      {
+        formData.append('booklet',this.selectedPdfFile)
+      }
+      else
+      {
+        formData.append('bookletLink', this.form.value.bookletLink);
+      }
+    
     if (this.selectedFile) {
       formData.append('thumbnail', this.selectedFile);
     }
@@ -122,6 +138,13 @@ export class EditBookletDialogComponent {
       this.selectedFile = null;
       this.previewUrl = null;
       this.form.patchValue({ image: null });
+    }
+  }
+
+  onPdfSelected(event: Event): void {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      this.selectedPdfFile = fileInput.files[0];
     }
   }
 }

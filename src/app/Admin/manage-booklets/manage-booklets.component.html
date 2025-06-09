@@ -27,7 +27,7 @@
      <!--bookletdescription-->
      <ng-container matColumnDef="bookletDescription">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Booklet Description</th>
-        <td mat-cell *matCellDef="let booklet">{{booklet.bookletDescription}}</td>
+        <td mat-cell *matCellDef="let booklet"><p [innerHTML]="safeContent"></p></td>
      </ng-container >
      <!--updatedAt-->
      <ng-container matColumnDef ="updatedAt" >

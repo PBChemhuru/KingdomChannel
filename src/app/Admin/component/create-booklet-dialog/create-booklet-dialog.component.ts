@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { Editor, NgxEditorModule } from 'ngx-editor';
 
 @Component({
   selector: 'app-create-booklet-dialog',
@@ -21,13 +22,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    CommonModule,MatCheckboxModule,FormsModule
+    CommonModule,MatCheckboxModule,FormsModule,NgxEditorModule
   ],
   templateUrl: './create-booklet-dialog.component.html',
   styleUrl: './create-booklet-dialog.component.css',
 })
-export class CreateBookletDialogComponent {
+export class CreateBookletDialogComponent implements OnInit {
   form: FormGroup;
+  editor!: Editor;
   selectedFile: File | null = null;
   selectedPdfFile: File | null = null;
   previewUrl: string | ArrayBuffer | null = null;
@@ -48,6 +50,11 @@ export class CreateBookletDialogComponent {
       ],
       thumbnail: [null, Validators.required],
     });
+  }
+
+  ngOnInit(): void {
+    
+    this.editor = new Editor();
   }
   closeDialog(): void {
     this.dialogRef.close();

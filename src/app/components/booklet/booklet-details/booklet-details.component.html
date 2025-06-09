@@ -8,7 +8,7 @@
       <img mat-card-image [src]="booklet.thumbnail" alt="Booklet Cover" />
   
       <mat-card-content>
-        <p class="description">{{ booklet.bookletDescription }}</p>
+        <p class="description" [innerHTML]="safeContent"></p>
         
         <mat-divider class="my-3"></mat-divider>
   
