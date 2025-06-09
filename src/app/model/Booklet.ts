@@ -8,6 +8,7 @@ export interface Booklet {
     createdAt: Date;
     updatedAt:Date;
     commentCount: number
+    likeCount:number
 
   }
   
