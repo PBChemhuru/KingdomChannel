@@ -3,7 +3,7 @@
     class="container-fluid d-flex flex-column justify-content-center align-items-center post"
   >
     <div class="row justify-content-center">
-      <div class="col-md-8" style=" width: inherit">
+      <div class="col-md-8" style="width: inherit">
         <div class="header">
           <p>{{ postDetails.createdAt | date : "MMM d, y" }}</p>
           <p></p>
@@ -37,18 +37,30 @@
         </div>
         <div
           class="container-fluid"
-          style="
-            border-top: 1px solid;
-            border-left: 0;
-            border-right: 0;
-            border-bottom: 0;
-            padding: 10px;
-            margin-top: 2rem;
-          "
+          style="border-top: 1px solid; padding: 10px; margin-top: 2rem"
         >
-          <button><i class="bi bi-facebook"></i></button>
-          <button><i class="bi bi-whatsapp"></i></button>
-          <button><i class="bi bi-link"></i></button>
+          <button (click)="shareFacebook()">
+            <i class="bi bi-facebook"></i>
+          </button>
+          <button (click)="shareWhatsapp()">
+            <i class="bi bi-whatsapp"></i>
+          </button>
+          <button (click)="shareTwitter()">
+            <i class="bi bi-twitter"></i>
+          </button>
+          <button
+            class="actionbutton"
+            (click)="like(postDetails.postId, 'post')"
+          >
+            <i
+              class="bi"
+              [ngClass]="
+                isLiked ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'
+              "
+            >
+              {{ likecounter }}
+            </i>
+          </button>
         </div>
       </div>
     </div>
@@ -82,7 +94,7 @@
     <app-comments-section
       [id]="id"
       [contentType]="ContentType.Post"
-      style=" width: inherit"
+      style="width: inherit"
     ></app-comments-section>
   </div>
 </div>

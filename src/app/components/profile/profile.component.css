@@ -1,56 +1,40 @@
-.likes-container {
-  padding: 16px;
+.profile-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.section-title {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+.user-card {
+  border: none;
+  border-radius: 12px;
+  background-color: #f8f9fa;
 }
 
-.like-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
-  padding: 16px;
+.liked-card {
+  border: none;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.thumbnail {
-  width: 120px;
-  height: 90px;
+.liked-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.liked-card img {
+  height: 160px;
   object-fit: cover;
-  border-radius: 4px;
-}
-
-.like-details {
-  flex: 1;
-}
-
-.like-details h3 {
-  margin: 0 0 8px;
-}
-
-.content-type {
-  font-size: 0.9rem;
-  color: #666;
+  border-bottom: 1px solid #eee;
 }
 
 .liked-date {
+  color: #888;
   font-size: 0.85rem;
-  color: #f10707;
-  margin: 4px 0;
 }
 
-.view-link {
-  display: inline-block;
-  margin-top: 8px;
-  color: #007bff;
-  text-decoration: none;
+.hover-shadow {
+  transition: box-shadow 0.2s ease-in-out;
 }
 
-.view-link:hover {
-  text-decoration: underline;
+.hover-shadow:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }

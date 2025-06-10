@@ -9,15 +9,17 @@ import { CommonModule } from '@angular/common';
 import { CommentsSectionComponent } from '../../comments-section/comments-section.component';
 import { LikesService } from '../../services/likes.service';
 import { Like } from '../../model/Like';
+import { ContentsearchbarComponent } from "../contentsearchbar/contentsearchbar.component";
 
 @Component({
   selector: 'app-booklet',
-  imports: [MatSnackBarModule, MatPaginatorModule, BookletCardComponent,CommonModule,],
+  imports: [MatSnackBarModule, MatPaginatorModule, BookletCardComponent, CommonModule, ContentsearchbarComponent],
   templateUrl: './booklet.component.html',
   styleUrl: './booklet.component.css'
 })
 export class BookletComponent implements OnInit{
-  booklets:MatTableDataSource<Booklet> = new MatTableDataSource<Booklet>([])
+  booklets:Booklet[] = [];
+  filteredBooklets: Booklet[] = [];
   userLikedBookletsIds: Set<number> = new Set();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(private bookletService:BookletsService,private snackbar:MatSnackBar,private likeService: LikesService){}
@@ -29,8 +31,8 @@ export class BookletComponent implements OnInit{
   getBooklets():void{
     this.bookletService.getBooklets().subscribe({
       next: (data) =>{
-        this.booklets.data = data;
-        console.log(this.booklets.data);
+        this.booklets= data;
+        this.filteredBooklets = [...this.booklets];
       },
       error:(err)=>
       {
@@ -49,6 +51,29 @@ export class BookletComponent implements OnInit{
         this.userLikedBookletsIds=new Set(likedBooklets);
       },
       error:(err) => console.error(err)
+    });
+  }
+
+  onFiltersChanged(filters: {
+    search?: string;
+    startDate: Date | null;
+    endDate: Date | null;
+  }) {
+    const search = filters.search?.toLowerCase() ?? '';
+    const start = filters.startDate;
+    const end = filters.endDate;
+
+    this.filteredBooklets = this.booklets.filter((booklet) => {
+      const matchesSearch =
+        !search ||
+        booklet.bookletTitle.toLowerCase().includes(search) ||
+        booklet.bookletDescription.toLowerCase().includes(search);
+
+      const createdAt = new Date(booklet.createdAt);
+      const inStartRange = !start || createdAt >= new Date(start);
+      const inEndRange = !end || createdAt <= new Date(end);
+
+      return matchesSearch && inStartRange && inEndRange;
     });
   }
 }

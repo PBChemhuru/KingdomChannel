@@ -29,3 +29,19 @@
       }
     }
   }
+
+  .actionbutton {
+    background: transparent;
+    border: none;
+    color: #3aa7a0;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-right: 1rem;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.actionbutton:hover {
+    color: #2a7d77;
+    transform: scale(1.1);
+}

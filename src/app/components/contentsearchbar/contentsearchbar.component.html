@@ -1,0 +1,22 @@
+<div class="filter-bar">
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Search..."
+      [(ngModel)]="searchTerm"
+      (keyup)="onSearch()"
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select
+      placeholder="Date Range"
+      [(value)]="selectedRange"
+      (selectionChange)="onRangeChange($event.value)"
+    >
+      <mat-option *ngFor="let option of dateOptions" [value]="option.value">{{
+        option.label
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
