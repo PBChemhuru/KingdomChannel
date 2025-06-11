@@ -39,14 +39,14 @@
           class="container-fluid"
           style="border-top: 1px solid; padding: 10px; margin-top: 2rem"
         >
-          <button (click)="shareFacebook()">
+          <button class="actionbutton" style="color: blue;" (click)="shareFacebook()">
             <i class="bi bi-facebook"></i>
           </button>
-          <button (click)="shareWhatsapp()">
+          <button class="actionbutton"   style="color: green;" (click)="shareWhatsapp()">
             <i class="bi bi-whatsapp"></i>
           </button>
-          <button (click)="shareTwitter()">
-            <i class="bi bi-twitter"></i>
+          <button class="actionbutton"  style="color: rgb(0, 0, 0);" (click)="shareTwitter()">
+            <i class="bi bi-twitter-x"></i>
           </button>
           <button
             class="actionbutton"
@@ -61,6 +61,7 @@
               {{ likecounter }}
             </i>
           </button>
+          <button type="button" class="actionbutton" (click)="bookmark(postDetails.postId,'post')"><i class="bi" [ngClass]="isBookmarked ? 'bi-bookmark-fill' : 'bi-bookmark'"></i></button>
         </div>
       </div>
     </div>

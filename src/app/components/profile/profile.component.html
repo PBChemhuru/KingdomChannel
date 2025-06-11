@@ -4,37 +4,121 @@
     <div class="col-md-4 mb-4">
       <div class="card user-card shadow-sm">
         <div class="card-body text-center">
-          <i class="bi bi-person-circle display-4 text-primary"></i>
+          <img
+            class="avatar me-3"
+            [src]="
+              'https://api.dicebear.com/9.x/thumbs/svg?seed=' + user.userId
+            "
+            alt="Anon Avatar"
+          />
           <h4 class="mt-3">{{ user.username }}</h4>
           <p class="text-muted">{{ user.email }}</p>
+          <a
+            class="btn btn-sm btn-outline-primary mt-2 w-100"
+            (click)="openeditdialog()"
+            >Edit</a
+          >
         </div>
       </div>
     </div>
 
-    <!-- Liked Items -->
+    <!-- Liked / Bookmarked Content -->
     <div class="col-md-8">
       <div class="card shadow-sm">
         <div class="card-body">
-          <h5 class="mb-4">Liked Content</h5>
+          <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [class.active]="activeTab === 'likes'"
+                (click)="activeTab = 'likes'"
+              >
+                Likes
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [class.active]="activeTab === 'bookmarks'"
+                (click)="activeTab = 'bookmarks'"
+              >
+                Bookmarks
+              </a>
+            </li>
+          </ul>
 
-          <ng-container *ngIf="likedItem.length > 0; else noLikes">
-            <div class="row g-3">
-              <div class="col-sm-6 col-lg-4" *ngFor="let like of likedItem">
-                <div class="liked-card card h-100 hover-shadow">
-                  <img [src]="like.thumbnail" class="card-img-top" alt="Thumbnail" />
-                  <div class="card-body">
-                    <h6 class="card-title mb-1">{{ like.title }}</h6>
-                    <p class="text-muted mb-1">{{ getContentType(like) }}</p>
-                    <p class="liked-date small">Liked on {{ like.createdAt | date: 'mediumDate' }}</p>
-                    <a [routerLink]="[like.url]" class="btn btn-sm btn-outline-primary mt-2 w-100">View</a>
+          <!-- Likes Tab -->
+          <ng-container *ngIf="activeTab === 'likes'">
+            <ng-container *ngIf="likedItem.length > 0; else noLikes">
+              <div class="row g-3">
+                <div class="col-sm-6 col-lg-4" *ngFor="let like of likedItem">
+                  <div class="liked-card card h-100 hover-shadow">
+                    <img
+                      [src]="like.thumbnail"
+                      class="card-img-top"
+                      alt="Thumbnail"
+                    />
+                    <div class="card-body">
+                      <h6 class="card-title mb-1">{{ like.title }}</h6>
+                      <p class="text-muted mb-1">{{ getContentType(like) }}</p>
+                      <p class="liked-date small">
+                        Liked on {{ like.createdAt | date : "dd/MM/yyy" }}
+                      </p>
+                      <a
+                        [routerLink]="[like.url]"
+                        class="btn btn-sm btn-outline-primary mt-2 w-100"
+                      >
+                        View
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </ng-container>
           </ng-container>
 
+          <!-- Bookmarks Tab -->
+          <ng-container *ngIf="activeTab === 'bookmarks'">
+            <ng-container *ngIf="bookmarkedItem.length > 0; else noBookmarks">
+              <div class="row g-3">
+                <div
+                  class="col-sm-6 col-lg-4"
+                  *ngFor="let bookmark of bookmarkedItem"
+                >
+                  <div class="liked-card card h-100 hover-shadow">
+                    <img
+                      [src]="bookmark.thumbnail"
+                      class="card-img-top"
+                      alt="Thumbnail"
+                    />
+                    <div class="card-body">
+                      <h6 class="card-title mb-1">{{ bookmark.title }}</h6>
+                      <p class="text-muted mb-1">
+                        {{ getContentType(bookmark) }}
+                      </p>
+                      <p class="liked-date small">
+                        Saved on {{ bookmark.createdAt | date : "dd/MM/yyy" }}
+                      </p>
+                      <a
+                        [routerLink]="[bookmark.url]"
+                        class="btn btn-sm btn-outline-primary mt-2 w-100"
+                      >
+                        View
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-container>
+
+          <!-- Fallback Templates -->
           <ng-template #noLikes>
             <p class="text-muted">You haven't liked any content yet.</p>
+          </ng-template>
+
+          <ng-template #noBookmarks>
+            <p class="text-muted">You haven't bookmarked any content yet.</p>
           </ng-template>
         </div>
       </div>

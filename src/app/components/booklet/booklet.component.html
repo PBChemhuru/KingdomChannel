@@ -13,6 +13,8 @@
           [booklet]="booklet"
           [isLiked]="userLikedBookletsIds.has(booklet.bookletId)"
           (likedChanged)="userLikeBooklets()"
+          [isBookmarked]="userBookmarkedIds.has(booklet.bookletId)"
+          (bookmarkChanged)="userBookmarkedBooklets()"
           class="m-3 p-3"
         ></app-booklet-card>
       </div>

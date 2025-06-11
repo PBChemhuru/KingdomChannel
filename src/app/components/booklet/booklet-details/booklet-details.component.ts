@@ -25,6 +25,8 @@ import { LoginDialogComponent } from '../../login-dialog/login-dialog.component'
 import { CommonModule } from '@angular/common';
 import { Like } from '../../../model/Like';
 import { MatTableDataSource } from '@angular/material/table';
+import { BookmarksService } from '../../../services/bookmarks.service';
+import { Bookmark } from '../../../model/Bookmark';
 
 @Component({
   selector: 'app-booklet-details',
@@ -51,6 +53,9 @@ export class BookletDetailsComponent implements OnInit, OnChanges {
   likecounter!: number;
   userLikedBookletIds: Set<number> = new Set();
   rbooklets: MatTableDataSource<Booklet> = new MatTableDataSource<Booklet>([]);
+  @Input() isBookmarked: boolean = false;
+  @Output() bookmarkChanged = new EventEmitter<void>();
+  userBookmarkedIds: Set<number> = new Set();
   constructor(
     private bookletservice: BookletsService,
     private route: ActivatedRoute,
@@ -58,7 +63,8 @@ export class BookletDetailsComponent implements OnInit, OnChanges {
     private sanitizer: DomSanitizer,
     private likesServices: LikesService,
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private bookmarksService: BookmarksService
   ) {}
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -68,6 +74,7 @@ export class BookletDetailsComponent implements OnInit, OnChanges {
     });
     this.getlikes(this.bookletId, 'booklet');
     this.userLikedbooklets();
+    this.userBookmarkedBooklets();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -80,7 +87,6 @@ export class BookletDetailsComponent implements OnInit, OnChanges {
     this.bookletservice.getBooklet(this.bookletId).subscribe({
       next: (data) => {
         this.booklet = data;
-        console.log(data.bookletDescription);
         this.safeContent = this.sanitize(data.bookletDescription);
       },
       error: (err) => {
@@ -93,7 +99,6 @@ export class BookletDetailsComponent implements OnInit, OnChanges {
       },
     });
   }
-
   getRandomBooklet(): void {
     this.bookletservice.getBooklets().subscribe({
       next: (data) => {
@@ -109,7 +114,6 @@ export class BookletDetailsComponent implements OnInit, OnChanges {
       },
     });
   }
-
   downloadBooklet() {
     const link = document.createElement('a');
     link.href = this.booklet.bookletLink;
@@ -187,6 +191,74 @@ export class BookletDetailsComponent implements OnInit, OnChanges {
           .map((like) => like.bookletId);
         this.userLikedBookletIds = new Set(likedBooklets);
         this.isLiked = this.userLikedBookletIds.has(this.bookletId);
+      },
+      error: (err) => console.error(err),
+    });
+  }
+
+  bookmark(id: number, contentType: string) {
+    if (!this.authService.isLoggedIn()) {
+      const dialogRef = this.dialog.open(LoginDialogComponent, {
+        width: '500px',
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.authService.login(result.username, result.password).subscribe({
+            next: (response) => {
+              if (response && response.token) {
+                sessionStorage.setItem('jwtToken', response.token);
+                this.snackbar.open('Login Successful', 'close', {
+                  duration: 3000,
+                  horizontalPosition: 'center',
+                  verticalPosition: 'top',
+                });
+              }
+            },
+            error: (error) => {
+              this.snackbar.open('Login Failed', 'close', {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'top',
+              });
+            },
+          });
+        }
+      });
+    } else {
+      this.bookmarksService.bookmark(id, contentType).subscribe({
+        next: () => {
+          const isCurrentlyBookmarked = this.userBookmarkedIds.has(id);
+          if (isCurrentlyBookmarked) {
+            this.userBookmarkedIds.delete(id);
+          } else {
+            this.userBookmarkedIds.add(id);
+          }
+
+          this.isBookmarked = !isCurrentlyBookmarked;
+          this.bookmarkChanged.emit();
+
+          const message = this.isBookmarked ? 'Saved' : 'Unsaved';
+          this.snackbar.open(message, 'Close', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          });
+        },
+        error: (err) => {
+          console.error('Error bookmarking content:', err);
+        },
+      });
+    }
+  }
+  userBookmarkedBooklets() {
+    this.bookmarksService.userbookmarks().subscribe({
+      next: (bookmarks: Bookmark[]) => {
+        const bookmarkedPosts = bookmarks
+          .filter((bookmark) => bookmark.postId != null)
+          .map((bookmark) => bookmark.postId);
+
+        this.userBookmarkedIds = new Set(bookmarkedPosts);
+        this.isBookmarked = this.userBookmarkedIds.has(this.bookletId);
       },
       error: (err) => console.error(err),
     });

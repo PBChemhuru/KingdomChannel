@@ -10,6 +10,7 @@
     </mat-card-content>
     <mat-card-actions>
         <button type="button" class="actionbutton" (click)="like(post.postId,'post')"><i class="bi" [ngClass]="isLiked ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'">{{likecounter}}</i></button>
+        <button type="button" class="actionbutton" (click)="bookmark(post.postId,'post')"><i class="bi" [ngClass]="isBookmarked ? 'bi-bookmark-fill' : 'bi-bookmark'"></i></button>
         <button class = "actionbutton"><i class="bi bi-chat-text" routerLink="/post/{{post.postId}}" routerLinkActive="active ">{{post.commentCount}}</i></button>
     </mat-card-actions>
 </mat-card>

@@ -11,6 +11,8 @@
         [post]="post"
         [isLiked]="userLikedPostIds.has(post.postId)"
         (likedChanged)="userLikedPosts()"
+        [isBookmarked]="userBookmarkedIds.has(post.postId)"
+        (bookmarkChanged)="onBookmarkChanged(post.postId)"
         class="m-3 p-3"
       ></app-post-card>
     </div>

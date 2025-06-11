@@ -43,7 +43,6 @@ export class HomeComponent implements OnInit {
   rposts: MatTableDataSource<Post> = new MatTableDataSource<Post>([]);
   rbooklets: MatTableDataSource<Booklet> = new MatTableDataSource<Booklet>([]);
   rvideos: MatTableDataSource<Video> = new MatTableDataSource<Video>([]);
-  safeContent!: SafeHtml;
 
   ngOnInit(): void {
     this.getRandomPost();
@@ -54,7 +53,8 @@ export class HomeComponent implements OnInit {
     this.postService.getPosts().subscribe({
       next: (data) => {
         if (data.length > 0) {
-          this.rposts.data = data.sort(() => Math.random() - 0.5).slice(0, 4);
+          this.rposts.data = data.sort((a:Post, b:Post) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 4);
+
         }
       },
       error: (error) => {
@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit {
     this.bookletsService.getBooklets().subscribe({
       next: (data) => {
         if (data.length > 0) {
-          this.rbooklets.data = data.sort(() => Math.random() - 0.5).slice(0, 4);
+          this.rbooklets.data = data.sort((a:Booklet, b:Booklet) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 4);
         }
       },
       error: (error) => {
@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit {
     this.videosService.getVideos().subscribe({
       next: (data) => {
         if (data.length > 0) {
-          this.rvideos.data = data.sort(() => Math.random() - 0.5).slice(0, 4);
+          this.rvideos.data = data.sort((a:Video, b:Video) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 4);
         }
       },
       error: (error) => {
@@ -93,16 +93,6 @@ export class HomeComponent implements OnInit {
   sanitize(html: string): SafeHtml {
     return this.santizer.bypassSecurityTrustHtml(html);
   }
-
-  playVideo(event: Event): void {
-  const video = event.target as HTMLVideoElement;
-  video.play();
-}
-
-pauseVideo(event: Event): void {
-  const video = event.target as HTMLVideoElement;
-  video.pause();
-}
 
 getSanitizedEmbedUrl(link: string): SafeResourceUrl {
   const videoId = this.extractYouTubeId(link);

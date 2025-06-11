@@ -10,6 +10,8 @@ import { CommentsSectionComponent } from '../../comments-section/comments-sectio
 import { LikesService } from '../../services/likes.service';
 import { Like } from '../../model/Like';
 import { ContentsearchbarComponent } from "../contentsearchbar/contentsearchbar.component";
+import { BookmarksService } from '../../services/bookmarks.service';
+import { Bookmark } from '../../model/Bookmark';
 
 @Component({
   selector: 'app-booklet',
@@ -21,11 +23,13 @@ export class BookletComponent implements OnInit{
   booklets:Booklet[] = [];
   filteredBooklets: Booklet[] = [];
   userLikedBookletsIds: Set<number> = new Set();
+  userBookmarkedIds: Set<number> = new Set();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  constructor(private bookletService:BookletsService,private snackbar:MatSnackBar,private likeService: LikesService){}
+  constructor(private bookletService:BookletsService,private snackbar:MatSnackBar,private likeService: LikesService,private bookmarkService:BookmarksService){}
   ngOnInit(): void {
     this.getBooklets();
     this.userLikeBooklets();
+    this.userBookmarkedBooklets();
   }
 
   getBooklets():void{
@@ -76,5 +80,19 @@ export class BookletComponent implements OnInit{
       return matchesSearch && inStartRange && inEndRange;
     });
   }
+
+    userBookmarkedBooklets() {
+      this.bookmarkService.userbookmarks().subscribe({
+        next: (bookmarks: Bookmark[]) => { 
+          const bookmarkedPosts = bookmarks
+            .filter((bookmark) => bookmark.postId != null)
+            .map((bookmark) => bookmark.postId);
+          this.userBookmarkedIds = new Set(bookmarkedPosts);
+
+        },
+        error: (err) => console.error(err),
+      });
+    }
+
 }
 

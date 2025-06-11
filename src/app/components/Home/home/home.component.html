@@ -38,13 +38,12 @@
 
   <!-- Posts Section -->
   <section class="mb-5">
-    <h2 class="mb-4">📌 Post</h2>
+    <h2 class="mb-4">Post</h2>
     <div class="container-fluid recommended">
-      <div class="d-flex flex-wrap justify-content-between gap-3 my-4">
+      <div class="d-flex flex-wrap justify-content-evenly my-4">
         <div
           *ngFor="let post of rposts.data"
-          class="p-2 border"
-          style="min-width: 180px; max-width: 220px"
+          style="min-width: 180px; width: 300px; height: 500px"
         >
           <mat-card
             class="postcard"
@@ -59,7 +58,9 @@
                 {{ post.postTitle }}
               </h1>
 
-              <img mat-card-image [src]="post.thumbnail" style="width: 100%" />
+              <div class="thumbnail-container">
+                <img [src]="post.thumbnail" alt="Post Thumbnail" />
+              </div>
               <div
                 class="postTeaser"
                 [innerHTML]="sanitize(post.postContent)"
@@ -86,53 +87,91 @@
 
   <!-- Booklets Section -->
   <section class="mb-5 bg-light p-4 rounded">
-    <h2 class="mb-4">📚 Booklets</h2>
-    <div class="container-fluid recommended">
-      <div class="d-flex flex-wrap justify-content-between gap-3 my-4">
+  <h2 class="mb-4 text-center">📚 Booklets</h2>
+
+  <div class="d-flex justify-content-center">
+    <div
+      id="bookletCarousel"
+      class="carousel slide"
+      data-bs-ride="carousel"
+      style="max-width: 960px; width: 100%;"
+    >
+      <div class="carousel-inner"s>
         <div
-          *ngFor="let booklet of rbooklets.data"
-          class="p-2 border"
-          style="min-width: 180px; max-width: 220px"
+          *ngFor="let booklet of rbooklets.data; let i = index"
+          class="carousel-item"
+          [class.active]="i === 0"
         >
           <mat-card
-            class="shadow-sm bookcard"
+            class="d-flex flex-row align-items-stretch shadow-sm bookcard mx-auto"
             routerLink="/booklets/{{ booklet.bookletId }}"
-            routerLinkActive="active "
+            routerLinkActive="active"
+            style="height: 500px;"
           >
-            <div>
+            <!-- Thumbnail (50% width) -->
+            <div class="book-thumbnail-container" style="flex: 0 0 50%;">
               <img
                 mat-card-image
                 [src]="booklet.thumbnail"
-                class="card-img-top book-img"
+                class="book-thumbnail h-100 w-100 object-fit-cover"
                 alt="Book Cover"
               />
-              <mat-card-content>
-                <h1>{{ booklet.bookletTitle }}</h1>
-                <div class="bookletTeaser">
-                  <p [innerHTML]="safeContent"></p>
-                </div>
-              </mat-card-content>
             </div>
-            <mat-card-actions>
-              <button class="actionbutton">
-                <i class="bi bi-hand-thumbs-up">{{booklet.likeCount}}</i>
-              </button>
-              <button class="actionbutton">
-                <i class="bi bi-chat-text">{{ booklet.commentCount }}</i>
-              </button>
-            </mat-card-actions>
+
+            <!-- Details -->
+            <div
+              class="p-3 d-flex flex-column justify-content-between"
+              style="flex: 1 1 50%; overflow: hidden;"
+            >
+              <div style="overflow: hidden;">
+                <h1 class="book-title mb-2" style="font-size: 1.5rem; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                  {{ booklet.bookletTitle }}
+                </h1>
+                <div class="bookletTeaser" style="max-height: 140px; overflow: hidden;">
+                  <p [innerHTML]="sanitize(booklet.bookletDescription)"></p>
+                </div>
+              </div>
+              <mat-card-actions>
+                <button class="actionbutton me-2">
+                  <i class="bi bi-hand-thumbs-up"></i> {{ booklet.likeCount }}
+                </button>
+                <button class="actionbutton">
+                  <i class="bi bi-chat-text"></i> {{ booklet.commentCount }}
+                </button>
+              </mat-card-actions>
+            </div>
           </mat-card>
         </div>
       </div>
+
+      <!-- Controls -->
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#bookletCarousel"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#bookletCarousel"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon"></span>
+      </button>
     </div>
-  </section>
+  </div>
+</section>
+
 
   <!-- Videos Section -->
   <section>
     <h2 class="mb-4">🎥 Videos</h2>
     <div class="d-flex flex-wrap gap-3">
       <div
-        class="bookcard shadow-sm"
+        class="videocard shadow-sm"
         style="flex: 1 1 300px; max-width: 320px"
         *ngFor="let video of rvideos.data"
       >
@@ -147,12 +186,6 @@
         <div class="card-body">
           <h1>{{ video.videoTitle }}</h1>
           <p class="card-text text-muted small">{{ video.videoDescription }}</p>
-          <a
-            [href]="video.videoLink"
-            class="btn btn-sm btn-danger"
-            target="_blank"
-            >Watch Full Video</a
-          >
         </div>
       </div>
     </div>

@@ -1,16 +1,23 @@
-<h2 mat-dialog-title>Edit Comment</h2>
-<mat-dialog-content>
-  <ngx-editor 
-    [editor]="editor" 
-    [(ngModel)]="updatedCommentText" 
-    placeholder="Edit your comment"
-    name="comment"
-  > <ngx-editor-menu [editor]="editor" style="color: black;"></ngx-editor-menu></ngx-editor>
- 
-  
-</mat-dialog-content>
+<div class="postcard p-4">
+  <h1 mat-dialog-title class="dialog-title">Edit Comment</h1>
 
-<mat-dialog-actions>
-  <button mat-button (click)="cancel()">Cancel</button>
-  <button mat-button (click)="save()">Save</button>
-</mat-dialog-actions>
+  <mat-dialog-content>
+    <form (ngSubmit)="save()" class="post-form">
+      <div class="editor-wrapper full-width">
+        <ngx-editor
+          [editor]="editor"
+          [(ngModel)]="updatedCommentText"
+          name="comment"
+          placeholder="Edit your comment"
+        >
+          <ngx-editor-menu [editor]="editor" style="color: black;"></ngx-editor-menu>
+        </ngx-editor>
+      </div>
+    </form>
+  </mat-dialog-content>
+
+  <div mat-dialog-actions class="dialog-actions">
+    <button mat-button type="button" (click)="cancel()" class="actionbutton">Cancel</button>
+    <button mat-button type="submit" (click)="save()" class="actionbutton">Save</button>
+  </div>
+</div>

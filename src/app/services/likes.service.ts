@@ -7,7 +7,7 @@ import {
   HttpParams,
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
-import { Like } from '../model/Like';
+
 
 @Injectable({
   providedIn: 'root',
@@ -36,12 +36,12 @@ export class LikesService {
       })
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          let errorMessage = 'An error occurred while updating booklet.';
+          let errorMessage = 'An error occurred while retrieving like.';
           if (error.status === 404) {
-            errorMessage = 'Booklet not Found';
+            errorMessage = 'Likes not Found';
           }
-          console.error('Error updating booklet', error);
-          return throwError(() => new Error('Failed to retrieve updating'));
+          console.error('Error fetchin likes', error);
+          return throwError(() => new Error('Failed to retrieve likes'));
         })
       );
   }

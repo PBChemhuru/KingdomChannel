@@ -9,6 +9,8 @@ import { Post } from '../../../model/Post';
 import { LikesService } from '../../../services/likes.service';
 import { Like } from '../../../model/Like';
 import { ContentsearchbarComponent } from '../../contentsearchbar/contentsearchbar.component';
+import { BookmarksService } from '../../../services/bookmarks.service';
+import { Bookmark } from '../../../model/Bookmark';
 
 @Component({
   selector: 'app-post-list',
@@ -26,16 +28,19 @@ export class PostListComponent implements OnInit {
   posts: Post[] = [];
   filteredPosts: Post[] = [];
   userLikedPostIds: Set<number> = new Set();
+  userBookmarkedIds: Set<number> = new Set();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(
     private postService: PostsService,
     private snackbar: MatSnackBar,
-    private likeService: LikesService
+    private likeService: LikesService,
+    private bookmarkService: BookmarksService,
   ) {}
   ngOnInit(): void {
     this.getPosts();
     this.userLikedPosts();
+    this.userBookmarkedPosts();
   }
 
   getPosts() {
@@ -61,6 +66,27 @@ export class PostListComponent implements OnInit {
       error: (err) => console.error(err),
     });
   }
+
+  userBookmarkedPosts() {
+    this.bookmarkService.userbookmarks().subscribe({
+      next: (bookmarks: Bookmark[]) => { 
+        const bookmarkedPosts = bookmarks
+          .filter((bookmark) => bookmark.postId != null)
+          .map((bookmark) => bookmark.postId);
+          
+        this.userBookmarkedIds = new Set(bookmarkedPosts);
+      },
+      error: (err) => console.error(err),
+    });
+  }
+
+  onBookmarkChanged(postId: number) {
+  if (this.userBookmarkedIds.has(postId)) {
+    this.userBookmarkedIds.delete(postId);
+  } else {
+    this.userBookmarkedIds.add(postId);
+  }
+}
 
   onFiltersChanged(filters: {
     search?: string;

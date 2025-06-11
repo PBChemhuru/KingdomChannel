@@ -25,6 +25,8 @@ import { LoginDialogComponent } from '../../login-dialog/login-dialog.component'
 import { MatDialog } from '@angular/material/dialog';
 import { Like } from '../../../model/Like';
 import { SocialShareService } from '../../../services/social-share.service';
+import { BookmarksService } from '../../../services/bookmarks.service';
+import { Bookmark } from '../../../model/Bookmark';
 @Component({
   selector: 'app-post-details',
   imports: [
@@ -33,8 +35,7 @@ import { SocialShareService } from '../../../services/social-share.service';
     CommonModule,
     CommentsSectionComponent,
     RouterLink,
-    
-],
+  ],
   templateUrl: './post-details.component.html',
   styleUrl: './post-details.component.css',
 })
@@ -51,6 +52,9 @@ export class PostDetailsComponent implements OnInit, OnChanges {
   likecounter!: number;
   @Input() isLiked: boolean = false;
   userLikedPostIds: Set<number> = new Set();
+  @Input() isBookmarked: boolean = false;
+  @Output() bookmarkChanged = new EventEmitter<void>();
+  userBookmarkedIds: Set<number> = new Set();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor(
@@ -63,6 +67,7 @@ export class PostDetailsComponent implements OnInit, OnChanges {
     private authService: AuthService,
     private dialog: MatDialog,
     private socialShare: SocialShareService,
+    private bookmarksService: BookmarksService
   ) {}
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -72,6 +77,7 @@ export class PostDetailsComponent implements OnInit, OnChanges {
     });
     this.getlikes(this.id, 'post');
     this.userLikedPosts();
+    this.userBookmarkedPosts();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -83,14 +89,27 @@ export class PostDetailsComponent implements OnInit, OnChanges {
   sanitize(html: string): SafeHtml {
     return this.santizer.bypassSecurityTrustHtml(html);
   }
-
+  get currentUrl(): string {
+    return window.location.href;
+  }
+  shareFacebook() {
+    this.socialShare.shareOnFacebook(this.currentUrl);
+  }
+  shareWhatsapp() {
+    this.socialShare.shareOnWhatsApp(this.currentUrl);
+  }
+  shareTwitter() {
+    this.socialShare.shareOnTwitter(
+      this.currentUrl,
+      this.postDetails?.postTitle
+    );
+  }
   getPostDetails(id: number): void {
     this.postService.getPost(id).subscribe((data) => {
       this.postDetails = data;
       this.safeContent = this.sanitize(data.postContent);
     });
   }
-
   getRandomPost() {
     this.postService.getPosts().subscribe({
       next: (data) => {
@@ -137,12 +156,9 @@ export class PostDetailsComponent implements OnInit, OnChanges {
       this.likesServices.like(id, contentType).subscribe({
         next: () => {
           this.getlikes(id, contentType);
-          if(this.userLikedPostIds.has(id))
-          {
+          if (this.userLikedPostIds.has(id)) {
             this.userLikedPostIds.delete(id);
-          }
-          else
-          {
+          } else {
             this.userLikedPostIds.add(id);
           }
           this.isLiked = this.userLikedPostIds.has(id);
@@ -173,25 +189,77 @@ export class PostDetailsComponent implements OnInit, OnChanges {
           .filter((like) => like.postId != null)
           .map((like) => like.postId);
         this.userLikedPostIds = new Set(likedPosts);
-         this.isLiked = this.userLikedPostIds.has(this.id);
+        this.isLiked = this.userLikedPostIds.has(this.id);
       },
       error: (err) => console.error(err),
     });
   }
-get currentUrl(): string {
-    return window.location.href;
-  }
+  bookmark(id: number, contentType: string) {
+    if (!this.authService.isLoggedIn()) {
+      const dialogRef = this.dialog.open(LoginDialogComponent, {
+        width: '500px',
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.authService.login(result.username, result.password).subscribe({
+            next: (response) => {
+              if (response && response.token) {
+                sessionStorage.setItem('jwtToken', response.token);
+                this.snackbar.open('Login Successful', 'close', {
+                  duration: 3000,
+                  horizontalPosition: 'center',
+                  verticalPosition: 'top',
+                });
+              }
+            },
+            error: (error) => {
+              this.snackbar.open('Login Failed', 'close', {
+                duration: 3000,
+                horizontalPosition: 'center',
+                verticalPosition: 'top',
+              });
+            },
+          });
+        }
+      });
+    } else {
+      this.bookmarksService.bookmark(id, contentType).subscribe({
+        next: () => {
 
-  shareFacebook() {
-    this.socialShare.shareOnFacebook(this.currentUrl);
-  }
+          const isCurrentlyBookmarked = this.userBookmarkedIds.has(id);
+          if (isCurrentlyBookmarked) {
+            this.userBookmarkedIds.delete(id);
+          } else {
+            this.userBookmarkedIds.add(id);
+          }
 
-  shareWhatsapp() {
-    this.socialShare.shareOnWhatsApp(this.currentUrl);
-  }
+          this.isBookmarked = !isCurrentlyBookmarked;
+          this.bookmarkChanged.emit();
 
-  shareTwitter() {
-    this.socialShare.shareOnTwitter(this.currentUrl, this.postDetails?.postTitle);
+          const message = this.isBookmarked ? 'Saved' : 'Unsaved';
+          this.snackbar.open(message, 'Close', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+          });
+        },
+        error: (err) => {
+          console.error('Error bookmarking content:', err);
+        },
+      });
+    }
   }
-  
+  userBookmarkedPosts() {
+    this.bookmarksService.userbookmarks().subscribe({
+      next: (bookmarks: Bookmark[]) => {
+        const bookmarkedPosts = bookmarks
+          .filter((bookmark) => bookmark.postId != null)
+          .map((bookmark) => bookmark.postId);
+
+        this.userBookmarkedIds = new Set(bookmarkedPosts);
+        this.isBookmarked = this.userBookmarkedIds.has(this.id);
+      },
+      error: (err) => console.error(err),
+    });
+  }
 }
