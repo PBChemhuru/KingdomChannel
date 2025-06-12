@@ -1,21 +1,24 @@
-<div class="d-flex  row">
+<div class="d-flex row">
   <div class="d-flex justify-content-end container-fluid">
-<app-contentsearchbar (filtersChange)="onFiltersChanged($event)"></app-contentsearchbar>
-</div>
+    <app-contentsearchbar
+      (filtersChange)="onFiltersChanged($event)"
+    ></app-contentsearchbar>
+  </div>
 </div>
 
 <div class="container-fluid">
   <div class="row mx-4 py-3">
-    <div *ngFor="let post of filteredPosts" class="col-md-6">
-      <app-post-card
-        [post]="post"
-        [isLiked]="userLikedPostIds.has(post.postId)"
-        (likedChanged)="userLikedPosts()"
-        [isBookmarked]="userBookmarkedIds.has(post.postId)"
-        (bookmarkChanged)="onBookmarkChanged(post.postId)"
-        class="m-3 p-3"
-      ></app-post-card>
+    <div *ngFor="let post of filteredPosts;let i = index" class="col-md-6">
+      <div [appScrollAnimate]="'fade-in slide-up'" [delay]="i * 30">
+        <app-post-card
+          [post]="post"
+          [isLiked]="userLikedPostIds.has(post.postId)"
+          (likedChanged)="userLikedPosts()"
+          [isBookmarked]="userBookmarkedIds.has(post.postId)"
+          (bookmarkChanged)="onBookmarkChanged(post.postId)"
+          class="m-3 p-3"
+        ></app-post-card>
+      </div>
     </div>
   </div>
 </div>
-

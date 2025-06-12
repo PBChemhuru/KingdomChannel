@@ -11,6 +11,8 @@ import { Like } from '../../../model/Like';
 import { ContentsearchbarComponent } from '../../contentsearchbar/contentsearchbar.component';
 import { BookmarksService } from '../../../services/bookmarks.service';
 import { Bookmark } from '../../../model/Bookmark';
+import { ScrollAnimateDirective } from '../../../directives/scroll-animate.directive';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-post-list',
@@ -20,6 +22,8 @@ import { Bookmark } from '../../../model/Bookmark';
     MatSnackBarModule,
     CommonModule,
     ContentsearchbarComponent,
+    ScrollAnimateDirective,
+    ScrollingModule,
   ],
   templateUrl: './post-list.component.html',
   styleUrl: './post-list.component.css',
@@ -35,7 +39,7 @@ export class PostListComponent implements OnInit {
     private postService: PostsService,
     private snackbar: MatSnackBar,
     private likeService: LikesService,
-    private bookmarkService: BookmarksService,
+    private bookmarkService: BookmarksService
   ) {}
   ngOnInit(): void {
     this.getPosts();
@@ -69,11 +73,11 @@ export class PostListComponent implements OnInit {
 
   userBookmarkedPosts() {
     this.bookmarkService.userbookmarks().subscribe({
-      next: (bookmarks: Bookmark[]) => { 
+      next: (bookmarks: Bookmark[]) => {
         const bookmarkedPosts = bookmarks
           .filter((bookmark) => bookmark.postId != null)
           .map((bookmark) => bookmark.postId);
-          
+
         this.userBookmarkedIds = new Set(bookmarkedPosts);
       },
       error: (err) => console.error(err),
@@ -81,12 +85,12 @@ export class PostListComponent implements OnInit {
   }
 
   onBookmarkChanged(postId: number) {
-  if (this.userBookmarkedIds.has(postId)) {
-    this.userBookmarkedIds.delete(postId);
-  } else {
-    this.userBookmarkedIds.add(postId);
+    if (this.userBookmarkedIds.has(postId)) {
+      this.userBookmarkedIds.delete(postId);
+    } else {
+      this.userBookmarkedIds.add(postId);
+    }
   }
-}
 
   onFiltersChanged(filters: {
     search?: string;

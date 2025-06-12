@@ -1,37 +1,47 @@
-<div class="container-fluid px-4 py-5">
+<div class="container-fluid">
   <!-- Hero Section -->
-  <section class="text-center py-5 mb-5 bg-dark text-white rounded">
-    <h1 class="display-4 fw-bold">Welcome to [Your Site Name]</h1>
-    <p class="lead">
-      Explore articles, booklets, and videos curated just for you.
-    </p>
-    <a class="btn btn-primary btn-lg mt-3" href="/posts">Get Started</a>
+
+  <section class="fullscreen-section hero-section text-white text-center">
+    <div class="hero-content">
+      <h1 class="display-4 fw-bold text-dark">
+        Welcome to The Kingdom Channel
+      </h1>
+      <p class="lead text-dark">
+        Explore articles, booklets, and videos curated just for you.
+      </p>
+      <a class="btn btn-primary btn-lg mt-3" href="/posts">Get Started</a>
+    </div>
+    <video autoplay muted="true" loop playsinline class="background-video">
+      <source src="Kingdom Channel 2025 Vision.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
   </section>
 
   <!-- Featured Post -->
-  <section class="mb-5">
-    <h2 class="mb-4">📌 Featured Post</h2>
-    <div class="card border-0 shadow">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img
-            src="featured.jpg"
-            class="img-fluid rounded-start"
-            alt="Featured"
-          />
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">Amazing Title</h5>
-            <p class="card-text">
-              A short description of the featured post goes here...
-            </p>
-            <a href="#" class="btn btn-outline-primary">Read More</a>
-          </div>
+<section class="mb-5 featured-section">
+  <h2 class="featured-title">🔥 Spotlight Story</h2>
+  <div class="card border-0 shadow featured-card">
+    <div class="row g-0 position-relative">
+      <div class="col-md-4 position-relative">
+        <img
+          src="IMG-20231002-WA0118.jpg"
+          class="img-fluid rounded-start"
+          alt="Featured"
+        />
+        <!-- Title now visually inside this image container -->
+      </div>
+      <div class="col-md-8" style="background: rgba(58, 167, 160, 0.7);">
+        <div class="card-body">
+          <h5 class="card-title text-light">Amazing Title</h5>
+          <p class="card-text text-light">
+            A short description of the featured post goes here...
+          </p>
+          <a href="#" class="btn btn-outline-light">Read More</a>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- Breaker -->
   <hr class="my-5" />
@@ -87,84 +97,94 @@
 
   <!-- Booklets Section -->
   <section class="mb-5 bg-light p-4 rounded">
-  <h2 class="mb-4 text-center">📚 Booklets</h2>
+    <h2 class="mb-4 text-center">📚 Booklets</h2>
 
-  <div class="d-flex justify-content-center">
-    <div
-      id="bookletCarousel"
-      class="carousel slide"
-      data-bs-ride="carousel"
-      style="max-width: 960px; width: 100%;"
-    >
-      <div class="carousel-inner"s>
-        <div
-          *ngFor="let booklet of rbooklets.data; let i = index"
-          class="carousel-item"
-          [class.active]="i === 0"
-        >
-          <mat-card
-            class="d-flex flex-row align-items-stretch shadow-sm bookcard mx-auto"
-            routerLink="/booklets/{{ booklet.bookletId }}"
-            routerLinkActive="active"
-            style="height: 500px;"
+    <div class="d-flex justify-content-center">
+      <div
+        id="bookletCarousel"
+        class="carousel slide"
+        data-bs-ride="carousel"
+        style="max-width: 960px; width: 100%"
+      >
+        <div class="carousel-inner" s>
+          <div
+            *ngFor="let booklet of rbooklets.data; let i = index"
+            class="carousel-item"
+            [class.active]="i === 0"
           >
-            <!-- Thumbnail (50% width) -->
-            <div class="book-thumbnail-container" style="flex: 0 0 50%;">
-              <img
-                mat-card-image
-                [src]="booklet.thumbnail"
-                class="book-thumbnail h-100 w-100 object-fit-cover"
-                alt="Book Cover"
-              />
-            </div>
-
-            <!-- Details -->
-            <div
-              class="p-3 d-flex flex-column justify-content-between"
-              style="flex: 1 1 50%; overflow: hidden;"
+            <mat-card
+              class="d-flex flex-row align-items-stretch shadow-sm bookcard mx-auto"
+              routerLink="/booklets/{{ booklet.bookletId }}"
+              routerLinkActive="active"
+              style="height: 500px"
             >
-              <div style="overflow: hidden;">
-                <h1 class="book-title mb-2" style="font-size: 1.5rem; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                  {{ booklet.bookletTitle }}
-                </h1>
-                <div class="bookletTeaser" style="max-height: 140px; overflow: hidden;">
-                  <p [innerHTML]="sanitize(booklet.bookletDescription)"></p>
-                </div>
+              <!-- Thumbnail (50% width) -->
+              <div class="book-thumbnail-container" style="flex: 0 0 50%">
+                <img
+                  mat-card-image
+                  [src]="booklet.thumbnail"
+                  class="book-thumbnail h-100 w-100 object-fit-cover"
+                  alt="Book Cover"
+                />
               </div>
-              <mat-card-actions>
-                <button class="actionbutton me-2">
-                  <i class="bi bi-hand-thumbs-up"></i> {{ booklet.likeCount }}
-                </button>
-                <button class="actionbutton">
-                  <i class="bi bi-chat-text"></i> {{ booklet.commentCount }}
-                </button>
-              </mat-card-actions>
-            </div>
-          </mat-card>
+
+              <!-- Details -->
+              <div
+                class="p-3 d-flex flex-column justify-content-between"
+                style="flex: 1 1 50%; overflow: hidden"
+              >
+                <div style="overflow: hidden">
+                  <h1
+                    class="book-title mb-2"
+                    style="
+                      font-size: 1.5rem;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                      overflow: hidden;
+                    "
+                  >
+                    {{ booklet.bookletTitle }}
+                  </h1>
+                  <div
+                    class="bookletTeaser"
+                    style="max-height: 140px; overflow: hidden"
+                  >
+                    <p [innerHTML]="sanitize(booklet.bookletDescription)"></p>
+                  </div>
+                </div>
+                <mat-card-actions>
+                  <button class="actionbutton me-2">
+                    <i class="bi bi-hand-thumbs-up"></i> {{ booklet.likeCount }}
+                  </button>
+                  <button class="actionbutton">
+                    <i class="bi bi-chat-text"></i> {{ booklet.commentCount }}
+                  </button>
+                </mat-card-actions>
+              </div>
+            </mat-card>
+          </div>
         </div>
+
+        <!-- Controls -->
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#bookletCarousel"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#bookletCarousel"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon"></span>
+        </button>
       </div>
-
-      <!-- Controls -->
-      <button
-        class="carousel-control-prev"
-        type="button"
-        data-bs-target="#bookletCarousel"
-        data-bs-slide="prev"
-      >
-        <span class="carousel-control-prev-icon"></span>
-      </button>
-      <button
-        class="carousel-control-next"
-        type="button"
-        data-bs-target="#bookletCarousel"
-        data-bs-slide="next"
-      >
-        <span class="carousel-control-next-icon"></span>
-      </button>
     </div>
-  </div>
-</section>
-
+  </section>
 
   <!-- Videos Section -->
   <section>
@@ -173,7 +193,9 @@
       <div
         class="videocard shadow-sm"
         style="flex: 1 1 300px; max-width: 320px"
-        *ngFor="let video of rvideos.data"
+        *ngFor="let video of rvideos.data; let i = index"
+        [appScrollAnimate]="'slide-in-left'"
+        [delay]="i * 150"
       >
         <iframe
           [src]="getSanitizedEmbedUrl(video.videoLink)"
@@ -190,7 +212,9 @@
       </div>
     </div>
   </section>
+
   <hr class="my-5" />
+
   <!-- About / Social / Pick of the Month -->
   <section class="row text-center my-5">
     <div class="col-md-4 mb-3">
@@ -211,11 +235,11 @@
     </div>
     <div class="col-md-4 mb-3">
       <h4>📣 Follow Us</h4>
-      <p>
-        <a href="#"><i class="bi bi-twitter"></i></a>
+      <div class="d-flex align-items-center flex-column ">
+        <a href="#"><i class="bi bi-twitter "></i></a>
         <a href="#"><i class="bi bi-instagram"></i></a>
         <a href="#"><i class="bi bi-facebook"></i></a>
-      </p>
+      </div>
     </div>
     <div class="col-md-4 mb-3">
       <h4>🌟 Pick of the Month</h4>

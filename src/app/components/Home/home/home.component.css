@@ -1,3 +1,11 @@
+.fullscreen-section {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 2rem;
+}
+
 .actionbutton {
   background: transparent;
   border: none;
@@ -12,6 +20,76 @@
 .actionbutton:hover {
   color: #2a7d77;
   transform: scale(1.1);
+}
+
+.hero-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.featured-section {
+  position: relative;
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+  
+}
+
+.featured-title {
+  position: absolute;
+  top: 0%;
+  left: 15px;
+  transform: translateY(-50%);
+  z-index: 10;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 900;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+  background: rgba(58, 167, 160, 0.7);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  max-width: 60%;
+}
+
+.featured-card .col-md-4 {
+  padding: 0;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .featured-title {
+    position: static;
+    transform: none;
+    margin-bottom: 1rem;
+    max-width: 100%;
+    text-align: center;
+    background: transparent;
+    color: #2a7d77;
+    text-shadow: none;
+    padding: 0;
+  }
 }
 
 .postTeaser {
@@ -38,6 +116,8 @@
   object-fit: cover;
   display: block;
 }
+
+
 
 
 .postcard {
@@ -155,4 +235,16 @@
 
 .videocard .btn:hover {
   background-color: #2a7d77;
+}
+
+/* Slide In Left (from left to right) */
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.slide-in-left.animate {
+  opacity: 1;
+  transform: translateX(0);
 }
