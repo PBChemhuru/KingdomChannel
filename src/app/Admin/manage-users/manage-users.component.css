@@ -19,9 +19,7 @@
     text-align: left;
   }
 
-  .mat-mdc-row {
-    width: 100%;
-  }
+
 
   .mat-mdc-cell:last-child {
     display: flex;
@@ -30,3 +28,12 @@
     gap: 0.5rem;
   }
 }
+  .mat-mdc-row {
+    width: 100%;
+    color: black;
+
+  }
+    .mat-mdc-header-row {
+    width: 100%;
+    color: black;
+  }

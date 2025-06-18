@@ -1,17 +1,5 @@
 <div class="container-fluid">
-  <div
-    style="
-      display: flex;
-      align-items: center;
-      width: 100%;
-      justify-content: space-between;
-      padding: 0.5rem 1rem;
-      margin-bottom: 2rem;
-      border-radius: 12px;
-      border-color: blanchedalmond;
-      background-color: blanchedalmond;
-    "
-  >
+  <div class="d-flex align-items-center justify-content-between p-1 mb-3 rounded-2">
     <button class="btn btn-primary btn-lg" (click)="openCreateVideoDialog()">
       Create Video</button
     ><br />
@@ -19,7 +7,7 @@
       <app-searchbar (filtersChange)="onFiltersChanged($event)"></app-searchbar>
     </div>
   </div>
-  <mat-table #table [dataSource]="videos" matSort class="mat-elevation-z8">
+  <mat-table #table [dataSource]="videos" matSort class="mat-elevation-z8 bg-light shadow-sm rounded-2 p-2">
     <!-- postId-->
     <ng-container matColumnDef="videoId">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>VideoId</th>
@@ -79,6 +67,6 @@
   </mat-table>
   <mat-paginator
     [pageSizeOptions]="[10, 25, 50, 100]"
-    showFirstLastButtons
+    showFirstLastButtons class="bg-light text-black"
   ></mat-paginator>
 </div>

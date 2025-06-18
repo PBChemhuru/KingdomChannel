@@ -1,32 +1,34 @@
 .admin-container {
-  height: 100%;}
+  height: 100vh;
+}
 
 .sidebar {
+  width: 250px;
   background-color: #212b36;
-  margin-right: 10px;
-  height: 100%;
-  min-width: 10px;
   color: white;
-}
-
-.adminnavbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1rem;
-  background-color: #dadada;
-  color: #212b36;
-  margin-bottom: 2rem;
-
-}
-
-.dashboard-layout {
-  display: grid;
-  grid-template-columns: 250px 1fr;
-  height: 100vh;
 }
 
 .main-content {
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.adminnavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+}
+
+.menu-button {
+  margin-right: 1rem;
+}
+
+.router-outlet-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  height: 100%;
 }

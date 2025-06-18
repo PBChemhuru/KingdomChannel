@@ -1,5 +1,6 @@
-<div *ngIf="adminStats">
-  <div class="d-flex flex-row justify-content-evenly">
+<div class="container-fluid p-3 bg-light text-dark">
+  <div *ngIf="adminStats">
+  <div class="d-flex flex-row justify-content-evenly shadow-lg mb-3 flex-wrap">
     <div class="statcard">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <div><h4 class="mb-0">Total Posts</h4></div>
@@ -45,46 +46,45 @@
       </div>
     </div>
   </div>
-   <h1>Top Liked</h1>
-  <div class="d-flex flex-row" style="width: inherit;">
-    <div class="card" *ngFor="let item of adminStats.topLiked">
+
+  <div class="container-fluid shadow-lg mb-3 rounded-1 flex-wrap">
+     <h1 class="mb-3">Top Liked</h1>
+  <div class="d-flex flex-column flex-md-row flex-wrap justify-content-center gap-3" style="width: inherit;">
+    <div class="card-style" *ngFor="let item of adminStats.topLiked" [routerLink]="item.url" routerLinkActive="router-link-active">
       <div class="thumbnail-container">
-        <img [src]="item.thumbnail" />
+        <img [src]="item.thumbnail" alt="{{ item.title }}" />
       </div>
-      <div>
-        <h4>{{ item.title }}</h4>
-        <p>{{ item.contentType }}</p>
-        <p>{{ item.count }}</p>
+      <div class="mt-2">
+        <p class="mb-1 fw-semibold">{{ item.title }}</p>
+        <p class="mb-1 small text-secondary">Content-Type: {{ item.contentType }}</p>
+        <p><i class="bi bi-hand-thumbs-up-fill"></i> {{ item.count }}</p>
       </div>
     </div>
   </div>
-   <h1>User Growth</h1>
-<ngx-charts-line-chart
-  [results]="ngxChartData"
-  [xAxis]="true"
-  [yAxis]="true"
-  [legend]="false"
-  [showXAxisLabel]="true"
-  [showYAxisLabel]="true"
-  [xAxisLabel]="'Month'"
-  [yAxisLabel]="'New Users'"
-  [autoScale]="true"
-  [roundDomains]="true"
-  [scheme]="'vivid'"
-  [animations]="true"
->
-</ngx-charts-line-chart>
-   <h1>Top User engagement</h1>
-  <div class="d-flex flex-row" style="width: inherit;"> 
-    <div class="card" *ngFor="let item of adminStats.topCommented">
+  </div>
+
+   <div class="container-fluid shadow-lg mb-3 p-3 rounded-1 flex-wrap">
+    <h1>User Growth</h1>
+ <canvas *ngIf="chartData" baseChart
+            [type]="chartType"
+            [data]="chartData"
+            [options]="chartOptions">
+    </canvas>
+   </div>
+    <div class="container-fluid shadow-lg mb-3 rounded-1 flex-wrap">
+     <h1 class="mb-3">Top Liked</h1>
+  <div class="d-flex flex-column flex-md-row flex-wrap justify-content-center gap-3" style="width: inherit;">
+    <div class="card-style" *ngFor="let item of adminStats.topCommented" [routerLink]="item.url" routerLinkActive="router-link-active" >
       <div class="thumbnail-container">
-        <img [src]="item.thumbnail" />
+        <img [src]="item.thumbnail" alt="{{ item.title }}" />
       </div>
-      <div>
-        <h4>{{ item.title }}</h4>
-        <p>{{ item.contentType }}</p>
-        <p>{{ item.count }}</p>
+      <div class="mt-2">
+        <p class="mb-1 fw-semibold">{{ item.title }}</p>
+        <p class="mb-1 small text-secondary">Content-Type: {{ item.contentType }}</p>
+        <p><i class="bi bi-chat-fill"></i> {{ item.count }}</p>
       </div>
     </div>
   </div>
+  </div>
+</div>
 </div>

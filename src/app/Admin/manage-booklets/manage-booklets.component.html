@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-<div style="display: flex; align-items: center;width: 100%;justify-content: space-between;padding: 0.5rem 1rem;margin-bottom: 2rem;border-radius: 12px;border-color: blanchedalmond;background-color: blanchedalmond;">
+<div  class="d-flex align-items-center justify-content-between p-1 mb-2 rounded-2 bg-lights">
 <button class="btn btn-primary btn-lg" (click)="openCreateBookletDialog()">
      Post Booklet
    </button><br>
@@ -8,7 +8,7 @@
  <app-searchbar (filtersChange)="onFiltersChanged($event)"></app-searchbar>
 </div>
 </div>
-<mat-table #table [dataSource]="booklets" matSort class="mat-elevation-z8" style="margin-left:0.5rem;">
+<mat-table #table [dataSource]="booklets" matSort class="mat-elevation-z8 bg-light text-black shadow-sm rounded-2 p-2 " style="margin-left:0.5rem;">
     <!-- postId-->
      <ng-container matColumnDef="bookletId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>BookletId</th>
@@ -52,5 +52,5 @@
      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
      <tr mat-row *matRowDef="let row; columns:displayedColumns;"></tr>
 </mat-table>
-<mat-paginator [pageSizeOptions]="[10,25,50,100]" showFirstLastButtons></mat-paginator>
+<mat-paginator [pageSizeOptions]="[10,25,50,100]" showFirstLastButtons class="text-black bg-light"></mat-paginator>
 </div>

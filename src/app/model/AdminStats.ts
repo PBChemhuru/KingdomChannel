@@ -35,7 +35,7 @@ export interface AdminStatsDto {
   content: ContentStatsDto;
   engagement: EngagementStatsDto;
   users: UserStatsDto;
-  topLiked: TopContentDto[];        // Optional if already in engagement
-  topCommented: TopContentDto[];    // Optional if already in engagement
+  topLiked: TopContentDto[];        
+  topCommented: TopContentDto[];    
   userGrowth: UserGrowthDto[];
 }

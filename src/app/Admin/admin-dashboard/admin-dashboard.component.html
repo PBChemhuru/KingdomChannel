@@ -1,38 +1,33 @@
-<div class="dashboard-layout">
-  <aside class="sidebar">
+<mat-sidenav-container class="admin-container">
+  <mat-sidenav #drawer mode="side" class="sidebar" [fixedInViewport]="true" [opened]="isLargeScreen">
     <mat-nav-list>
-      <a mat-list-item routerLink="/admin">AdminDashBoard</a>
+      <a mat-list-item routerLink="/admin">Admin Dashboard</a>
       <a mat-list-item routerLink="posts">Manage Posts</a>
       <a mat-list-item routerLink="videos">Manage Videos</a>
       <a mat-list-item routerLink="booklets">Manage Booklets</a>
       <a mat-list-item routerLink="flagged-comments">Flagged Comments</a>
       <a mat-list-item routerLink="users">Manage Users</a>
     </mat-nav-list>
-  </aside>
-  <main class="main-content">
-    <nav class="adminnavbar">
-  <div>
-    <a class="nav-link text-light" routerLink="/" routerLinkActive="active" style="text-decoration: none; color: rgb(255, 255, 255); font-weight: 500;">
-      User Site
-    </a>
-  </div>
+  </mat-sidenav>
 
-  <div style="display: flex; align-items: center;">
-    <button mat-button [matMenuTriggerFor]="userMenu" style="color: rgb(255, 255, 255);">
-      {{ username }}
-      <mat-icon>arrow_drop_down</mat-icon>
-    </button>
-
-    <mat-menu #userMenu="matMenu" xPosition="before">
-      <button mat-menu-item disabled>Hi, {{ username }}</button>
-      <button mat-menu-item (click)="logout()">Logout</button>
-    </mat-menu>
-  </div>
-</nav>
-    <mat-sidenav-container class="admin-container">
-      <mat-sidenav-content>
-        <router-outlet></router-outlet>
-      </mat-sidenav-content>
-    </mat-sidenav-container>
-  </main>
-</div>
+  <mat-sidenav-content class="main-content">
+    <nav class="adminnavbar bg-dark">
+      <button mat-icon-button (click)="drawer.toggle()" class="menu-button" *ngIf="!isLargeScreen">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <a class="nav-link" routerLink="/" routerLinkActive="active">User Site</a>
+      <div style="display: flex; align-items: center;">
+        <button mat-button [matMenuTriggerFor]="userMenu">
+          {{ username }} <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu" xPosition="before">
+          <button mat-menu-item disabled>Hi, {{ username }}</button>
+          <button mat-menu-item (click)="logout()">Logout</button>
+        </mat-menu>
+      </div>
+    </nav>
+    <div class="router-outlet-wrapper bg-light">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

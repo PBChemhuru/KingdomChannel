@@ -1,5 +1,5 @@
 
-<div style="display: flex; align-items: center;width: 100%;justify-content: space-between;padding: 0.5rem 1rem;margin-bottom: 2rem;border-radius: 12px;border-color: blanchedalmond;background-color: blanchedalmond;">
+<div class="d-flex align-items-center justify-content-between p-1 mb-2 rounded-2 bg-lights">
 <div>
     <select (change)="onFilter($event)">
     <option value="">All</option>
@@ -15,7 +15,7 @@
   #table
   [dataSource]="flaggedComments"
   matSort
-  class="mat-elevation-z8"
+  class="mat-elevation-z8 bg-light text-black shadow-sm rounded-2 p-2 "
 >
   <!-- flagId-->
   <ng-container matColumnDef="flagId">
@@ -93,5 +93,5 @@
 </mat-table>
 <mat-paginator
   [pageSizeOptions]="[10, 25, 50, 100]"
-  showFirstLastButtons
+  showFirstLastButtons class="text-black bg-light"
 ></mat-paginator>

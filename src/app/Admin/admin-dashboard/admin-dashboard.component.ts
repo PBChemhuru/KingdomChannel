@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -20,11 +20,17 @@ import { AuthService } from '../../services/auth.service';
 export class AdminDashboardComponent implements OnInit{
   constructor(private authservice:AuthService){}
   username: string | null = null;
+  isLargeScreen = window.innerWidth >= 768;
 ngOnInit(): void {
   if (this.authservice.isLoggedIn()) {
     this.username = this.authservice.getUsername();
   }
 }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.isLargeScreen = event.target.innerWidth >= 768;
+  }
 logout():void
   {
     this.authservice.logout()

@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-<div style="display: flex; align-items: center;width: 100%;justify-content: space-between;padding: 0.5rem 1rem;margin-bottom: 2rem;border-radius: 12px;border-color: blanchedalmond;background-color: blanchedalmond;">
+<div class="d-flex align-items-center justify-content-between p-1 mb-2 rounded-2 bg-lights">
 <button class="btn btn-primary btn-lg" (click)="openCreatePostDialog()">
       Create Post
    </button><br>
@@ -8,7 +8,7 @@
  <app-searchbar (filtersChange)="onFiltersChanged($event)"></app-searchbar>
 </div>
 </div>
-<mat-table #table [dataSource]="posts" matSort class="mat-elevation-z0 full-width-table">
+<mat-table #table [dataSource]="posts" matSort class="mat-elevation-z0 full-width-table bg-light shadow-sm rounded-2 p-2">
     <!-- postId-->
      <ng-container matColumnDef="postId">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>PostId</th>
@@ -47,5 +47,5 @@
      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
      <tr mat-row *matRowDef="let row; columns:displayedColumns;"></tr>
 </mat-table>
-<mat-paginator [pageSizeOptions]="[10,25,50,100]" showFirstLastButtons></mat-paginator>
+<mat-paginator class="bg-light text-black" [pageSizeOptions]="[10,25,50,100]" showFirstLastButtons></mat-paginator>
 </div>
