@@ -1,1 +1,90 @@
-<p>adminstats works!</p>
+<div *ngIf="adminStats">
+  <div class="d-flex flex-row justify-content-evenly">
+    <div class="statcard">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div><h4 class="mb-0">Total Posts</h4></div>
+        <div class="icon-shape icon-md bg-light-primary text-primary rounded-2">
+          <i class="bi-bicycle"></i>
+        </div>
+      </div>
+      <div>
+        <h1 class="fw-bold">{{ adminStats.content.totalPosts }}</h1>
+      </div>
+    </div>
+    <div class="statcard">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div><h4 class="mb-0">Total Booklets</h4></div>
+        <div class="icon-shape icon-md bg-light-primary text-primary rounded-2">
+          <i class="bi-bicycle"></i>
+        </div>
+      </div>
+      <div>
+        <h1 class="fw-bold">{{ adminStats.content.totalBooklets }}</h1>
+      </div>
+    </div>
+    <div class="statcard">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div><h4 class="mb-0">Total Videos</h4></div>
+        <div class="icon-shape icon-md bg-light-primary text-primary rounded-2">
+          <i class="bi-bicycle"></i>
+        </div>
+      </div>
+      <div>
+        <h1 class="fw-bold">{{ adminStats.content.totalVideos }}</h1>
+      </div>
+    </div>
+    <div class="statcard">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <div><h4 class="mb-0">Total Users</h4></div>
+        <div class="icon-shape icon-md bg-light-primary text-primary rounded-2">
+          <i class="bi-bicycle"></i>
+        </div>
+      </div>
+      <div>
+        <h1 class="fw-bold">{{ adminStats.users.totalUsers }}</h1>
+      </div>
+    </div>
+  </div>
+   <h1>Top Liked</h1>
+  <div class="d-flex flex-row" style="width: inherit;">
+    <div class="card" *ngFor="let item of adminStats.topLiked">
+      <div class="thumbnail-container">
+        <img [src]="item.thumbnail" />
+      </div>
+      <div>
+        <h4>{{ item.title }}</h4>
+        <p>{{ item.contentType }}</p>
+        <p>{{ item.count }}</p>
+      </div>
+    </div>
+  </div>
+   <h1>User Growth</h1>
+<ngx-charts-line-chart
+  [results]="ngxChartData"
+  [xAxis]="true"
+  [yAxis]="true"
+  [legend]="false"
+  [showXAxisLabel]="true"
+  [showYAxisLabel]="true"
+  [xAxisLabel]="'Month'"
+  [yAxisLabel]="'New Users'"
+  [autoScale]="true"
+  [roundDomains]="true"
+  [scheme]="'vivid'"
+  [animations]="true"
+>
+</ngx-charts-line-chart>
+   <h1>Top User engagement</h1>
+  <div class="d-flex flex-row" style="width: inherit;"> 
+    <div class="card" *ngFor="let item of adminStats.topCommented">
+      <div class="thumbnail-container">
+        <img [src]="item.thumbnail" />
+      </div>
+      <div>
+        <h4>{{ item.title }}</h4>
+        <p>{{ item.contentType }}</p>
+        <p>{{ item.count }}</p>
+      </div>
+    </div>
+  </div>
+</div>
