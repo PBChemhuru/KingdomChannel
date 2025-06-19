@@ -28,6 +28,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { BookletsService } from '../../../services/booklets.service';
 import { VideosService } from '../../../services/videos.service';
 import { ScrollAnimateDirective } from '../../../directives/scroll-animate.directive';
+import { AdminstatsService } from '../../../services/adminstats.service';
+import { PickOfTheMonth } from '../../../model/PickOfMonth';
 
 @Component({
   selector: 'app-home',
@@ -46,12 +48,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
   likecounter!: number;
   @Input() isLiked: boolean = false;
   @Output() likedChanged = new EventEmitter<void>();
+  picks:PickOfTheMonth[]=[];
   constructor(
     private postService: PostsService,
     private snackbar: MatSnackBar,
     private santizer: DomSanitizer,
     private bookletsService: BookletsService,
-    private videosService: VideosService
+    private videosService: VideosService,
+    private pickservice: AdminstatsService
   ) {}
   rposts: MatTableDataSource<Post> = new MatTableDataSource<Post>([]);
   rbooklets: MatTableDataSource<Booklet> = new MatTableDataSource<Booklet>([]);
@@ -61,6 +65,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.getRandomPost();
     this.getRandomBooklets();
     this.getRandomVideos();
+    this.getHomePick();
   }
 
   ngAfterViewInit() {
@@ -127,7 +132,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
       },
       error: (error) => {
         console.error(error);
-        this.snackbar.open('Failed to load Posts', 'Close', { duration: 3000 });
+        this.snackbar.open('Failed to load stas', 'Close', { duration: 3000 });
+      },
+    });
+  }
+
+  getHomePick() {
+    this.pickservice.getHomeStats().subscribe({
+      next: (data) => {
+          this.picks = data;
+      },
+      error: (error) => {
+        console.error(error);
+        this.snackbar.open('Failed to load stats', 'Close', { duration: 3000 });
       },
     });
   }

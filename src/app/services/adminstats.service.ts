@@ -17,13 +17,28 @@ export class AdminstatsService {
     return this.http.get(`${this.apiUrl}/admin/stats`).pipe(
     catchError((error:HttpErrorResponse)=>
     {
-      let errorMessage = 'An error occurred while fetching booklet.';
+      let errorMessage = 'An error occurred while fetching stats.';
                 if (error.status === 404) {
-                  errorMessage = 'booklet not Found';
+                  errorMessage = 'stats not Found';
                 }
-                console.error('Error fetching booklet', error);
-                return throwError(() => new Error('Failed to retrieve booklet'));
+                console.error('Error fetching stats', error);
+                return throwError(() => new Error('Failed to retrieve stats'));
     })
     )
+  }
+
+  getHomeStats():Observable<any>
+  {
+    return this.http.get(`${this.apiUrl}/homestats`).pipe(
+      catchError((err:HttpErrorResponse)=>{
+        let errorMessage = 'An error occurred while fetching stats.';
+                if (err.status === 404) {
+                  errorMessage = 'stats not Found';
+                }
+                console.error('Error fetching stats', err);
+                return throwError(() => new Error('Failed to retrieve stats'));
+      }
+    ))
+
   }
 }

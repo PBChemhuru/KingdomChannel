@@ -1,0 +1,37 @@
+<form >
+  <label>Content Type:</label>
+  <select [(ngModel)]="contentType" (change)="onContentTypeChange($event)" name="type">
+    <option value="Post">Post</option>
+    <option value="Booklet">Booklet</option>
+  </select>
+
+  <label>Select Content:</label>
+  <select [(ngModel)]="selectedContentId" (change)="onContentSelect()" name="content">
+    <option *ngFor="let item of list.data" [value]="item.id">
+      {{ item.title }}
+    </option>
+  </select>
+
+  <button type="submit" class="btn btn-primary" [disabled]="!selectedContentId">Set as Featured</button>
+</form>
+
+<!-- 🔍 Preview Card -->
+<div *ngIf="selectedItem" class="card mt-4 shadow" style="max-width: 600px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img [src]="selectedItem.thumbnail" class="img-fluid rounded-start" alt="preview" />
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ selectedItem.title }}</h5>
+        <p class="card-text">{{ selectedItem.description | slice:0:100 }}...</p>
+        <p class="card-text">
+          <small class="text-muted">👍 {{ selectedItem.likeCount }} · 💬 {{ selectedItem.commentCount }}</small>
+        </p>
+        <p class="card-text">
+          <small class="text-muted">Created: {{ selectedItem.createdAt| date:'mediumDate' }}</small>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -18,30 +18,30 @@
   </section>
 
   <!-- Featured Post -->
-<section class="mb-5 featured-section">
-  <h2 class="featured-title">🔥 Spotlight Story</h2>
-  <div class="card border-0 shadow featured-card">
-    <div class="row g-0 position-relative">
-      <div class="col-md-4 position-relative">
-        <img
-          src="IMG-20231002-WA0118.jpg"
-          class="img-fluid rounded-start"
-          alt="Featured"
-        />
-        <!-- Title now visually inside this image container -->
-      </div>
-      <div class="col-md-8" style="background: rgba(58, 167, 160, 0.7);">
-        <div class="card-body">
-          <h5 class="card-title text-light">Amazing Title</h5>
-          <p class="card-text text-light">
-            A short description of the featured post goes here...
-          </p>
-          <a href="#" class="btn btn-outline-light">Read More</a>
+  <section class="mb-5 featured-section">
+    <h2 class="featured-title">🔥 Spotlight Story</h2>
+    <div class="card border-0 shadow featured-card">
+      <div class="row g-0 position-relative">
+        <div class="col-md-4 position-relative">
+          <img
+            src="IMG-20231002-WA0118.jpg"
+            class="img-fluid rounded-start"
+            alt="Featured"
+          />
+          <!-- Title now visually inside this image container -->
+        </div>
+        <div class="col-md-8" style="background: rgba(58, 167, 160, 0.7)">
+          <div class="card-body">
+            <h5 class="card-title text-light">Amazing Title</h5>
+            <p class="card-text text-light">
+              A short description of the featured post goes here...
+            </p>
+            <a href="#" class="btn btn-outline-light">Read More</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- Breaker -->
   <hr class="my-5" />
@@ -217,7 +217,7 @@
 
   <!-- About / Social / Pick of the Month -->
   <section class="row text-center my-5">
-    <div class="col-md-4 mb-3">
+    <div class="col-md-6 mb-3">
       <h4>👤 About Me</h4>
       <h2>Welcome to The Kingdom Channel</h2>
       <blockquote>
@@ -233,17 +233,33 @@
         <a href="/about" class="btn btn-link">Read more about us &raquo;</a>
       </p>
     </div>
-    <div class="col-md-4 mb-3">
-      <h4>📣 Follow Us</h4>
-      <div class="d-flex align-items-center flex-column ">
-        <a href="#"><i class="bi bi-twitter "></i></a>
-        <a href="#"><i class="bi bi-instagram"></i></a>
-        <a href="#"><i class="bi bi-facebook"></i></a>
-      </div>
-    </div>
-    <div class="col-md-4 mb-3">
+    <div class="col-md-6 mb-3">
       <h4>🌟 Pick of the Month</h4>
-      <p>Highlight one special post/booklet/video.</p>
+      <div id="pickCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div
+            class="carousel-item"
+            *ngFor="let pick of picks; let i = index"
+            [class.active]="i === 0"
+          >
+            <img
+              [src]="pick.imageUrl"
+              class="d-block w-100"
+              alt="{{ pick.title }}"
+            />
+            <div class="carousel-caption d-none d-md-block">
+              <h5>{{ pick.title }} ({{ pick.type }})</h5>
+              <p>{{ pick.description }}</p>
+              <a
+                [routerLink]="['/', pick.type.toLowerCase(), pick.id]"
+                class="btn btn-light"
+              >
+                Read More
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 

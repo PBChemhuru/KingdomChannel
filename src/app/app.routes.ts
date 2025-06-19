@@ -16,6 +16,7 @@ import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { AdminstatsComponent } from './Admin/adminstats/adminstats.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ManageUsersComponent } from './Admin/manage-users/manage-users.component';
+import { ManageFeatureComponent } from './Admin/manage-feature/manage-feature.component';
 
 export const routes: Routes = [
   {
@@ -48,6 +49,7 @@ export const routes: Routes = [
       { path: 'booklets', component: ManageBookletsComponent },
       { path: 'flagged-comments', component: FlaggedCommentsComponent },
       { path: 'users', component: ManageUsersComponent },
+       { path: 'featuredContent', component: ManageFeatureComponent },
     ],
   },
 ];

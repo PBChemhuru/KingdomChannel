@@ -20,6 +20,20 @@
   transition: color 0.3s ease;
 }
 
-.social-ribbon a:hover {
-  color: #0d6efd;
+
+.social-ribbon .bi-facebook:hover
+{
+    color: blue;
+}s
+.social-ribbon .bi-tiktok:hover
+{
+    color: rgb(3, 255, 255);
+}
+.social-ribbon .bi-youtube:hover
+{
+    color: rgb(255, 0, 0);
+}
+.social-ribbon .bi-whatsapp:hover
+{
+    color: rgb(43, 255, 0);
 }
