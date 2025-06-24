@@ -6,4 +6,5 @@ export interface ContentSummary {
   likeCount: number;
   commentCount: number;
   createdAt: Date;
+  ContentType:string;
 }

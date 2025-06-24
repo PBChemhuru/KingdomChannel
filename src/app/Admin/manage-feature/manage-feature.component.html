@@ -1,35 +1,64 @@
-<form >
-  <label>Content Type:</label>
-  <select [(ngModel)]="contentType" (change)="onContentTypeChange($event)" name="type">
-    <option value="Post">Post</option>
-    <option value="Booklet">Booklet</option>
-  </select>
-
-  <label>Select Content:</label>
-  <select [(ngModel)]="selectedContentId" (change)="onContentSelect()" name="content">
-    <option *ngFor="let item of list.data" [value]="item.id">
-      {{ item.title }}
-    </option>
-  </select>
-
-  <button type="submit" class="btn btn-primary" [disabled]="!selectedContentId">Set as Featured</button>
+<form (ngSubmit)="onSubmit()">
+  <div class="d-flex align-items-center justify-content-evenly">
+    <div class="mx-3">
+      <label class="text-dark">Content Type:</label>
+      <select
+        [(ngModel)]="contentType"
+        (change)="onContentTypeChange($event)"
+        name="type"
+      >
+        <option value="Post">Post</option>
+        <option value="Booklet">Booklet</option>
+      </select>
+    </div>
+    <div class="mx-3">
+      <label class="text-dark">Select Content:</label>
+      <select
+        [(ngModel)]="selectedContentId"
+        (change)="onContentSelect()"
+        name="content"
+      >
+        <option *ngFor="let item of list.data" [value]="item.id">
+          {{ item.title }}
+        </option>
+      </select>
+    </div>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="!selectedContentId"
+    >
+      Set as Featured
+    </button>
+  </div>
 </form>
 
 <!-- 🔍 Preview Card -->
-<div *ngIf="selectedItem" class="card mt-4 shadow" style="max-width: 600px;">
+<div *ngIf="selectedItem" class="card mt-4 shadow" style="max-width: 600px">
   <div class="row g-0">
     <div class="col-md-4">
-      <img [src]="selectedItem.thumbnail" class="img-fluid rounded-start" alt="preview" />
+      <img
+        [src]="selectedItem.thumbnail"
+        class="img-fluid rounded-start"
+        alt="preview"
+      />
     </div>
     <div class="col-md-8">
       <div class="card-body">
         <h5 class="card-title">{{ selectedItem.title }}</h5>
-        <p class="card-text">{{ selectedItem.description | slice:0:100 }}...</p>
-        <p class="card-text">
-          <small class="text-muted">👍 {{ selectedItem.likeCount }} · 💬 {{ selectedItem.commentCount }}</small>
+        <p class="card-text" [innerHTML]="sanitize(selectedItem.description | slice : 0 : 100 )">
         </p>
         <p class="card-text">
-          <small class="text-muted">Created: {{ selectedItem.createdAt| date:'mediumDate' }}</small>
+          <small class="text-muted"
+            ><i class="bi bi-hand-thumbs-up-fill text-dark"></i>
+            {{ selectedItem.likeCount }} · <i class="bi bi-chat-text-fill"></i>
+            {{ selectedItem.commentCount }}</small
+          >
+        </p>
+        <p class="card-text">
+          <small class="text-muted"
+            >Created: {{ selectedItem.createdAt | date : "mediumDate" }}</small
+          >
         </p>
       </div>
     </div>

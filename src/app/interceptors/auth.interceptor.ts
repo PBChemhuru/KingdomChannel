@@ -20,7 +20,7 @@ export const authInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: 
     catchError((error: HttpErrorResponse) => {
       const isLoginRequest = req.url.includes('/login') || req.url.includes('/register');
 
-      // 🔐 Only refresh token if there's a token and not a login/register call
+      //  Only refresh token if there's a token and not a login/register call
       if (error.status === 401 && !retried && token && !isLoginRequest) {
         retried = true;
         return authService.refreshToken().pipe(

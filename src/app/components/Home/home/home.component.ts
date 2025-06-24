@@ -30,6 +30,8 @@ import { VideosService } from '../../../services/videos.service';
 import { ScrollAnimateDirective } from '../../../directives/scroll-animate.directive';
 import { AdminstatsService } from '../../../services/adminstats.service';
 import { PickOfTheMonth } from '../../../model/PickOfMonth';
+import { NewsletterServiceService } from '../../../services/newsletter-service.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
@@ -40,22 +42,27 @@ import { PickOfTheMonth } from '../../../model/PickOfMonth';
     RouterLink,
     MatCardModule,
     ScrollAnimateDirective,
+    FormsModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit, AfterViewInit {
   likecounter!: number;
+  subscriberEmail: string = '';
   @Input() isLiked: boolean = false;
   @Output() likedChanged = new EventEmitter<void>();
-  picks:PickOfTheMonth[]=[];
+  picks: PickOfTheMonth[] = [];
+  post!: Post;
+  booklet!: Booklet;
   constructor(
     private postService: PostsService,
     private snackbar: MatSnackBar,
     private santizer: DomSanitizer,
     private bookletsService: BookletsService,
     private videosService: VideosService,
-    private pickservice: AdminstatsService
+    private pickservice: AdminstatsService,
+    private newletterService: NewsletterServiceService
   ) {}
   rposts: MatTableDataSource<Post> = new MatTableDataSource<Post>([]);
   rbooklets: MatTableDataSource<Booklet> = new MatTableDataSource<Booklet>([]);
@@ -66,6 +73,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.getRandomBooklets();
     this.getRandomVideos();
     this.getHomePick();
+    this.getFeature();
   }
 
   ngAfterViewInit() {
@@ -140,7 +148,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   getHomePick() {
     this.pickservice.getHomeStats().subscribe({
       next: (data) => {
-          this.picks = data;
+        this.picks = data;
       },
       error: (error) => {
         console.error(error);
@@ -163,5 +171,42 @@ export class HomeComponent implements OnInit, AfterViewInit {
     const regExp = /(?:youtube\.com.*(?:\\?|&)v=|youtu\.be\/)([^&#]+)/;
     const match = url.match(regExp);
     return match && match[1] ? match[1] : '';
+  }
+
+  getFeature() {
+    this.pickservice.getFeature().subscribe({
+      next: (data) => {
+        if (data.contentType == 'posts') {
+          this.post = data;
+        }
+        this.booklet =data;
+        console.log(this.post,this.booklet)
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+  onSubscribe(): void {
+    this.newletterService.subscribetoNewletter(this.subscriberEmail).subscribe({
+      next: () => {
+        this.snackbar.open('Successfully subscribed!', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+        console.log(this.subscriberEmail,'this triggered')
+        this.subscriberEmail = '';
+      },
+      error: (err) => {
+        this.snackbar.open('Subscription failed. Please try again.', 'Close', {
+          duration: 3000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+        console.error('Subscription error:', err);
+      }
+    });
   }
 }

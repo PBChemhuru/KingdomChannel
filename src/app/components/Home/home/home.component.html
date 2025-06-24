@@ -21,22 +21,36 @@
   <section class="mb-5 featured-section">
     <h2 class="featured-title">🔥 Spotlight Story</h2>
     <div class="card border-0 shadow featured-card">
-      <div class="row g-0 position-relative">
+      <div *ngIf="booklet" class="row g-0 position-relative">
         <div class="col-md-4 position-relative">
           <img
-            src="IMG-20231002-WA0118.jpg"
+            [src]="booklet.thumbnail"
             class="img-fluid rounded-start"
-            alt="Featured"
           />
-          <!-- Title now visually inside this image container -->
         </div>
         <div class="col-md-8" style="background: rgba(58, 167, 160, 0.7)">
           <div class="card-body">
-            <h5 class="card-title text-light">Amazing Title</h5>
-            <p class="card-text text-light">
-              A short description of the featured post goes here...
+            <h5 class="card-title text-light">{{booklet.bookletTitle}}</h5>
+            <p class="card-text text-light" [innerHTML]="sanitize(booklet.bookletDescription)">
             </p>
-            <a href="#" class="btn btn-outline-light">Read More</a>
+            <a href="booklets/{{booklet.bookletId}}"class="btn btn-outline-light">Read More</a>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="post" class="row g-0 position-relative">
+        <div class="col-md-4 position-relative">
+          <img
+            [src]="post.thumbnail"
+            class="img-fluid rounded-start"
+          />
+        </div>
+        <div class="col-md-8" style="background: rgba(58, 167, 160, 0.7)">
+          <div class="card-body">
+            <h5 class="card-title text-light">{{post.postTitle}}</h5>
+            <p class="card-text text-light" [innerHTML]="sanitize(post.postContent)">
+            </p>
+            <a href="posts/{{post.postId}}" class="btn btn-outline-light">Read More</a>
           </div>
         </div>
       </div>
@@ -265,14 +279,18 @@
 
   <!-- Newsletter CTA -->
   <section class="bg-primary text-white text-center p-5 rounded">
-    <h4 class="mb-3">📬 Subscribe to Our Newsletter</h4>
-    <form class="d-flex justify-content-center">
-      <input
-        type="email"
-        class="form-control w-50 me-2"
-        placeholder="Enter your email"
-      />
-      <button class="btn btn-dark">Subscribe</button>
-    </form>
-  </section>
+  <h4 class="mb-3">📬 Subscribe to Our Newsletter</h4>
+  <form class="d-flex justify-content-center" (ngSubmit)="onSubscribe()">
+    <input
+      type="email"
+      class="form-control w-50 me-2"
+      placeholder="Enter your email"
+      name="email"
+      [(ngModel)]="subscriberEmail"
+      required
+      email
+    />
+    <button class="btn btn-dark">Subscribe</button>
+  </form>
+</section>
 </div>
